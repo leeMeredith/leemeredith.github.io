@@ -90,7 +90,7 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 	#myDIV_WorkMap { order: 4; padding: 0 10px; }
 }
 #myDIV_WorkMap { margin-top: 16px; }
-#myDIV_WorkMap .work-map { height: 420px; }
+#myDIV_WorkMap .work-map { height: 520px; }
 .daily-text p { margin: 0 0 .8em; }
 
 /* Banners: a wide picture, the title, and tags. */
@@ -106,4 +106,7 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 #myDIV_WorkMap { float: none; }
 
 .daily-text p { text-align: justify; }
-.site-offbrand-sky { margin: 10px 0 24px; }
+/* Bottom half: the tall ad beside the map, the map, the wide ad beneath. */
+.work-map-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.work-map-main { flex: 1 1 360px; min-width: 0; }
+#myDIV_WorkMapAd { flex: 0 0 auto; }

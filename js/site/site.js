@@ -247,21 +247,24 @@ function renderLine() {
 // Two campaigns made with offbrand run like ads on a real website, both
 // linking to the Weekly Campaign page:
 //   every 3 days   a box at the top of the right column, and a banner under the work map
-//   every 12 hours a tall skyscraper partway down the right column
+//   every 12 hours a tall skyscraper beside the work map, and a box at the end
+//                  of the right column
 function renderAds() {
 	var box = el("div", { class: "site-offbrand site-offbrand-box" });
 	var sky = el("div", { class: "site-offbrand site-offbrand-sky" });
+	var endBox = el("div", { class: "site-offbrand site-offbrand-box" });
 	var banner = el("div", { class: "site-offbrand site-offbrand-banner" });
 	var col = document.getElementById("myDIV_TopicNav_1");
 	col.insertBefore(box, col.firstChild);
-	// After the sixth project in the column (each project is two elements).
-	col.insertBefore(sky, col.children[1 + 6 * 2] || null);
+	col.appendChild(endBox);
+	document.getElementById("myDIV_WorkMapAd").appendChild(sky);
 	document.getElementById("myDIV_WorkMap").appendChild(banner);
 	import("../vendor/offbrand/offbrand.js").then(function (offbrand) {
 		var href = PAGE + "?p=weekly-campaign";
 		offbrand.placeAd(box, "rectangle", href, "3d");
 		offbrand.placeAd(banner, "leaderboard", href, "3d");
 		offbrand.placeAd(sky, "skyscraper", href, "12h");
+		offbrand.placeAd(endBox, "rectangle", href, "12h");
 	});
 }
 
@@ -363,10 +366,14 @@ function renderWorkMap() {
 	var note = el("p", { class: "work-map-note", "aria-live": "polite" });
 	var box = el("div", { class: "work-map", role: "img",
 		"aria-label": "Map of work by kind. The same projects are listed as banners in the right-hand column." });
-	area.appendChild(title);
-	area.appendChild(el("div", { class: "work-map-toggle", role: "group", "aria-label": "Map shows" }, [byWork, byVisits]));
-	area.appendChild(note);
-	area.appendChild(box);
+	// A slot on the left for the tall ad, then the map itself.
+	var main = el("div", { class: "work-map-main" }, [
+		title,
+		el("div", { class: "work-map-toggle", role: "group", "aria-label": "Map shows" }, [byWork, byVisits]),
+		note,
+		box
+	]);
+	area.appendChild(el("div", { class: "work-map-row" }, [el("div", { id: "myDIV_WorkMapAd" }), main]));
 
 	var chart = null;
 	var mode = "work";
