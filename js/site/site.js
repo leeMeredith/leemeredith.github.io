@@ -275,7 +275,7 @@ function renderAds() {
 	col.appendChild(endBox);
 	document.getElementById("myDIV_WorkMapAd").appendChild(sky);
 	document.getElementById("myDIV_WorkMap").appendChild(banner);
-	import("../vendor/offbrand/offbrand.js").then(function (offbrand) {
+	import("../vendor/offbrand/offbrand.js?v=" + SITE_VERSION).then(function (offbrand) {
 		var href = PAGE + "?p=offbrand";
 		offbrand.placeAd(box, "rectangle", href, "3d");
 		offbrand.placeAd(banner, "leaderboard", href, "3d");
@@ -504,7 +504,7 @@ function renderProject(p) {
 	if (p.script) {
 		var stage = el("div", { class: "stage" });
 		main.appendChild(stage);
-		import("../../" + p.script).then(function (mod) { mod.mount(stage); });
+		import("../../" + p.script + "?v=" + SITE_VERSION).then(function (mod) { mod.mount(stage); });
 	}
 	(p.text || []).forEach(function (t) { main.appendChild(el("p", { class: p.placeholder.text ? "placeholder" : "", text: t })); });
 	if (p.images) {
@@ -524,7 +524,7 @@ function renderProject(p) {
 	main.appendChild(bannerList(more, "work-banners-big"));
 }
 
-var ORTHO = import("../experiments/ortho.js");
+var ORTHO = import("../experiments/ortho.js?v=" + SITE_VERSION);
 
 function renderSite() {
 	ORTHO.then(function (ortho) {
