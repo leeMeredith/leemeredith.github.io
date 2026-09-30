@@ -64,21 +64,32 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 .visit-counter { clear: both; padding: 4px 10px; font: 13px Geneva, sans-serif; color: rgb(120,120,120); }
 .project-views { font-size: 13px; color: rgb(110,110,110); }
 
-/* Three columns: Ortho text and the pinned work map | the work | all work as banners.
-   On wide screens the left column keeps the map in view while the lists scroll. */
+/* Layout: Ortho text | the work | the project column, with the work map
+   running beneath the first two while the project column continues. */
+#myDIV_AtWindowOpen > * { float: none; }
 @media (min-width: 1024px) {
-	#myDIV_AtWindowOpen { display: flex; align-items: stretch; }
-	#myDIV_AtWindowOpen > .column { float: none; }
-	#myDIV_WorkMap { position: sticky; top: 8px; }
+	#myDIV_AtWindowOpen {
+		display: grid;
+		grid-template-columns: 33.33% 41.67% 25%;
+		grid-template-areas: "ortho middle right" "map map right";
+		grid-template-rows: auto 1fr;
+		align-items: start;
+	}
+	#myDIV_MyParagraph { grid-area: ortho; width: auto; }
+	#myDIV_Middle { grid-area: middle; width: auto; }
+	/* Once reached, the map stays in view while the project column keeps scrolling. */
+	#myDIV_WorkMap { grid-area: map; padding: 0 15px; position: sticky; top: 8px; align-self: start; }
+	#myDIV_TopicNav_1 { grid-area: right; width: auto; }
 }
 @media (max-width: 1023px) {
 	#myDIV_AtWindowOpen { display: flex; flex-direction: column; }
 	#myDIV_Middle { order: 1; }
 	#myDIV_TopicNav_1 { order: 2; }
 	#myDIV_MyParagraph { order: 3; }
+	#myDIV_WorkMap { order: 4; padding: 0 10px; }
 }
 #myDIV_WorkMap { margin-top: 16px; }
-#myDIV_WorkMap .work-map { height: 360px; }
+#myDIV_WorkMap .work-map { height: 420px; }
 .daily-text p { margin: 0 0 .8em; }
 
 /* Banners: a wide picture, the title, and tags. */
@@ -92,3 +103,6 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 .work-banner:hover .work-banner-title, .work-banner:focus .work-banner-title { text-decoration: underline; }
 #myDIV_TopicNav_1 .work-banner-title { font-size: 14px; }
 #myDIV_WorkMap { float: none; }
+
+.daily-text p { text-align: justify; }
+.site-offbrand-sky { margin: 10px 0 24px; }

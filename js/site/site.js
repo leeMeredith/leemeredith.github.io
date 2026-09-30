@@ -193,50 +193,80 @@ function renderGrid() {
 	});
 }
 
-// Right column: every project as a banner, newest first.
+// Right column, as on the original site: a square picture with the opening
+// words wrapping around it, cut at 200 characters.
+function blurb(p) {
+	var words = [p.summary].concat(p.text || []).join(" ");
+	return words.length > 200 ? words.slice(0, 199) + "..." : words;
+}
+
 function renderColumn() {
 	var col = document.getElementById("myDIV_TopicNav_1");
-	col.appendChild(el("h2", { class: "column-title", text: "All work" }));
-	col.appendChild(bannerList(newestFirst(PROJECTS)));
+	newestFirst(PROJECTS).forEach(function (p) {
+		var picture = el("a", { href: link(p), class: "topic-thumb" }, [thumb(p, 100)]);
+		col.appendChild(el("div", { class: "box navRight colorBorder0 " + FONT }, [
+			el("h2", {}, [el("a", { href: link(p), text: p.title })]),
+			el("p", {}, [picture, el("span", { class: p.placeholder.summary ? "placeholder" : "", text: blurb(p) })])
+		]));
+		col.appendChild(el("div", { class: "clearthefloats x2" }));
+	});
 }
 
 // Today's Ortho text (was the random paragraph) -----------------------
+// Paragraphs keep coming until the left column is as tall as the middle one,
+// so the two columns end together. It refills when pictures finish loading
+// or the window changes size; the button starts the text over.
 function renderLine() {
 	var box = document.getElementById("myDIV_OrthoText");
+	var left = document.getElementById("myDIV_MyParagraph");
+	var middle = document.getElementById("myDIV_Middle");
 	var text = el("div", { class: "daily-text", "aria-live": "polite" });
-	var again = el("button", { type: "button", class: "button", "aria-label": "More text", text: "\u21bb" });
-	box.appendChild(el("p", {}, [el("a", { href: PAGE + "?p=ortho", text: "Ortho" }), document.createTextNode(": today's invented language")]));
+	var again = el("button", { type: "button", class: "button", "aria-label": "New text", text: "\u21bb" });
+	box.appendChild(el("p", {}, [el("a", { href: PAGE + "?p=ortho", text: "Ortho" }), document.createTextNode(": today's invented language"), again]));
 	box.appendChild(text);
-	box.appendChild(again);
 	ORTHO.then(function (ortho) {
-		var next = ortho.dailyText();
-		function show() {
-			text.textContent = "";
-			next().forEach(function (t) { text.appendChild(el("p", { text: t })); });
+		var next = ortho.dailyStream();
+		function fill() {
+			// Side by side only on wide screens; stacked, three paragraphs is enough.
+			var sideBySide = window.matchMedia("(min-width: 1024px)").matches;
+			var guard = 0;
+			while (guard++ < 200 && (text.children.length < 3 ||
+				(sideBySide && left.offsetHeight < middle.offsetHeight - 24))) {
+				text.appendChild(el("p", { text: next() }));
+			}
 		}
-		show();
-		again.addEventListener("click", show);
+		fill();
+		again.addEventListener("click", function () { text.textContent = ""; next = ortho.dailyStream(); fill(); });
+		window.addEventListener("load", fill);
+		window.addEventListener("resize", fill);
+		middle.addEventListener("load", fill, true);   // each picture that loads may lengthen the middle
 	});
 }
 
 // Ads on the site's own pages ---------------------------------------------
-// This week's Weekly Campaign (made with offbrand), like ads on a real website: a box at the top of
-// the right column and a banner near the foot of the page. Both link to the campaign.
+// Two campaigns made with offbrand run like ads on a real website, both
+// linking to the Weekly Campaign page:
+//   every 3 days   a box at the top of the right column, and a banner at the foot
+//   every 12 hours a tall skyscraper partway down the right column
 function renderAds() {
 	var box = el("div", { class: "site-offbrand site-offbrand-box" });
+	var sky = el("div", { class: "site-offbrand site-offbrand-sky" });
 	var banner = el("div", { class: "site-offbrand site-offbrand-banner" });
 	var col = document.getElementById("myDIV_TopicNav_1");
 	col.insertBefore(box, col.firstChild);
+	// After the sixth project in the column (each project is two elements).
+	col.insertBefore(sky, col.children[1 + 6 * 2] || null);
 	var foot = document.getElementById("myDIV_Visits");
 	foot.parentNode.insertBefore(banner, foot);
 	import("../vendor/offbrand/offbrand.js").then(function (offbrand) {
 		var href = PAGE + "?p=weekly-campaign";
-		offbrand.placeAd(box, "rectangle", href);
-		offbrand.placeAd(banner, "leaderboard", href);
+		offbrand.placeAd(box, "rectangle", href, "3d");
+		offbrand.placeAd(banner, "leaderboard", href, "3d");
+		offbrand.placeAd(sky, "skyscraper", href, "12h");
 	});
 }
 
-// Work map (pinned in the left column) ---------------------------------
+// Work map (beneath the left and middle columns) -----------------------
 // A treemap of the menu groups: group -> item -> project. A project in
 // several items appears under each, so block size shows how much work each
 // kind holds. Click a group or item to zoom in; click a project to open it.

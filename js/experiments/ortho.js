@@ -14,6 +14,13 @@ function paragraphs(o) {
 	return out;
 }
 
+// Today's language as an endless supply of paragraphs; each call gives one more.
+export function dailyStream() {
+	var o = new Ortho(todaysSeed(), FULL);
+	o.newSection();
+	return function () { return render(o.paragraph(4 + o.rng.below(3), 12, 8)); };
+}
+
 // Homepage text: today's language, three paragraphs at a time.
 export function dailyText() {
 	var o = new Ortho(todaysSeed(), FULL);
