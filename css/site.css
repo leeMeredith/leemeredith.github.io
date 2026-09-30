@@ -114,19 +114,29 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 .work-map-main, #myDIV_WorkMap .work-map { overflow: hidden; }
 #myDIV_WorkMap { min-width: 0; }
 
-/* Ortho's seven dials as fluorescent highlighter (stokes inks) under black text. */
-.ow-phrases { background: #ffb300; }
-.ow-functionWords { background: #6ce1ff; }
-.ow-topics { background: #f9ff3f; }
-.ow-names { background: #ff6cc4; }
-.ow-commas { background: #ff6c6c; }
-.ow-scareQuotes { background: #f927e1; }
-.ow-quotation.ow-mark { background: #b3ff59; }
-.ow.ow-quotation { text-decoration: underline 3px #b3ff59; text-underline-offset: 3px; }
-.ow-mark { padding: 0 1px; }
-.ow span[class^="ow-"] { color: #000; }
-.daily-text .ow span, .ortho-out .ow span { border-radius: 2px; }
+/* Ortho's seven dials as fluorescent highlighter (stokes inks) under black text,
+   shown only when a visitor turns them on. The key always shows its inks. */
+body.ortho-dials-on .ow-phrases { background: #ffb300; }
+body.ortho-dials-on .ow-functionWords { background: #6ce1ff; }
+body.ortho-dials-on .ow-topics { background: #f9ff3f; }
+body.ortho-dials-on .ow-names { background: #ff6cc4; }
+body.ortho-dials-on .ow-commas { background: #ff6c6c; }
+body.ortho-dials-on .ow-scareQuotes { background: #f927e1; }
+body.ortho-dials-on .ow-quotation.ow-mark { background: #b3ff59; }
+body.ortho-dials-on .ow.ow-quotation { text-decoration: underline 3px #b3ff59; text-underline-offset: 3px; }
+body.ortho-dials-on .ow-mark { padding: 0 1px; }
+body.ortho-dials-on .ow span[class^="ow-"] { color: #000; }
+body.ortho-dials-on .daily-text .ow span, body.ortho-dials-on .ortho-out .ow span { border-radius: 2px; }
 .ortho-key { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 4px 0 10px; font: 12px Geneva, sans-serif; text-indent: 0; }
 .ortho-key-ink { padding: 1px 4px; color: #000; }
 .ortho-key-level { color: rgb(110,110,110); }
 .ortho-key-ink.ow-quotation { background: #b3ff59; }
+
+.ortho-key .ow-phrases { background: #ffb300; } .ortho-key .ow-functionWords { background: #6ce1ff; }
+.ortho-key .ow-topics { background: #f9ff3f; } .ortho-key .ow-names { background: #ff6cc4; }
+.ortho-key .ow-commas { background: #ff6c6c; } .ortho-key .ow-scareQuotes { background: #f927e1; }
+.ortho-dials .ortho-key { display: none; }
+body.ortho-dials-on .ortho-dials .ortho-key { display: flex; }
+.ortho-dials-toggle { font: 12px Geneva, sans-serif; border: 1px solid rgb(180,180,180); cursor: pointer; margin: 2px 0 6px; }
+.ortho-dials-toggle[aria-pressed="true"] { background: rgb(80,80,80); color: rgb(235,235,235); }
+.gallery img:only-child { grid-column: 1 / -1; }

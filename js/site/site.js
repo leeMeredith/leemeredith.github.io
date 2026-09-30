@@ -239,7 +239,7 @@ function renderLine() {
 	var again = el("button", { type: "button", class: "button", "aria-label": "New text", text: "\u21bb" });
 	box.appendChild(el("p", {}, [el("a", { href: PAGE + "?p=ortho", text: "Ortho" }), document.createTextNode(": today's invented language"), again]));
 	ORTHO.then(function (ortho) {
-		box.appendChild(ortho.dialKey());
+		box.appendChild(ortho.dialToggle());
 		box.appendChild(text);
 		var next = ortho.dailyMarkedStream();
 		function fill() {

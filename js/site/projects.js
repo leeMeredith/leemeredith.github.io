@@ -59,6 +59,25 @@ var PROJECTS = [
 	tags: ["generative", "advertising", "language", "javascript"]
 },
 
+{
+	id: "ofxmanifold",
+	title: "ofxManifold",
+	summary: "Continuous preset morphing for openFrameworks: place presets as nodes, drag a point between them, get a weighted blend.",
+	category: "projects",
+	thumb: "thumbs/ofxmanifold.jpg",
+	year: 2026,
+	text: [
+		"ofxManifold lets one continuous gesture drive several independent things at once (synthesis parameters, rhythmic density, colour, lighting, speaker gains, OSC output) without any of them being hardcoded into the thing producing the gesture. Presets sit as nodes on a triangulated surface; a point moving across it resolves to a weighted blend of the nodes around it.",
+		"Spatial audio panning is the historically important use and the narrowest one: with four presets you like, moving smoothly between them is the same problem. Silent nodes bound to nothing let the blend fade as well as morph.",
+		"It is an independent implementation of an idea with a long lineage: Steve Ellison's barycentric amplitude panning (1986), which became SpaceMap, and Zachary Seldess's MIAP for Max/MSP and Pure Data, which generalized it beyond panning."
+	],
+	images: [
+		{ src: "ofxmanifold/screenshot.jpg", alt: "ofxManifold example: a point among preset nodes on a triangulated surface, with the resulting weights" }
+	],
+	links: [{ label: "ofxManifold on GitHub", url: "https://github.com/leeMeredith/ofxManifold" }],
+	tags: ["openframeworks", "c++", "interpolation", "presets", "spatial audio", "addon"]
+},
+
 // Moved from the old js/myWorkMedia/myWorkData.js (step 8). Entries without a summary
 // show Ortho placeholder text until one is written.
 {

@@ -107,6 +107,36 @@ export function dailyMarkedStream() {
 	};
 }
 
+// Dial colours are off until a visitor asks for them; the choice is remembered
+// in their browser. The marks are always in the text; CSS shows or hides them
+// by the "ortho-dials-on" class on <body>.
+function dialsOn() {
+	try { return localStorage.getItem("ortho-dials") === "on"; } catch (e) { return false; }
+}
+
+function setDials(on) {
+	document.body.classList.toggle("ortho-dials-on", on);
+	try { localStorage.setItem("ortho-dials", on ? "on" : "off"); } catch (e) {}
+	document.querySelectorAll(".ortho-dials-toggle").forEach(function (b) {
+		b.setAttribute("aria-pressed", on);
+		b.textContent = on ? "Hide the dials" : "Show the dials";
+	});
+}
+
+// A button that turns the dial colours on and off, with the key beneath it.
+export function dialToggle() {
+	var wrap = document.createElement("div");
+	wrap.className = "ortho-dials";
+	var b = document.createElement("button");
+	b.type = "button";
+	b.className = "button ortho-dials-toggle";
+	b.addEventListener("click", function () { setDials(!document.body.classList.contains("ortho-dials-on")); });
+	wrap.appendChild(b);
+	wrap.appendChild(dialKey());
+	setTimeout(function () { setDials(dialsOn()); });
+	return wrap;
+}
+
 // The key: each dial's ink, name, and setting.
 export function dialKey() {
 	var box = document.createElement("div");
@@ -144,7 +174,7 @@ export function mount(el) {
 		'<button type="submit">New language</button> ' +
 		'<button type="button" name="more">↻ More</button>' +
 		'</form><div class="ortho-out" aria-live="polite"></div>';
-	el.insertBefore(dialKey(), el.querySelector(".ortho-out"));
+	el.insertBefore(dialToggle(), el.querySelector(".ortho-out"));
 	var form = el.querySelector("form");
 	var out = el.querySelector(".ortho-out");
 	var o, log;
