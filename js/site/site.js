@@ -456,7 +456,11 @@ function renderWorkMap() {
 	}
 
 	function show(data, depth, unit) {
-		var keyline = { borderColor: INK.keyline_black, borderWidth: 1.5 };
+		// In dark mode the keylines and group names reverse to light, so they
+		// don't vanish into the page, including when hovered.
+		var edge = isDark() ? "#c8c8c8" : INK.keyline_black;
+		var groupInk = isDark() ? INK.stock_white : INK.keyline_black;
+		var keyline = { borderColor: edge, borderWidth: 1.5 };
 		chart.setOption({
 			// Everything ECharts would otherwise choose for itself.
 			color: [INK.fluor_blue, INK.fluor_orange_red, INK.fluor_green, INK.fluor_yellow, INK.fluor_magenta],
@@ -487,13 +491,14 @@ function renderWorkMap() {
 					emphasis: { itemStyle: { color: INK.fluor_yellow, textStyle: { color: INK.keyline_black } } } },
 				label: { show: true, color: INK.keyline_black, fontFamily: "Geneva, sans-serif", fontSize: 13 },
 				upperLabel: { show: true, height: 22, color: INK.keyline_black, fontFamily: "Geneva, sans-serif" },
-				itemStyle: { borderColor: INK.keyline_black, borderWidth: 1.5, gapWidth: 3, borderRadius: 0 },
-				emphasis: { itemStyle: { borderColor: INK.keyline_black, borderWidth: 3 }, label: { color: INK.keyline_black }, upperLabel: { color: INK.keyline_black } },
+				itemStyle: { borderColor: edge, borderWidth: 1.5, gapWidth: 3, borderRadius: 0 },
+				emphasis: { itemStyle: { borderColor: edge, borderWidth: 3 }, label: { color: INK.keyline_black }, upperLabel: { color: INK.keyline_black } },
 				levels: [
 					// Root and group levels take the page's own grey, so group names
 					// sit on the page and only the inked blocks carry keylines.
-					{ itemStyle: { borderColor: pageColor(), borderWidth: 0, gapWidth: 6 }, upperLabel: { show: false } },
-					{ itemStyle: { borderColor: pageColor(), borderWidth: 0, gapWidth: 3 }, upperLabel: { show: true, color: isDark() ? INK.stock_white : INK.keyline_black, fontSize: 14 } },
+					{ itemStyle: { borderColor: pageColor(), borderWidth: 0, gapWidth: 6 }, upperLabel: { show: false }, emphasis: { itemStyle: { borderColor: pageColor() } } },
+					{ itemStyle: { borderColor: pageColor(), borderWidth: 0, gapWidth: 3 }, upperLabel: { show: true, color: groupInk, fontSize: 14 },
+						emphasis: { itemStyle: { borderColor: pageColor() }, upperLabel: { color: groupInk } } },
 					// Items: black keyline, no header strip when zoomed in; the breadcrumb
 					// under the map already names where you are.
 					{ itemStyle: keyline, upperLabel: { show: false } },
