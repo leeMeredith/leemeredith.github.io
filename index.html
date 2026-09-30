@@ -5,15 +5,31 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Lee Meredith</title>
 	<meta name="description" content="Art, creative coding, ceramics, and experimental projects by Lee Meredith.">
-	<link rel="stylesheet" type="text/css" href="leemere.css?v=202609301801">
-	<link rel="stylesheet" type="text/css" href="css/site.css?v=202609301801">
-	<link rel="stylesheet" type="text/css" href="js/vendor/offbrand/offbrand.css?v=202609301801">
-	<script src="js/nav/myNav.js?v=202609301801"></script>
-	<script src="js/nav/myNavData.js?v=202609301801"></script>
-	<script src="js/dateTimeFormat/myDateTimeFormat.js?v=202609301801"></script>
-	<script>var SITE_VERSION = "202609301801";</script>
-	<script src="js/site/projects.js?v=202609301801"></script>
-	<script src="js/site/site.js?v=202609301801"></script>
+	<script>
+	// Dark or light: the visitor's own choice if they made one, else their system's.
+	(function () {
+		var t = null;
+		try { t = localStorage.getItem("theme"); } catch (e) {}
+		if (t !== "dark" && t !== "light") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+		document.documentElement.setAttribute("data-theme", t);
+	})();
+	</script>
+	<link rel="stylesheet" type="text/css" href="leemere.css?v=202609301920">
+	<link rel="stylesheet" type="text/css" href="css/site.css?v=202609301920">
+	<link rel="stylesheet" type="text/css" href="js/vendor/offbrand/offbrand.css?v=202609301920">
+	<script src="js/nav/myNav.js?v=202609301920"></script>
+	<script src="js/nav/myNavData.js?v=202609301920"></script>
+	<script src="js/dateTimeFormat/myDateTimeFormat.js?v=202609301920"></script>
+	<script>var SITE_VERSION = "202609301920";</script>
+	<script src="js/site/projects.js?v=202609301920"></script>
+	<script src="js/site/site.js?v=202609301920"></script>
+	<link rel="canonical" href="https://leemeredith.github.io/">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Lee Meredith">
+	<meta property="og:title" content="Lee Meredith">
+	<meta property="og:description" content="Art, creative coding, ceramics, and experimental projects by Lee Meredith.">
+	<meta property="og:url" content="https://leemeredith.github.io/">
+	<meta name="twitter:card" content="summary">
 </head>
 <body id="myBody" class="backGround0">
 

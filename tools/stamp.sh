@@ -8,3 +8,7 @@ v=$(date -u +%Y%m%d%H%M)
 sed -i.bak -E "s/\?v=[0-9]+\"/?v=$v\"/g; s/SITE_VERSION = \"[0-9]+\"/SITE_VERSION = \"$v\"/" "$root/index.html"
 rm -f "$root/index.html.bak"
 echo "site version $v"
+# Rebuild the project pages from index.html and projects.js (needs Node).
+if command -v node >/dev/null 2>&1; then node "$root/tools/pages.mjs"
+else echo "Node not found, so the work/ pages were not rebuilt (Mac: brew install node)" >&2
+fi

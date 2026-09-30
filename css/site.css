@@ -142,3 +142,39 @@ body.ortho-dials-on .ortho-dials .ortho-key { display: flex; }
 .gallery img:only-child { grid-column: 1 / -1; }
 
 .copyright { font-size: 0.85em; margin-top: 1.5em; }
+
+/* <picture> only wraps an <img> to offer WebP; it shouldn't change layout. */
+picture { display: contents; }
+
+/* Dark mode. A script in <head> sets data-theme on <html> from the visitor's
+   choice, or else their system setting, before the page draws. The mid-grey
+   text colours read on both backgrounds, so only the light surfaces and the
+   darkest text change here. The fluorescent inks stay as they are. */
+.theme-toggle { font: 14px Geneva, sans-serif; color: inherit; background: none; border: 1px solid rgb(180,180,180); cursor: pointer; padding: 2px 8px; margin: 4px 10px; }
+[data-theme="dark"] { color-scheme: dark; }
+[data-theme="dark"] body { color: rgb(215,215,215); }
+[data-theme="dark"] .backGround0, [data-theme="dark"] .backGround1, [data-theme="dark"] .boxColor1 { background-color: rgb(24,24,24); }
+[data-theme="dark"] .main, [data-theme="dark"] .boxColor0 { background-color: rgb(30,30,30); }
+[data-theme="dark"] .boxColor2, [data-theme="dark"] select { background-color: rgb(40,40,40); }
+[data-theme="dark"] .dropdown-body { background-color: rgb(34,34,34); border-color: rgb(70,70,70); box-shadow: 1px 1px 15px 0 rgb(0,0,0); }
+[data-theme="dark"] .dropdown-body .dropdown-menu-item { color: rgb(215,215,215); }
+[data-theme="dark"] .navUpper a.button,
+[data-theme="dark"] .navUpper a:visited,
+[data-theme="dark"] .navRight a:visited,
+[data-theme="dark"] p.relatedP { color: rgb(215,215,215); }
+[data-theme="dark"] #myDIV_ConceptMedia h1,
+[data-theme="dark"] .work-map-title,
+[data-theme="dark"] .work-banner,
+[data-theme="dark"] .column-title,
+[data-theme="dark"] .work-map-toggle .button,
+[data-theme="dark"] .ortho-dials-toggle { color: rgb(200,200,200); }
+[data-theme="dark"] #myDIV_ConceptMedia .summary,
+[data-theme="dark"] .work-map-note { color: rgb(160,160,160); }
+[data-theme="dark"] .work-map-toggle .button, [data-theme="dark"] .ortho-dials-toggle { background: rgb(40,40,40); border-color: rgb(90,90,90); }
+[data-theme="dark"] .work-map-toggle .button[aria-pressed="true"],
+[data-theme="dark"] .ortho-dials-toggle[aria-pressed="true"] { background: rgb(200,200,200); color: rgb(24,24,24); }
+[data-theme="dark"] .work-banner img { background: rgb(50,50,50); }
+[data-theme="dark"] .shhh a { color: rgb(30,30,30); }
+[data-theme="dark"] a:focus-visible, [data-theme="dark"] button:focus-visible { outline-color: rgb(200,200,200); }
+[data-theme="dark"] .navUpper .button, [data-theme="dark"] .theme-toggle { color: rgb(200,200,200); }
+[data-theme="dark"] .theme-toggle { border-color: rgb(110,110,110); }

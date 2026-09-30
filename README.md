@@ -12,7 +12,7 @@ Every project is one entry in `js/site/projects.js`. The menus, picture grid, ri
 { id: "new-thing", title: "New Thing", category: "projects" }
 ```
 
-Until you add a `thumb`, a grey placeholder picture with the title stands in. Until you add a `summary` and `text`, italic Ortho words stand in. The other fields (`year`, `video`, `images`, `links`, `tags`, `script`) are described in `docs/site-plan.md`. Each project has its own address, `index.html?p=<id>`; the old project pages (`ARM.html`, `EMG.html` and so on) redirect there.
+Until you add a `thumb`, a grey placeholder picture with the title stands in. Until you add a `summary` and `text`, italic Ortho words stand in. The other fields (`year`, `video`, `images`, `links`, `tags`, `script`) are described in `docs/site-plan.md`. Each project has its own address, `work/<id>/`, made by `tools/stamp.sh` (which runs `tools/pages.mjs`); older `index.html?p=<id>` links and the old project pages (`ARM.html`, `EMG.html` and so on) redirect there.
 
 ## Images
 

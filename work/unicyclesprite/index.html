@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base href="../../">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>unicycleSprite — Lee Meredith</title>
+	<meta name="description" content="Run Unicycle Sprite with ofxSpriteSheetRenderer To Points">
+	<script>
+	// Dark or light: the visitor's own choice if they made one, else their system's.
+	(function () {
+		var t = null;
+		try { t = localStorage.getItem("theme"); } catch (e) {}
+		if (t !== "dark" && t !== "light") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+		document.documentElement.setAttribute("data-theme", t);
+	})();
+	</script>
+	<link rel="stylesheet" type="text/css" href="leemere.css?v=202609301920">
+	<link rel="stylesheet" type="text/css" href="css/site.css?v=202609301920">
+	<link rel="stylesheet" type="text/css" href="js/vendor/offbrand/offbrand.css?v=202609301920">
+	<script src="js/nav/myNav.js?v=202609301920"></script>
+	<script src="js/nav/myNavData.js?v=202609301920"></script>
+	<script src="js/dateTimeFormat/myDateTimeFormat.js?v=202609301920"></script>
+	<script>var PAGE_ID = "unicyclesprite";</script>
+	<script>var SITE_VERSION = "202609301920";</script>
+	<script src="js/site/projects.js?v=202609301920"></script>
+	<script src="js/site/site.js?v=202609301920"></script>
+	<link rel="canonical" href="https://leemeredith.github.io/work/unicyclesprite/">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Lee Meredith">
+	<meta property="og:title" content="unicycleSprite — Lee Meredith">
+	<meta property="og:description" content="Run Unicycle Sprite with ofxSpriteSheetRenderer To Points">
+	<meta property="og:url" content="https://leemeredith.github.io/work/unicyclesprite/">
+	<meta property="og:image" content="https://leemeredith.github.io/assets/img/myIcons/navRelated/moveToPointsUnicycleSpriteRelated_0.jpg">
+	<meta name="twitter:card" content="summary_large_image">
+</head>
+<body id="myBody" class="backGround0">
+
+	<div id="myDIV_Timer" class="box floatL midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k" aria-hidden="true"></div>
+
+	<nav id="myDIV_ButtonNav" class="navUpper float-ms-L float-mm-L float-ml-R float-t-R float-l-R float-R" aria-label="Main"></nav>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+<div id="myDIV_AtWindowOpen">
+
+		<div id="myDIV_MyParagraph" class="column main col-t-6 col-l-4 col-ll-4 col-4 midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k">
+			<div id="myDIV_OrthoText"></div>
+		</div>
+
+		<div id="myDIV_Middle" class="column col-t-6 col-l-5 col-ll-5 col-5">
+			<main id="myDIV_ConceptMedia" class="box colorBorder0 mainLink0"></main>
+			<div id="myDIV_NavMain" class="box midFont"></div>
+		</div>
+
+		<div id="myDIV_WorkMap"></div>
+
+		<div id="myDIV_TopicNav_1" class="column col-l-3 col-ll-3 col-3 midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k"></div>
+
+	</div>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+	<div id="myDIV_Visits" class="visit-counter" aria-live="polite"></div>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+	<div id="myDIV_NavSocial" class="boxColor0"></div>
+
+	<div id="myDIV_NavBottom" class="navBottom float-R float-m-L"></div>
+
+<script>
+	myId_Timer = "myDIV_Timer";
+	myTimer();
+	renderSite();
+	document.getElementById("myDIV_NavSocial").innerHTML = myNavSocialBody(navSocial);
+	document.getElementById("myDIV_NavBottom").innerHTML = myNavBottom(navBottom);
+</script>
+</body>
+</html>

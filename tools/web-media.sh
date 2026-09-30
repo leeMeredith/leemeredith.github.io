@@ -7,7 +7,8 @@
 # (Pass the same file twice to use it for both.)
 #   assets/img/thumbs/<project-id>.jpg     320 x 320, centre-cropped square
 #   assets/img/<project-id>/<name>.jpg     longest side 1400px, never enlarged
-# Both are JPEG, quality 82, with camera data (including GPS location) removed.
+# Both are JPEG, quality 82, with camera data (including GPS location) removed,
+# plus a smaller WebP copy beside each (same name, .webp) that the site offers first.
 # Needs ImageMagick (Mac: brew install imagemagick).
 set -e
 
@@ -26,6 +27,7 @@ mkdir -p "$root/assets/img/thumbs"
 
 "$IM" "$1" -auto-orient -resize '320x320^' -gravity center -extent 320x320 \
 	-strip -quality 82 "$root/assets/img/thumbs/$id.jpg"
+"$IM" "$root/assets/img/thumbs/$id.jpg" -quality 80 "$root/assets/img/thumbs/$id.webp"
 echo "thumb: \"thumbs/$id.jpg\","
 shift
 [ $# -eq 0 ] && exit 0
@@ -35,6 +37,7 @@ echo "images: ["
 for f in "$@"; do
 	name=$(basename "$f" | sed 's/\.[^.]*$//' | tr 'A-Z ' 'a-z-')
 	"$IM" "$f" -auto-orient -resize '1400x1400>' -strip -quality 82 "$root/assets/img/$id/$name.jpg"
+	"$IM" "$root/assets/img/$id/$name.jpg" -quality 80 "$root/assets/img/$id/$name.webp"
 	echo "	{ src: \"$id/$name.jpg\", alt: \"\" },"
 done
 echo "],"

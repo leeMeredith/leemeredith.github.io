@@ -2,7 +2,7 @@
 //   top menu                   drop-downs for the groups below; each item lists its work
 //   left column                today's Ortho text, with the work map pinned beside the lists
 //   middle                     home: the picture grid; a group item: its work as banners;
-//                              a project (index.html?p=<id>): the work, then related banners
+//                              a project (work/<id>/, made by tools/pages.mjs): the work, then related banners
 //   right column               every project as a banner, newest first
 // Nothing here needs editing when a project is added; groups follow project tags.
 
@@ -10,6 +10,10 @@
 // linear light to screen sRGB), not from ECharts, whose defaults change
 // between releases. Every colour the work map uses is set here.
 var PAGE_GREY = "#ebebeb";   // the page background from leemere.css
+var PAGE_DARK = "#181818";   // the page background in dark mode (css/site.css)
+
+function isDark() { return document.documentElement.getAttribute("data-theme") === "dark"; }
+function pageColor() { return isDark() ? PAGE_DARK : PAGE_GREY; }
 var INK = {
 	fluor_magenta: "#f927e1",
 	fluor_orange_red: "#ff9000",
@@ -80,12 +84,20 @@ function el(tag, attrs, children) {
 }
 
 function link(p) {
-	return PAGE + "?p=" + encodeURIComponent(p.id);
+	return "work/" + encodeURIComponent(p.id) + "/";
+}
+
+// An image, with the smaller WebP copy offered first for site pictures
+// (tools/web-media.sh makes one beside every JPEG and PNG).
+function picture(attrs) {
+	var img = el("img", attrs);
+	if (!/^assets\/img\/.*\.(jpg|png)$/i.test(attrs.src)) return img;
+	return el("picture", {}, [el("source", { type: "image/webp", srcset: attrs.src.replace(/\.\w+$/, ".webp") }), img]);
 }
 
 function thumb(p, size) {
 	var src = p.thumb ? IMG + p.thumb : placeholderImage(p.title);
-	return el("img", { src: src, alt: p.title, width: size, height: size });
+	return picture({ src: src, alt: p.title, width: size, height: size });
 }
 
 // A generated stand-in picture, like a form's empty image slot: a grey box,
@@ -115,7 +127,7 @@ function placeholderBanner(title) {
 function banner(p) {
 	var src = p.banner ? IMG + p.banner : p.thumb ? IMG + p.thumb : placeholderBanner(p.title);
 	return el("a", { class: "work-banner", href: link(p) }, [
-		el("img", { src: src, alt: "", loading: "lazy" }),
+		picture({ src: src, alt: "", loading: "lazy" }),
 		el("span", { class: "work-banner-title", text: p.title + (p.year ? " (" + p.year + ")" : "") }),
 		(p.tags || []).length ? el("span", { class: "work-banner-tags", text: p.tags.slice(0, 6).join(" \u00b7 ") }) : null
 	]);
@@ -191,12 +203,38 @@ function renderMenu() {
 	var nav = document.getElementById("myDIV_ButtonNav");
 	nav.appendChild(menuButton("Lee", PAGE));
 	GROUPS.forEach(function (g) { nav.appendChild(dropdown(g)); });
+	nav.appendChild(themeToggle());
 	document.addEventListener("click", function (e) { if (!e.target.closest(".dropdown")) closeMenus(); });
 	document.addEventListener("keydown", function (e) {
 		if (e.key !== "Escape") return;
 		var open = document.querySelector(".dropdown.shown");
 		if (open) { closeMenus(); open.querySelector("button").focus(); }
 	});
+}
+
+// Dark or light, remembered for next time. The <head> script picks the
+// starting theme; this button switches it and tells the map to redraw.
+function themeToggle() {
+	var b = el("button", { type: "button", class: "theme-toggle" });
+	function label() {
+		b.textContent = isDark() ? "Light" : "Dark";
+		b.setAttribute("aria-label", isDark() ? "Switch to light mode" : "Switch to dark mode");
+	}
+	function set(t, remember) {
+		document.documentElement.setAttribute("data-theme", t);
+		if (remember) try { localStorage.setItem("theme", t); } catch (e) {}
+		label();
+		document.dispatchEvent(new Event("themechange"));
+	}
+	b.addEventListener("click", function () { set(isDark() ? "light" : "dark", true); });
+	// Follow the system setting while the visitor hasn't chosen.
+	matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+		var chosen = null;
+		try { chosen = localStorage.getItem("theme"); } catch (err) {}
+		if (!chosen) set(e.matches ? "dark" : "light", false);
+	});
+	label();
+	return b;
 }
 
 // Picture grid and right column --------------------------------------
@@ -239,7 +277,7 @@ function renderLine() {
 	var middle = document.getElementById("myDIV_Middle");
 	var text = el("div", { class: "daily-text", "aria-live": "polite" });
 	var again = el("button", { type: "button", class: "button", "aria-label": "New text", text: "\u21bb" });
-	box.appendChild(el("p", {}, [el("a", { href: PAGE + "?p=ortho", text: "Ortho" }), document.createTextNode(": today's invented language"), again]));
+	box.appendChild(el("p", {}, [el("a", { href: link({ id: "ortho" }), text: "Ortho" }), document.createTextNode(": today's invented language"), again]));
 	ORTHO.then(function (ortho) {
 		box.appendChild(ortho.dialToggle());
 		box.appendChild(text);
@@ -278,7 +316,7 @@ function renderAds() {
 	document.getElementById("myDIV_WorkMapAd").appendChild(sky);
 	document.getElementById("myDIV_WorkMap").appendChild(banner);
 	import("../vendor/offbrand/offbrand.js?v=" + SITE_VERSION).then(function (offbrand) {
-		var href = PAGE + "?p=offbrand";
+		var href = link({ id: "offbrand" });
 		offbrand.placeAd(box, "rectangle", href, "3d");
 		offbrand.placeAd(banner, "leaderboard", href, "3d");
 		offbrand.placeAd(sky, "skyscraper", href, "12h");
@@ -454,8 +492,8 @@ function renderWorkMap() {
 				levels: [
 					// Root and group levels take the page's own grey, so group names
 					// sit on the page and only the inked blocks carry keylines.
-					{ itemStyle: { borderColor: PAGE_GREY, borderWidth: 0, gapWidth: 6 }, upperLabel: { show: false } },
-					{ itemStyle: { borderColor: PAGE_GREY, borderWidth: 0, gapWidth: 3 }, upperLabel: { show: true, color: INK.keyline_black, fontSize: 14 } },
+					{ itemStyle: { borderColor: pageColor(), borderWidth: 0, gapWidth: 6 }, upperLabel: { show: false } },
+					{ itemStyle: { borderColor: pageColor(), borderWidth: 0, gapWidth: 3 }, upperLabel: { show: true, color: isDark() ? INK.stock_white : INK.keyline_black, fontSize: 14 } },
 					// Items: black keyline, no header strip when zoomed in; the breadcrumb
 					// under the map already names where you are.
 					{ itemStyle: keyline, upperLabel: { show: false } },
@@ -478,6 +516,7 @@ function renderWorkMap() {
 		// it arrives or the columns reflow, so it never spills into other columns.
 		if (window.ResizeObserver) new ResizeObserver(function () { chart.resize(); }).observe(box);
 		else window.addEventListener("resize", function () { chart.resize(); });
+		document.addEventListener("themechange", draw);
 		draw();
 	};
 	document.head.appendChild(script);
@@ -511,7 +550,7 @@ function renderProject(p) {
 	(p.text || []).forEach(function (t) { main.appendChild(el("p", { class: p.placeholder.text ? "placeholder" : "", text: t })); });
 	if (p.images) {
 		main.appendChild(el("div", { class: "gallery" }, p.images.map(function (img) {
-			return el("img", { src: IMG + img.src, alt: img.alt, loading: "lazy" });
+			return picture({ src: IMG + img.src, alt: img.alt, loading: "lazy" });
 		})));
 	}
 	if (p.links) {
@@ -555,6 +594,12 @@ function renderPage() {
 	// Old addresses for projects that have been renamed.
 	var RENAMED = { "weekly-campaign": "offbrand" };
 	var wanted = RENAMED[q.get("p")] || q.get("p");
+	// Old ?p= addresses move to the project's own page.
+	if (wanted && typeof PAGE_ID === "undefined" && PROJECTS.some(function (p) { return p.id === wanted; })) {
+		location.replace(link({ id: wanted }));
+		return;
+	}
+	if (typeof PAGE_ID !== "undefined") wanted = PAGE_ID;
 	var project = PROJECTS.filter(function (p) { return p.id === wanted; })[0];
 	var found = !project && q.get("t") ? findItem(q.get("t")) : null;
 	renderMenu();
