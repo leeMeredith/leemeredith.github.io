@@ -24,6 +24,6 @@ Run `python3 -m http.server 8000` in this folder, then open `http://127.0.0.1:80
 
 ## Borrowed pieces
 
-- [Ortho](https://github.com/leeMeredith/ortho) (invented language) and [offbrand](https://github.com/leeMeredith/offbrand) (the Weekly Campaign ads) are copied into `js/vendor/`; see the README in each folder to update them.
+- [Ortho](https://github.com/leeMeredith/ortho) (invented language) and [offbrand](https://github.com/leeMeredith/offbrand) (the generated ads) are copied into `js/vendor/`; see the README in each folder to update them.
 - The work map uses [Apache ECharts](https://echarts.apache.org/), loaded from jsDelivr.
 - Visit counts are kept by [Abacus](https://abacus.jasoncameron.dev/), which stores only numbers.

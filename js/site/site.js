@@ -261,7 +261,7 @@ function renderLine() {
 
 // Ads on the site's own pages ---------------------------------------------
 // Two campaigns made with offbrand run like ads on a real website, both
-// linking to the Weekly Campaign page:
+// linking to the offbrand page:
 //   every 3 days   a box at the top of the right column, and a banner under the work map
 //   every 12 hours a tall skyscraper beside the work map, and a box at the end
 //                  of the right column
@@ -276,7 +276,7 @@ function renderAds() {
 	document.getElementById("myDIV_WorkMapAd").appendChild(sky);
 	document.getElementById("myDIV_WorkMap").appendChild(banner);
 	import("../vendor/offbrand/offbrand.js").then(function (offbrand) {
-		var href = PAGE + "?p=weekly-campaign";
+		var href = PAGE + "?p=offbrand";
 		offbrand.placeAd(box, "rectangle", href, "3d");
 		offbrand.placeAd(banner, "leaderboard", href, "3d");
 		offbrand.placeAd(sky, "skyscraper", href, "12h");
@@ -546,7 +546,10 @@ function renderItem(found) {
 
 function renderPage() {
 	var q = new URLSearchParams(location.search);
-	var project = PROJECTS.filter(function (p) { return p.id === q.get("p"); })[0];
+	// Old addresses for projects that have been renamed.
+	var RENAMED = { "weekly-campaign": "offbrand" };
+	var wanted = RENAMED[q.get("p")] || q.get("p");
+	var project = PROJECTS.filter(function (p) { return p.id === wanted; })[0];
 	var found = !project && q.get("t") ? findItem(q.get("t")) : null;
 	renderMenu();
 	if (project) renderProject(project);
@@ -559,6 +562,6 @@ function renderPage() {
 	renderLine();
 	renderColumn();
 	renderWorkMap();
-	if (!project || project.id !== "weekly-campaign") renderAds();
+	if (!project || project.id !== "offbrand") renderAds();
 	renderVisits(project);
 }

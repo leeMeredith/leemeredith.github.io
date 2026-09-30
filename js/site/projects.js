@@ -62,11 +62,12 @@ var PROJECTS = [
 	tags: ["language", "generative", "javascript", "poetry", "max", "openframeworks"]
 },
 {
-	id: "weekly-campaign",
-	title: "Weekly Campaign",
+	id: "offbrand",
+	title: "offbrand",
 	summary: "Generative advertising: museum art and invented brands, recast as a new campaign every week, for a product that never appears.",
 	category: "experiments",
 	year: 2026,
+	links: [{ label: "offbrand on GitHub", url: "https://github.com/leeMeredith/offbrand" }],
 	script: "js/vendor/offbrand/offbrand.js",
 	tags: ["generative", "advertising", "language", "javascript"]
 },
