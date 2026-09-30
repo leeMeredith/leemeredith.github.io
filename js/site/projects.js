@@ -8,11 +8,12 @@ var PROJECTS = [
 	summary: "Clear glaze vessels.",
 	category: "ceramics",
 	thumb: "thumbs/ceramics.jpg",
+	banner: "myIcons/navRelated/CeramicsRelated_0.jpg",
 	images: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19].map(function (n) {
 		return { src: "Ceramics/the_ceramics_still_have_" + n + ".jpg", alt: "Clear glaze vessel, photo " + (n + 1) };
 	}).concat([{ src: "Ceramics/pots.jpg", alt: "A group of pots" }]),
 	links: [{ label: "More ceramics on Flickr", url: "https://www.flickr.com/photos/antisuji/albums/72157647565271623" }],
-	tags: ["clay"]
+	tags: ["clay", "ceramics"]
 },
 {
 	id: "talking-art",
@@ -20,6 +21,7 @@ var PROJECTS = [
 	summary: "Face-tracking mouths that give museum portraits a voice.",
 	category: "projects",
 	thumb: "thumbs/talking-art.jpg",
+	banner: "myIcons/navRelated/TalkingArtRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:83160270",
 	text: [
@@ -35,7 +37,7 @@ var PROJECTS = [
 		{ label: "dialogger on GitHub", url: "https://github.com/leeMeredith/dialogger" },
 		{ label: "More on Flickr", url: "https://www.flickr.com/photos/antisuji/sets/72157636631363716" }
 	],
-	tags: ["face tracking", "museum", "animation"]
+	tags: ["face tracking", "museum", "animation", "openframeworks"]
 },
 {
 	id: "ortho",
@@ -45,7 +47,7 @@ var PROJECTS = [
 	year: 2026,
 	links: [{ label: "Ortho on GitHub", url: "https://github.com/leeMeredith/ortho" }],
 	script: "js/experiments/ortho.js",
-	tags: ["language", "generative"]
+	tags: ["language", "generative", "javascript", "poetry"]
 },
 {
 	id: "weekly-campaign",
@@ -54,7 +56,7 @@ var PROJECTS = [
 	category: "experiments",
 	year: 2026,
 	script: "js/vendor/offbrand/offbrand.js",
-	tags: ["generative", "advertising", "language"]
+	tags: ["generative", "advertising", "language", "javascript"]
 },
 
 // Moved from the old js/myWorkMedia/myWorkData.js (step 8). Entries without a summary
@@ -65,6 +67,7 @@ var PROJECTS = [
 	summary: "This book is for the rapid prototyping of tabletop games.",
 	category: "projects",
 	thumb: "myIcons/navTopic/TGDTopic_0.png",
+	banner: "myIcons/navRelated/TGDRelated_0.png",
 	year: 2024,
 	text: [
 		"This book is for the rapid prototyping of tabletop games. It travels easily enabling you to be able to have fun and play test anywhere without taking an intimidating amount of supplies. This book is not only about saving that one game you have spent hours on but will help you create a process of making several games. Just get going with this book of open ended boards, dungeons, character sheets, and game assets, so you can get started immediately. This manual is not full of pontification but instead it is the demystification of the process of tabletop game design. Which is possible by assisting you with repeating the process of prototyping, play testing and iterating. If this is not the first game design book you buy, it will make a perfect companion to any other book you would purchase on the subject. Let this book help you understand that it is game design, not pain design, and to always remember to bring in an eraser. Buy On Amazon!"
@@ -107,6 +110,7 @@ var PROJECTS = [
 	summary: "Juggler Juggling is a iOS app.",
 	category: "projects",
 	thumb: "myIcons/navTopic/JugglerJugglingTopic.jpg",
+	banner: "myIcons/navRelated/JugglerJugglingRelated_0.jpg",
 	year: 2022,
 	video: "vimeo:724122827",
 	text: [
@@ -126,7 +130,8 @@ var PROJECTS = [
 		"game",
 		"juggler",
 		"juggling",
-		"ios"
+		"ios",
+		"openframeworks"
 	]
 },
 {
@@ -135,6 +140,7 @@ var PROJECTS = [
 	summary: "Star Line Div Seg Dist Of Smallest Div",
 	category: "projects",
 	thumb: "myIcons/navTopic/starLineDivTopic.jpg",
+	banner: "myIcons/navRelated/starLineDivRelated.jpg",
 	year: 2019,
 	video: "vimeo:376866271",
 	text: [
@@ -145,7 +151,8 @@ var PROJECTS = [
 		"vector",
 		"line",
 		"ratio",
-		"algorithm"
+		"algorithm",
+		"openframeworks"
 	]
 },
 {
@@ -154,6 +161,7 @@ var PROJECTS = [
 	summary: "Vector Div Line Seg Dist Of Smallest Div",
 	category: "projects",
 	thumb: "myIcons/navTopic/vectorDivLineSegDistOfSmallestDivTopic.jpg",
+	banner: "myIcons/navRelated/vectorDivLineSegDistOfSmallestDivRelated.jpg",
 	year: 2019,
 	video: "vimeo:376865649",
 	text: [
@@ -164,7 +172,8 @@ var PROJECTS = [
 		"vector",
 		"line",
 		"ratio",
-		"algorithm"
+		"algorithm",
+		"openframeworks"
 	]
 },
 {
@@ -172,13 +181,15 @@ var PROJECTS = [
 	title: "DividesLineGivenRatio",
 	category: "projects",
 	thumb: "myIcons/navTopic/DividesLineGivenRatioTopic.jpg",
+	banner: "myIcons/navRelated/DividesLineGivenRatioRelated.jpg",
 	year: 2019,
 	video: "vimeo:376861989",
 	tags: [
 		"divides",
 		"line",
 		"ratio",
-		"algorithm"
+		"algorithm",
+		"openframeworks"
 	]
 },
 {
@@ -186,12 +197,14 @@ var PROJECTS = [
 	title: "springsXenoStars_2",
 	category: "projects",
 	thumb: "myIcons/navTopic/springsXenoStarsTopic_2.jpg",
+	banner: "myIcons/navRelated/springsXenoStarsRelated_2.jpg",
 	year: 2019,
 	video: "vimeo:351107831",
 	tags: [
 		"springs",
 		"stars",
-		"animation"
+		"animation",
+		"openframeworks"
 	]
 },
 {
@@ -199,12 +212,14 @@ var PROJECTS = [
 	title: "springsXenoStars_1",
 	category: "projects",
 	thumb: "myIcons/navTopic/springsXenoStarsTopic_1.jpg",
+	banner: "myIcons/navRelated/springsXenoStarsRelated_1.jpg",
 	year: 2019,
 	video: "vimeo:351107374",
 	tags: [
 		"springs",
 		"stars",
-		"animation"
+		"animation",
+		"openframeworks"
 	]
 },
 {
@@ -212,12 +227,14 @@ var PROJECTS = [
 	title: "springsXenoStars_0",
 	category: "projects",
 	thumb: "myIcons/navTopic/springsXenoStarsTopic_0.jpg",
+	banner: "myIcons/navRelated/springsXenoStarsRelated_0.jpg",
 	year: 2019,
 	video: "vimeo:351106843",
 	tags: [
 		"springs",
 		"stars",
-		"animation"
+		"animation",
+		"openframeworks"
 	]
 },
 {
@@ -226,6 +243,7 @@ var PROJECTS = [
 	summary: "Int To Character To Img / Crossbones As 0",
 	category: "projects",
 	thumb: "myIcons/navTopic/IntCharacterImgTopic_0.jpg",
+	banner: "myIcons/navRelated/IntCharacterImgRelated_0.jpg",
 	year: 2019,
 	video: "vimeo:316068956",
 	text: [
@@ -234,7 +252,8 @@ var PROJECTS = [
 	tags: [
 		"crossbones",
 		"character to img",
-		"animation"
+		"animation",
+		"openframeworks"
 	]
 },
 {
@@ -243,6 +262,7 @@ var PROJECTS = [
 	summary: "Juggling animation / radCosSin",
 	category: "projects",
 	thumb: "myIcons/navTopic/jugglingAnimationTopic_0.jpg",
+	banner: "myIcons/navRelated/jugglingAnimationRelated_0.jpg",
 	year: 2019,
 	video: "vimeo:314634637",
 	text: [
@@ -251,7 +271,8 @@ var PROJECTS = [
 	tags: [
 		"juggling",
 		"animation",
-		"radcossin"
+		"radcossin",
+		"openframeworks"
 	]
 },
 {
@@ -260,6 +281,7 @@ var PROJECTS = [
 	summary: "Run Unicycle Sprite with ofxSpriteSheetRenderer To Points",
 	category: "projects",
 	thumb: "myIcons/navTopic/moveToPointsUnicycleSpriteTopic_0.jpg",
+	banner: "myIcons/navRelated/moveToPointsUnicycleSpriteRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313083213",
 	text: [
@@ -271,7 +293,8 @@ var PROJECTS = [
 		"ofxspritesheetrenderer",
 		"flower",
 		"move to points",
-		"unicycle"
+		"unicycle",
+		"openframeworks"
 	]
 },
 {
@@ -279,6 +302,7 @@ var PROJECTS = [
 	title: "moveToPointsSprite",
 	category: "projects",
 	thumb: "myIcons/navTopic/moveToPointsSpriteTopic_0.jpg",
+	banner: "myIcons/navRelated/moveToPointsSpriteRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313082774",
 	tags: [
@@ -287,7 +311,8 @@ var PROJECTS = [
 		"ofxspritesheetrenderer",
 		"flower",
 		"move to points",
-		"animation"
+		"animation",
+		"openframeworks"
 	]
 },
 {
@@ -295,6 +320,7 @@ var PROJECTS = [
 	title: "moveToPoints_2",
 	category: "projects",
 	thumb: "myIcons/navTopic/moveToPointsTopic_0.jpg",
+	banner: "myIcons/navRelated/moveToPointsRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313082467",
 	tags: [
@@ -303,7 +329,8 @@ var PROJECTS = [
 		"ofxspritesheetrenderer",
 		"flower",
 		"move to points",
-		"animation"
+		"animation",
+		"openframeworks"
 	]
 },
 {
@@ -312,6 +339,7 @@ var PROJECTS = [
 	summary: "Run Flower Sprite 1 with ofxSpriteSheetRenderer.",
 	category: "projects",
 	thumb: "myIcons/navTopic/FlowerSpriteTopic_1_0.jpg",
+	banner: "myIcons/navRelated/FlowerSpriteRelated_1_0.jpg",
 	year: 2017,
 	video: "vimeo:313081884",
 	text: [
@@ -321,7 +349,8 @@ var PROJECTS = [
 		"sprite",
 		"spritesheet",
 		"ofxspritesheetrenderer",
-		"flower"
+		"flower",
+		"openframeworks"
 	]
 },
 {
@@ -330,6 +359,7 @@ var PROJECTS = [
 	summary: "Run Flower Sprite 0 with ofxSpriteSheetRenderer.",
 	category: "projects",
 	thumb: "myIcons/navTopic/flowerSpriteTopic_0_0.jpg",
+	banner: "myIcons/navRelated/flowerSpriteRelated_0_0.jpg",
 	year: 2017,
 	video: "vimeo:313081453",
 	text: [
@@ -339,7 +369,8 @@ var PROJECTS = [
 		"sprite",
 		"spritesheet",
 		"ofxspritesheetrenderer",
-		"flower"
+		"flower",
+		"openframeworks"
 	]
 },
 {
@@ -348,6 +379,7 @@ var PROJECTS = [
 	summary: "Hokusai The Great Wave Off Kanagawa / Averaging Pix Table Change Radiuses of ofDrawEllipse.",
 	category: "projects",
 	thumb: "myIcons/navTopic/greatWaveAveragingPixTableTopic_0.jpg",
+	banner: "myIcons/navRelated/greatWaveAveragingPixTableRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313027349",
 	text: [
@@ -357,7 +389,8 @@ var PROJECTS = [
 		"averaging",
 		"pix table",
 		"pix",
-		"hokusai"
+		"hokusai",
+		"openframeworks"
 	]
 },
 {
@@ -366,6 +399,7 @@ var PROJECTS = [
 	summary: "Cindy Sherman / Pix Table Change Radiuses of ofDrawEllipse.",
 	category: "projects",
 	thumb: "myIcons/navTopic/cindyShermanAveragingPixTableTopic_0.jpg",
+	banner: "myIcons/navRelated/cindyShermanAveragingPixTableRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313025670",
 	text: [
@@ -375,7 +409,8 @@ var PROJECTS = [
 		"averaging",
 		"pix table",
 		"pix",
-		"cindy sherman"
+		"cindy sherman",
+		"openframeworks"
 	]
 },
 {
@@ -384,6 +419,7 @@ var PROJECTS = [
 	summary: "Alice Neel Mother And Child Averaging / Pix Table change Radiuses of ofDrawEllipse",
 	category: "projects",
 	thumb: "myIcons/navTopic/childAveragingPixTableTopic_0.jpg",
+	banner: "myIcons/navRelated/childAveragingPixTableRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313024672",
 	text: [
@@ -394,7 +430,8 @@ var PROJECTS = [
 		"pix table",
 		"pix",
 		"alice neel",
-		"ofdrawellipse"
+		"ofdrawellipse",
+		"openframeworks"
 	]
 },
 {
@@ -403,6 +440,7 @@ var PROJECTS = [
 	summary: "change Radiuses of ofDrawEllipse.",
 	category: "projects",
 	thumb: "myIcons/navTopic/changeRadiusesTopic_1_0.jpg",
+	banner: "myIcons/navRelated/changeRadiusesRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313023495",
 	text: [
@@ -412,7 +450,8 @@ var PROJECTS = [
 		"averaging",
 		"pix table",
 		"pix",
-		"ofdrawellipse"
+		"ofdrawellipse",
+		"openframeworks"
 	]
 },
 {
@@ -420,12 +459,14 @@ var PROJECTS = [
 	title: "averageTest_0",
 	category: "projects",
 	thumb: "myIcons/navTopic/averageTestTopic_0.jpg",
+	banner: "myIcons/navRelated/averageTestRelated_0.jpg",
 	year: 2017,
 	video: "vimeo:313021699",
 	tags: [
 		"averaging",
 		"pix table",
-		"pix"
+		"pix",
+		"openframeworks"
 	]
 },
 {
@@ -434,6 +475,7 @@ var PROJECTS = [
 	summary: "I need to improve this but fun...",
 	category: "projects",
 	thumb: "myIcons/navTopic/ObamaTopic_0.jpg",
+	banner: "myIcons/navRelated/ObamaRelated_0.jpg",
 	year: 2000,
 	video: "vimeo:173425794",
 	text: [
@@ -448,7 +490,8 @@ var PROJECTS = [
 	tags: [
 		"tracking",
 		"face tracking",
-		"pardoning snowden"
+		"pardoning snowden",
+		"openframeworks"
 	]
 },
 {
@@ -457,6 +500,7 @@ var PROJECTS = [
 	summary: "Procedural Art made from Wéiqí / Go games.",
 	category: "projects",
 	thumb: "myIcons/navTopic/WeiqiBeatsTopic_0.jpg",
+	banner: "myIcons/navRelated/WeiqiBeatsRelated_0.jpg",
 	year: 2016,
 	text: [
 		"Procedural Art made from Wéiqí / Go games. This Game is from 1991 Ranka Yearbook. The 5th Japan-China Super Go Series. Game 7: Yamashiro Vs Yu Bin .pg 64",
@@ -466,7 +510,9 @@ var PROJECTS = [
 		"go",
 		"game",
 		"audio",
-		"tracking"
+		"tracking",
+		"openframeworks",
+		"max"
 	]
 },
 {
@@ -475,6 +521,7 @@ var PROJECTS = [
 	summary: "As a whole this is an opportunity to animate over faces in real time.",
 	category: "projects",
 	thumb: "myIcons/navTopic/AugmentedMaskTopic_0.jpg",
+	banner: "myIcons/navRelated/AugmentedMaskRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:103338706",
 	text: [
@@ -515,7 +562,8 @@ var PROJECTS = [
 		"met",
 		"museum",
 		"animation",
-		"augmented reality"
+		"augmented reality",
+		"openframeworks"
 	]
 },
 {
@@ -524,6 +572,7 @@ var PROJECTS = [
 	summary: "I am using ofxLeapMotion / ofxBullet with electromyography (EMG) Muscle Sensor to evaluate the electrical activity of the muscles associated with the ring...",
 	category: "projects",
 	thumb: "myIcons/navTopic/ElectromyographyTopic_0.jpg",
+	banner: "myIcons/navRelated/ElectromyographyRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:100045549",
 	text: [
@@ -557,7 +606,8 @@ var PROJECTS = [
 		"electromyography",
 		"arduino",
 		"virtual prosthetics",
-		"emg"
+		"emg",
+		"openframeworks"
 	]
 },
 {
@@ -566,6 +616,7 @@ var PROJECTS = [
 	summary: "This is a Play Test.",
 	category: "projects",
 	thumb: "myIcons/navTopic/PlayTestVirtualProstTopic_0.jpg",
+	banner: "myIcons/navRelated/PlayTestVirtualProstRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:98825416",
 	text: [
@@ -588,7 +639,8 @@ var PROJECTS = [
 	],
 	tags: [
 		"virtual prosthetics",
-		"ofxkinect"
+		"ofxkinect",
+		"openframeworks"
 	]
 },
 {
@@ -597,6 +649,7 @@ var PROJECTS = [
 	summary: "This is me using ofxLeapMotion / ofxBullet for a Virtual Prosthetics project.",
 	category: "projects",
 	thumb: "myIcons/navTopic/VirtualProstBulletLeapTopic_0.jpg",
+	banner: "myIcons/navRelated/VirtualProstBulletLeapRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:98807834",
 	text: [
@@ -613,7 +666,8 @@ var PROJECTS = [
 		}
 	],
 	tags: [
-		"virtual prosthetics"
+		"virtual prosthetics",
+		"openframeworks"
 	]
 },
 {
@@ -622,6 +676,7 @@ var PROJECTS = [
 	summary: "Pink from Tintaz Custom Skateboard Decks By Beto Mendoza",
 	category: "projects",
 	thumb: "myIcons/navTopic/VisuallyImpliedAudioTopic_0.jpg",
+	banner: "myIcons/navRelated/VisuallyImpliedAudioRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:98182942",
 	text: [
@@ -645,7 +700,8 @@ var PROJECTS = [
 		"animation",
 		"drawing",
 		"animator",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -654,6 +710,7 @@ var PROJECTS = [
 	summary: "Angry Animator tutorial-2 : walk cycle",
 	category: "projects",
 	thumb: "myIcons/navTopic/firstStepsTopic_0.jpg",
+	banner: "myIcons/navRelated/firstStepsRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:95767888",
 	text: [
@@ -669,7 +726,8 @@ var PROJECTS = [
 		"animator",
 		"walk-cycle",
 		"animation",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -678,6 +736,7 @@ var PROJECTS = [
 	summary: "Looking at relationships between the perception of a concept of a single living object and a classification of the utilitarian.",
 	category: "projects",
 	thumb: "myIcons/navTopic/hatsFlowerTopic_0.jpg",
+	banner: "myIcons/navRelated/hatsFlowerRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:95591165",
 	text: [
@@ -693,7 +752,8 @@ var PROJECTS = [
 		"animator",
 		"animation",
 		"hats",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -701,6 +761,7 @@ var PROJECTS = [
 	title: "mix / set XML",
 	category: "projects",
 	thumb: "myIcons/navTopic/zRandomTopic_0.jpg",
+	banner: "myIcons/navRelated/zRandomRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:95267375",
 	links: [
@@ -712,7 +773,8 @@ var PROJECTS = [
 	tags: [
 		"animator",
 		"animation",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -720,6 +782,7 @@ var PROJECTS = [
 	title: "Frame Animator XML",
 	category: "projects",
 	thumb: "myIcons/navTopic/mixDrawXMLTopic_0.jpg",
+	banner: "myIcons/navRelated/mixDrawXMLRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:92760756",
 	links: [
@@ -731,7 +794,8 @@ var PROJECTS = [
 	tags: [
 		"animator",
 		"animation",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -740,6 +804,7 @@ var PROJECTS = [
 	summary: "Mixed with All Tween and Easing Types from ofxTween.",
 	category: "projects",
 	thumb: "myIcons/navTopic/mixedAllTweenTopic_0.jpg",
+	banner: "myIcons/navRelated/mixedAllTweenRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:92044025",
 	text: [
@@ -754,7 +819,8 @@ var PROJECTS = [
 	tags: [
 		"animator",
 		"animation",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -763,6 +829,7 @@ var PROJECTS = [
 	summary: "Base mixDrawings / thickness \"drawing-examples\" and ofxTween",
 	category: "projects",
 	thumb: "myIcons/navTopic/animatorMixedTopic_0.jpg",
+	banner: "myIcons/navRelated/animatorMixedRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:89224368",
 	text: [
@@ -781,7 +848,8 @@ var PROJECTS = [
 	tags: [
 		"animator",
 		"animation",
-		"drawings"
+		"drawings",
+		"openframeworks"
 	]
 },
 {
@@ -790,6 +858,7 @@ var PROJECTS = [
 	summary: "President Obama Pardoning Snowden on Turntable (with linear hall effect sensor placed at both ends of crossfader)!",
 	category: "projects",
 	thumb: "myIcons/navTopic/PardoningSnowdenTurntableTopic_0.jpg",
+	banner: "myIcons/navRelated/PardoningSnowdenTurntableRelated_0.jpg",
 	year: 2014,
 	video: "vimeo:85678131",
 	text: [
@@ -825,7 +894,8 @@ var PROJECTS = [
 		"text",
 		"turntable",
 		"color picker",
-		"pardoning snowden"
+		"pardoning snowden",
+		"openframeworks"
 	]
 },
 {
@@ -833,6 +903,7 @@ var PROJECTS = [
 	title: "Dialogger - howTo",
 	category: "projects",
 	thumb: "myIcons/navTopic/DialoggerhowToTopic_0.jpg",
+	banner: "myIcons/navRelated/DialoggerhowToRelated_0.jpg",
 	year: 2013,
 	video: "vimeo:82813675",
 	links: [
@@ -853,6 +924,7 @@ var PROJECTS = [
 	summary: "Dialogger is for individuals that need a simple and effective technique to create any dialog needed in a openFrameworks app.",
 	category: "projects",
 	thumb: "myIcons/navTopic/noWhistleTopic_0.jpg",
+	banner: "myIcons/navRelated/noWhistleRelated_0.jpg",
 	year: 2013,
 	video: "vimeo:82809098",
 	text: [
@@ -894,7 +966,8 @@ var PROJECTS = [
 		"animation",
 		"lip",
 		"lip syncing",
-		"juggling"
+		"juggling",
+		"openframeworks"
 	]
 },
 {
@@ -903,6 +976,7 @@ var PROJECTS = [
 	summary: "Dialogger is for individuals that need a simple and effective technique to create any dialog needed in a openFrameworks app.",
 	category: "projects",
 	thumb: "myIcons/navTopic/TheDemoDemoTopic_0.jpg",
+	banner: "myIcons/navRelated/TheDemoDemoRelated_0.jpg",
 	year: 2013,
 	video: "vimeo:82808404",
 	text: [
@@ -935,7 +1009,8 @@ var PROJECTS = [
 	tags: [
 		"dialogger",
 		"lip",
-		"lip syncing"
+		"lip syncing",
+		"openframeworks"
 	]
 },
 {
@@ -944,6 +1019,7 @@ var PROJECTS = [
 	summary: "Noise Field, Words Springs.",
 	category: "projects",
 	thumb: "myIcons/navTopic/SpeechScrollHamletTopic_0.jpg",
+	banner: "myIcons/navRelated/SpeechScrollHamletRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:52105345",
 	text: [
@@ -965,7 +1041,8 @@ var PROJECTS = [
 		"font",
 		"speech scroll",
 		"hamlet",
-		"springs"
+		"springs",
+		"openframeworks"
 	]
 },
 {
@@ -973,6 +1050,7 @@ var PROJECTS = [
 	title: "Speech Scroll Test 1",
 	category: "projects",
 	thumb: "myIcons/navTopic/SpeechScrollTestTopic_0.jpg",
+	banner: "myIcons/navRelated/SpeechScrollTestRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:51115092",
 	links: [
@@ -986,7 +1064,8 @@ var PROJECTS = [
 		"text",
 		"font",
 		"speech scroll",
-		"springs"
+		"springs",
+		"openframeworks"
 	]
 },
 {
@@ -995,6 +1074,7 @@ var PROJECTS = [
 	summary: "(ARM) is for individuals with unilateral limb loss and intended to manage phantom limb pain (PLP).",
 	category: "projects",
 	thumb: "myIcons/navTopic/ARMTopic_0.jpg",
+	banner: "myIcons/navRelated/ARMRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:49252026",
 	text: [
@@ -1034,7 +1114,9 @@ var PROJECTS = [
 		"arm",
 		"virtual prosthetics",
 		"phantom limb",
-		"ofxkinect"
+		"ofxkinect",
+		"openframeworks",
+		"paper"
 	]
 },
 {
@@ -1042,6 +1124,7 @@ var PROJECTS = [
 	title: "Kinect Setup / ARM Amputation Level BK- Below the knee",
 	category: "projects",
 	thumb: "myIcons/navTopic/KinectSetupARMTopic_0.jpg",
+	banner: "myIcons/navRelated/KinectSetupARMRelated_0.jpg",
 	year: 2012,
 	images: [
 		{
@@ -1069,7 +1152,8 @@ var PROJECTS = [
 		"arm",
 		"virtual prosthetics",
 		"phantom limb",
-		"ofxkinect"
+		"ofxkinect",
+		"openframeworks"
 	]
 },
 {
@@ -1078,6 +1162,7 @@ var PROJECTS = [
 	summary: "The brush itself is very easy to make.",
 	category: "projects",
 	thumb: "myIcons/navTopic/MyIRFiberTopic_0.jpg",
+	banner: "myIcons/navRelated/MyIRFiberRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:46933334",
 	text: [
@@ -1101,7 +1186,8 @@ var PROJECTS = [
 		"brush",
 		"opencv",
 		"color picker",
-		"2d"
+		"2d",
+		"openframeworks"
 	]
 },
 {
@@ -1110,6 +1196,7 @@ var PROJECTS = [
 	summary: "2 Allegro A1321 linear hall effect sensor placed at both ends of crossfader.",
 	category: "projects",
 	thumb: "myIcons/navTopic/CrossfaderHackTopic_0.jpg",
+	banner: "myIcons/navRelated/CrossfaderHackRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:45619796",
 	text: [
@@ -1138,6 +1225,7 @@ var PROJECTS = [
 	summary: "Finger tracking sampler test (audio in one speaker only)",
 	category: "projects",
 	thumb: "myIcons/navTopic/handSamplerTopic_0.jpg",
+	banner: "myIcons/navRelated/handSamplerRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:40020251",
 	text: [
@@ -1153,7 +1241,8 @@ var PROJECTS = [
 		"cv",
 		"sampler",
 		"finger tracking",
-		"tracking"
+		"tracking",
+		"openframeworks"
 	]
 },
 {
@@ -1162,6 +1251,7 @@ var PROJECTS = [
 	summary: "This is done in openframeworks and with a Arduino.",
 	category: "projects",
 	thumb: "myIcons/navTopic/ofxXwaxAudioTopic_0.jpg",
+	banner: "myIcons/navRelated/ofxXwaxAudioRelated_0.jpg",
 	year: 2012,
 	video: "vimeo:37353636",
 	text: [
@@ -1216,7 +1306,8 @@ var PROJECTS = [
 	tags: [
 		"juggling",
 		"arduino",
-		"dj"
+		"dj",
+		"openframeworks"
 	]
 },
 {
@@ -1225,6 +1316,7 @@ var PROJECTS = [
 	summary: "This is done in openframeworks.",
 	category: "projects",
 	thumb: "myIcons/navTopic/ofxXwaxNoATopic_0.jpg",
+	banner: "myIcons/navRelated/ofxXwaxNoARelated_0.jpg",
 	year: 2012,
 	video: "vimeo:37037336",
 	text: [
@@ -1248,7 +1340,8 @@ var PROJECTS = [
 	tags: [
 		"dj",
 		"vj",
-		"ofxxwax"
+		"ofxxwax",
+		"openframeworks"
 	]
 },
 {
@@ -1256,6 +1349,7 @@ var PROJECTS = [
 	title: "trackerTest",
 	category: "projects",
 	thumb: "myIcons/navTopic/trackerTestTopic_0.jpg",
+	banner: "myIcons/navRelated/trackerTestRelated_0.jpg",
 	year: 2011,
 	video: "vimeo:33633625",
 	links: [
@@ -1275,6 +1369,7 @@ var PROJECTS = [
 	summary: "Load Image And Select Pixel In Random Range / I Love Folk Songs Played In Reverse.",
 	category: "projects",
 	thumb: "myIcons/navTopic/ColorPickerRandTopic_0.jpg",
+	banner: "myIcons/navRelated/ColorPickerRandRelated_0.jpg",
 	year: 2011,
 	video: "vimeo:18568479",
 	text: [
@@ -1290,7 +1385,8 @@ var PROJECTS = [
 	tags: [
 		"setpixel",
 		"color picker",
-		"paint"
+		"paint",
+		"openframeworks"
 	]
 },
 {
@@ -1299,6 +1395,7 @@ var PROJECTS = [
 	summary: "Color tracking the traditional DJ dot / Big fat cursor in the middle of the graphics CAN \"vitamin C\" / 12 Angry Men Remix",
 	category: "projects",
 	thumb: "myIcons/navTopic/CANAngryMenTopic_0.jpg",
+	banner: "myIcons/navRelated/CANAngryMenRelated_0.jpg",
 	year: 2010,
 	video: "vimeo:15753285",
 	text: [
@@ -1339,7 +1436,8 @@ var PROJECTS = [
 		"vj",
 		"cv",
 		"turntables",
-		"color tracking"
+		"color tracking",
+		"openframeworks"
 	]
 },
 {
@@ -1348,6 +1446,7 @@ var PROJECTS = [
 	summary: "\"diamondsAndCode” is a Open Source Augmented Reality performative teaching game for turntable practice and instrumentation, with the focus on the techniques...",
 	category: "projects",
 	thumb: "myIcons/navTopic/DiamondsAndCodeTopic_0.jpg",
+	banner: "myIcons/navRelated/DiamondsAndCodeRelated_0.jpg",
 	year: 2010,
 	video: "vimeo:11468346",
 	text: [
@@ -1398,7 +1497,10 @@ var PROJECTS = [
 		"games",
 		"written",
 		"parsons",
-		"juggling"
+		"juggling",
+		"openframeworks",
+		"max",
+		"paper"
 	]
 },
 {
@@ -1406,6 +1508,7 @@ var PROJECTS = [
 	title: "Handmaid Film 1",
 	category: "projects",
 	thumb: "myIcons/navTopic/HandmaidFilmTopic_1.jpg",
+	banner: "myIcons/navRelated/HandmaidFilmRelated_1.jpg",
 	year: 2010,
 	video: "vimeo:10462942",
 	tags: [
@@ -1423,6 +1526,7 @@ var PROJECTS = [
 	summary: "Shows the best result with minimal glint from this IR LED (no dimmable LED used).",
 	category: "projects",
 	thumb: "myIcons/navTopic/EyewriterTestingTopic_0.jpg",
+	banner: "myIcons/navRelated/EyewriterTestingRelated_0.jpg",
 	year: 2010,
 	video: "vimeo:10393723",
 	text: [
@@ -1442,7 +1546,8 @@ var PROJECTS = [
 		"eyewriter",
 		"ir",
 		"arduino",
-		"pcom"
+		"pcom",
+		"openframeworks"
 	]
 },
 {
@@ -1450,6 +1555,7 @@ var PROJECTS = [
 	title: "Handmaid Film 0",
 	category: "projects",
 	thumb: "myIcons/navTopic/HandmaidFilmTopic_0.jpg",
+	banner: "myIcons/navRelated/HandmaidFilmRelated_0.jpg",
 	year: 2010,
 	video: "vimeo:10309587",
 	tags: [
@@ -1467,6 +1573,7 @@ var PROJECTS = [
 	summary: "35mm lightbox image \"Planned Car Crash\"",
 	category: "projects",
 	thumb: "myIcons/navTopic/FuelAnxietyTopic_0.jpg",
+	banner: "myIcons/navRelated/FuelAnxietyRelated_0.jpg",
 	year: 2002,
 	text: [
 		"35mm lightbox image \"Planned Car Crash\"",
@@ -1494,6 +1601,7 @@ var PROJECTS = [
 	summary: "Big fat cursor in the middle of the graphics.",
 	category: "projects",
 	thumb: "myIcons/navTopic/traditionalDotTopic_0.jpg",
+	banner: "myIcons/navRelated/traditionalDotRelated_0.jpg",
 	year: 2009,
 	video: "vimeo:8344097",
 	text: [
@@ -1517,7 +1625,8 @@ var PROJECTS = [
 		"set pix",
 		"turntables",
 		"color tracking",
-		"dj"
+		"dj",
+		"openframeworks"
 	]
 },
 {
@@ -1526,6 +1635,7 @@ var PROJECTS = [
 	summary: "set Pix HomeWork 2 - Drawing Tool",
 	category: "projects",
 	thumb: "myIcons/navTopic/HomeWork2Topic_0.jpg",
+	banner: "myIcons/navRelated/HomeWork2Related_0.jpg",
 	year: 2009,
 	video: "vimeo:7108493",
 	text: [
@@ -1541,6 +1651,7 @@ var PROJECTS = [
 	summary: "VJ / Marian Anderson / Stanley Milgram / Abraham Lincoln memorial",
 	category: "projects",
 	thumb: "myIcons/navTopic/ThirdRailPowerTopic_0.jpg",
+	banner: "myIcons/navRelated/ThirdRailPowerRelated_0.jpg",
 	year: 2009,
 	video: "vimeo:6434667",
 	text: [
@@ -1558,6 +1669,7 @@ var PROJECTS = [
 	summary: "Thanks to Dr.",
 	category: "projects",
 	thumb: "myIcons/navTopic/DiamondsCodeARTTopic_0.jpg",
+	banner: "myIcons/navRelated/DiamondsCodeARTRelated_0.jpg",
 	year: 2009,
 	video: "vimeo:6350131",
 	text: [
@@ -1591,7 +1703,9 @@ var PROJECTS = [
 		"vj",
 		"cv",
 		"diamonds and code",
-		"juggling"
+		"juggling",
+		"openframeworks",
+		"max"
 	]
 },
 {
@@ -1600,6 +1714,7 @@ var PROJECTS = [
 	summary: "Enormous amount of effort has been put into Circus having the technologically avant-garde at their disposal.",
 	category: "projects",
 	thumb: "myIcons/navTopic/EleBouncejugglingTopic_0.jpg",
+	banner: "myIcons/navRelated/EleBouncejugglingRelated_0.jpg",
 	year: 2009,
 	video: "vimeo:4739149",
 	text: [
@@ -1626,7 +1741,9 @@ var PROJECTS = [
 	tags: [
 		"juggling",
 		"microchip",
-		"bounce juggling"
+		"bounce juggling",
+		"openframeworks",
+		"max"
 	]
 },
 {
@@ -1634,6 +1751,7 @@ var PROJECTS = [
 	title: "Genocide The Interface",
 	category: "projects",
 	thumb: "myIcons/navTopic/GenocideInterfaceTopic_0.jpg",
+	banner: "myIcons/navRelated/GenocideInterfaceRelated_0.jpg",
 	year: 2008,
 	video: "vimeo:2622889",
 	tags: [
@@ -1648,6 +1766,7 @@ var PROJECTS = [
 	summary: "Alternating LED with VSYNC fps30_A10_00 ps3",
 	category: "projects",
 	thumb: "myIcons/navTopic/fps30_A10_00Topic_0.jpg",
+	banner: "myIcons/navRelated/fps30_A10_00Related_0.jpg",
 	year: 2010,
 	video: "youtube:fPIXUFjVk9U",
 	text: [
@@ -1665,7 +1784,9 @@ var PROJECTS = [
 	],
 	tags: [
 		"eyewriter",
-		"ir"
+		"ir",
+		"openframeworks",
+		"arduino"
 	]
 },
 {
@@ -1674,6 +1795,7 @@ var PROJECTS = [
 	summary: "Alternating LED with VSYNC fps60_A10_00 ps3",
 	category: "projects",
 	thumb: "myIcons/navTopic/fps60_A10_00Topic_0.jpg",
+	banner: "myIcons/navRelated/fps60_A10_00Related_0.jpg",
 	year: 2010,
 	video: "youtube:SllbypRhamI",
 	text: [
@@ -1691,7 +1813,9 @@ var PROJECTS = [
 	],
 	tags: [
 		"eyewriter",
-		"ir"
+		"ir",
+		"openframeworks",
+		"arduino"
 	]
 },
 {
@@ -1700,6 +1824,7 @@ var PROJECTS = [
 	summary: "Alternating LED with VSYNC fps120_A10_00 ps3",
 	category: "projects",
 	thumb: "myIcons/navTopic/fps120_A10_00Topic_0.jpg",
+	banner: "myIcons/navRelated/fps120_A10_00Related_0.jpg",
 	year: 2010,
 	video: "youtube:Lxxj2NAjBtw",
 	text: [
@@ -1717,7 +1842,9 @@ var PROJECTS = [
 	],
 	tags: [
 		"eyewriter",
-		"ir"
+		"ir",
+		"openframeworks",
+		"arduino"
 	]
 },
 {
@@ -1726,6 +1853,7 @@ var PROJECTS = [
 	summary: "PS3 EyeCamera VSYNC test with Arduino / Eyewriter",
 	category: "projects",
 	thumb: "myIcons/navTopic/PS3EyeCameraTopic_0.jpg",
+	banner: "myIcons/navRelated/PS3EyeCameraRelated_0.jpg",
 	year: 2010,
 	video: "youtube:OV1NlM9EWcs",
 	text: [
@@ -1743,7 +1871,9 @@ var PROJECTS = [
 	],
 	tags: [
 		"eyewriter",
-		"ir"
+		"ir",
+		"openframeworks",
+		"arduino"
 	]
 },
 {
@@ -1752,6 +1882,7 @@ var PROJECTS = [
 	summary: "For Eyewriter, we want to track the glint in relation to pupil without the shadow from eyelashes.",
 	category: "projects",
 	thumb: "myIcons/navTopic/EyewriterTestingGlintTopic_0.jpg",
+	banner: "myIcons/navRelated/EyewriterTestingGlintRelated_0.jpg",
 	year: 2010,
 	video: "youtube:UVCkplrKecQ",
 	text: [
@@ -1770,7 +1901,9 @@ var PROJECTS = [
 	tags: [
 		"eyewriter",
 		"ir",
-		"tracking"
+		"tracking",
+		"openframeworks",
+		"arduino"
 	]
 },
 {
@@ -1778,6 +1911,7 @@ var PROJECTS = [
 	title: "Coloring Book / Averging",
 	category: "projects",
 	thumb: "myIcons/navTopic/ColoringBookTopic_0.jpg",
+	banner: "myIcons/navRelated/ColoringBookRelated_0.jpg",
 	year: 2009,
 	images: [
 		{
@@ -1799,6 +1933,7 @@ var PROJECTS = [
 	title: "Algorithmic Images",
 	category: "projects",
 	thumb: "myIcons/navTopic/ProcessingTopic_0.jpg",
+	banner: "myIcons/navRelated/ProcessingRelated_0.jpg",
 	year: 2009,
 	images: [
 		{
@@ -1828,7 +1963,8 @@ var PROJECTS = [
 	],
 	tags: [
 		"coloring book",
-		"2d"
+		"2d",
+		"processing"
 	]
 },
 {
@@ -1837,6 +1973,7 @@ var PROJECTS = [
 	summary: "I wrote Clown 1 the play to be a theatrical game in where the character of Clown 1 decides which of the characters / hostage continue to act on stage.",
 	category: "projects",
 	thumb: "myIcons/navTopic/clown1Topic_0.jpg",
+	banner: "myIcons/navRelated/clown1Related_0.jpg",
 	year: 2001,
 	text: [
 		"I wrote Clown 1 the play to be a theatrical game in where the character of Clown 1 decides which of the characters / hostage continue to act on stage.",
@@ -1890,6 +2027,7 @@ var PROJECTS = [
 	title: "DJ The Phantom Of The Opera",
 	category: "projects",
 	thumb: "myIcons/navTopic/PhantomTopic_0.jpg",
+	banner: "myIcons/navRelated/PhantomRelated_0.jpg",
 	year: 1999,
 	images: [
 		{
@@ -1911,6 +2049,7 @@ var PROJECTS = [
 	summary: "Mark had watched the children being dropped off and picked up for the last week and a half and only stopped watching three days before the night letter had...",
 	category: "projects",
 	thumb: "myIcons/navTopic/AttritionTopic_0.jpg",
+	banner: "myIcons/navRelated/AttritionRelated_0.jpg",
 	year: 2016,
 	text: [
 		"Mark had watched the children being dropped off and picked up for the last week and a half and only stopped watching three days before the night letter had arrived from the school board."
@@ -1933,6 +2072,7 @@ var PROJECTS = [
 	summary: "Silence.",
 	category: "projects",
 	thumb: "myIcons/navTopic/ALPHABETHANDSTopic_0.jpg",
+	banner: "myIcons/navRelated/ALPHABETHANDSRelated_0.jpg",
 	year: 2016,
 	text: [
 		"Silence. A planet floating in water and encased in plastic on the end of a key chain, rolls like a broken compass playing tug of war against a tag of paper with blue ink illustrations of hands, corresponding letters and a simple statement expressing the gratitude donations to the deaf."

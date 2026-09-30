@@ -2,6 +2,23 @@
 import { Ortho, render } from "../vendor/ortho/index.js";
 
 var STYLE = { preset: 0.45 };
+// All seven dials on, for fuller text: recurring phrases, grammar words, a
+// subject, names, commas, quotations, and scare quotes.
+var FULL = { phrases: 0.35, functionWords: 0.5, topics: 0.35, names: 0.3, commas: 0.5, quotation: 0.25, scareQuotes: 0.2 };
+
+// Three paragraphs of four to six sentences each.
+function paragraphs(o) {
+	o.newSection();
+	var out = [];
+	for (var i = 0; i < 3; i++) out.push(render(o.paragraph(4 + o.rng.below(3), 12, 8)));
+	return out;
+}
+
+// Homepage text: today's language, three paragraphs at a time.
+export function dailyText() {
+	var o = new Ortho(todaysSeed(), FULL);
+	return function () { return paragraphs(o); };
+}
 
 export function todaysSeed() {
 	var d = new Date();
@@ -27,14 +44,14 @@ export function mount(el) {
 
 	function start(seed) {
 		form.seed.value = seed;
-		o = new Ortho(seed, STYLE);
+		o = new Ortho(seed, FULL);
 		more();
 	}
 	function more() {
 		out.textContent = "";
-		o.page(3).forEach(function (para) {
+		paragraphs(o).forEach(function (t) {
 			var p = document.createElement("p");
-			p.textContent = render(para);
+			p.textContent = t;
 			out.appendChild(p);
 		});
 	}

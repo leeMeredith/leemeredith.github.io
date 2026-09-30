@@ -1,15 +1,53 @@
-// Builds the page from PROJECTS (js/site/projects.js), keeping the layout of index.html:
-//   top menu with drop-downs   one menu per category, one item per project
-//   picture grid (middle)      one thumbnail per project
-//   right column               title, picture, and summary per project
-//   project area (top)         the selected project, at index.html?p=<id>
-// Nothing here needs editing when a project is added.
+// Builds the page from PROJECTS (js/site/projects.js), in the layout of the original site:
+//   top menu                   drop-downs for the groups below; each item lists its work
+//   left column                today's Ortho text, with the work map pinned beside the lists
+//   middle                     home: the picture grid; a group item: its work as banners;
+//                              a project (index.html?p=<id>): the work, then related banners
+//   right column               every project as a banner, newest first
+// Nothing here needs editing when a project is added; groups follow project tags.
 
-var CATEGORIES = [
-	{ id: "ceramics", label: "Ceramics" },
-	{ id: "projects", label: "Projects" },
-	{ id: "experiments", label: "Experiments" }
+// The menu groups from the original site. Each item gathers the projects
+// carrying any of its tags. Colours are for the work map (checked for
+// colour-blind separation against the page background).
+var GROUPS = [
+	{ label: "2D", color: "#2a78d6", items: [
+		{ label: "35mm", tags: ["35mm"] },
+		{ label: "Coloring Book", tags: ["coloring book"] },
+		{ label: "Games", tags: ["game", "games", "board games", "tabletop games"] },
+		{ label: "Paint", tags: ["paint", "hand-painted"] } ] },
+	{ label: "3D", color: "#eb6834", items: [
+		{ label: "Ceramics", tags: ["ceramics"] } ] },
+	{ label: "Audio", color: "#1baf7a", items: [
+		{ label: "DJ", tags: ["dj", "vj"] },
+		{ label: "mp3", tags: ["audio", "mp3"] } ] },
+	{ label: "Programming", color: "#eda100", items: [
+		{ label: "Arduino", tags: ["arduino"] },
+		{ label: "Processing", tags: ["processing"] },
+		{ label: "Max", tags: ["max"] },
+		{ label: "JavaScript", tags: ["javascript"] },
+		{ label: "OF", tags: ["openframeworks"] } ] },
+	{ label: "Written", color: "#e87ba4", items: [
+		{ label: "Paper", tags: ["paper"] },
+		{ label: "Plays", tags: ["plays", "play"] },
+		{ label: "Poetry", tags: ["poetry"] },
+		{ label: "Prose", tags: ["prose"] } ] }
 ];
+
+function itemId(item) { return item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+
+function inItem(p, item) {
+	return (p.tags || []).some(function (t) { return item.tags.indexOf(t) >= 0; });
+}
+
+function findItem(id) {
+	for (var g = 0; g < GROUPS.length; g++) {
+		for (var i = 0; i < GROUPS[g].items.length; i++) {
+			if (itemId(GROUPS[g].items[i]) === id) return { group: GROUPS[g], item: GROUPS[g].items[i] };
+		}
+	}
+	return null;
+}
+
 var IMG = "assets/img/";
 var PAGE = "index.html";
 var FONT = "midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k";
@@ -43,6 +81,31 @@ function placeholderImage(title) {
 		'<text x="50" y="54" font-family="Arial, sans-serif" font-size="10" fill="#666" text-anchor="middle">' +
 		title.replace(/[<&"]/g, "") + '</text></svg>';
 	return "data:image/svg+xml," + encodeURIComponent(svg);
+}
+
+// A wide stand-in for projects without a banner image.
+function placeholderBanner(title) {
+	var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 231 100">' +
+		'<rect width="231" height="100" fill="#d2d2d2"/>' +
+		'<path d="M0 0L231 100M231 0L0 100" stroke="#bbb" stroke-width="1"/>' +
+		'<rect x="10" y="40" width="211" height="20" fill="#d2d2d2"/>' +
+		'<text x="115" y="54" font-family="Arial, sans-serif" font-size="11" fill="#666" text-anchor="middle">' +
+		title.replace(/[<&"]/g, "") + '</text></svg>';
+	return "data:image/svg+xml," + encodeURIComponent(svg);
+}
+
+// A project as a banner: wide picture, title, and its tags.
+function banner(p) {
+	var src = p.banner ? IMG + p.banner : p.thumb ? IMG + p.thumb : placeholderBanner(p.title);
+	return el("a", { class: "work-banner", href: link(p) }, [
+		el("img", { src: src, alt: "", loading: "lazy" }),
+		el("span", { class: "work-banner-title", text: p.title + (p.year ? " (" + p.year + ")" : "") }),
+		(p.tags || []).length ? el("span", { class: "work-banner-tags", text: p.tags.slice(0, 6).join(" \u00b7 ") }) : null
+	]);
+}
+
+function bannerList(list, extraClass) {
+	return el("div", { class: "work-banners" + (extraClass ? " " + extraClass : "") }, list.map(banner));
 }
 
 // Anything a project doesn't have yet is filled with Ortho words, marked
@@ -81,22 +144,23 @@ function menuButton(label, href) {
 	return el("a", { class: "dropdown-toggle button " + FONT, href: href, "aria-label": label }, menuLabel(label));
 }
 
-function dropdown(category, items) {
-	var toggle = el("button", { type: "button", class: "dropdown-toggle button " + FONT, "aria-expanded": "false", "aria-label": category.label }, menuLabel(category.label));
-	var body = el("div", { class: "dropdown-body dropdown-body-t-lr dropdown-body-l-lr dropdown-body-ll-lr dropdown-body-lr " + FONT }, items.map(function (p) {
-		return el("a", { class: "dropdown-menu-item", href: link(p), text: p.title });
+function dropdown(group) {
+	var toggle = el("button", { type: "button", class: "dropdown-toggle button " + FONT, "aria-expanded": "false", "aria-label": group.label }, menuLabel(group.label));
+	var body = el("div", { class: "dropdown-body dropdown-body-t-lr dropdown-body-l-lr dropdown-body-ll-lr dropdown-body-lr " + FONT }, group.items.map(function (item) {
+		var n = PROJECTS.filter(function (p) { return inItem(p, item); }).length;
+		return el("a", { class: "dropdown-menu-item", href: PAGE + "?t=" + itemId(item), text: item.label + " (" + n + ")" });
 	}));
-	var group = el("div", { class: "button-group dropdown " + FONT }, [toggle, body]);
-	group.addEventListener("focusout", function (e) {
-		if (!group.contains(e.relatedTarget)) closeMenus();
+	var box = el("div", { class: "button-group dropdown " + FONT }, [toggle, body]);
+	box.addEventListener("focusout", function (e) {
+		if (!box.contains(e.relatedTarget)) closeMenus();
 	});
 	toggle.addEventListener("click", function () {
-		var open = !group.classList.contains("shown");
+		var open = !box.classList.contains("shown");
 		closeMenus();
-		group.classList.toggle("shown", open);
+		box.classList.toggle("shown", open);
 		toggle.setAttribute("aria-expanded", open);
 	});
-	return group;
+	return box;
 }
 
 function closeMenus() {
@@ -109,10 +173,7 @@ function closeMenus() {
 function renderMenu() {
 	var nav = document.getElementById("myDIV_ButtonNav");
 	nav.appendChild(menuButton("Lee", PAGE));
-	CATEGORIES.forEach(function (c) {
-		var items = PROJECTS.filter(function (p) { return p.category === c.id; });
-		if (items.length) nav.appendChild(dropdown(c, items));
-	});
+	GROUPS.forEach(function (g) { nav.appendChild(dropdown(g)); });
 	document.addEventListener("click", function (e) { if (!e.target.closest(".dropdown")) closeMenus(); });
 	document.addEventListener("keydown", function (e) {
 		if (e.key !== "Escape") return;
@@ -132,50 +193,42 @@ function renderGrid() {
 	});
 }
 
-// Like the old right column: the opening of the project's words, cut at 200
-// characters, so the text runs down past the picture and wraps under it.
-function blurb(p) {
-	var words = [p.summary].concat(p.text || []).join(" ");
-	return words.length > 200 ? words.slice(0, 199) + "..." : words;
-}
-
+// Right column: every project as a banner, newest first.
 function renderColumn() {
 	var col = document.getElementById("myDIV_TopicNav_1");
-	newestFirst(PROJECTS).forEach(function (p) {
-		var picture = el("a", { href: link(p), class: "topic-thumb" }, [thumb(p, 100)]);
-		col.appendChild(el("div", { class: "box navRight colorBorder0 " + FONT }, [
-			el("h2", {}, [el("a", { href: link(p), text: p.title })]),
-			el("p", {}, [picture, el("span", { class: p.placeholder.summary ? "placeholder" : "", text: blurb(p) })])
-		]));
-		col.appendChild(el("div", { class: "clearthefloats x2" }));
-	});
+	col.appendChild(el("h2", { class: "column-title", text: "All work" }));
+	col.appendChild(bannerList(newestFirst(PROJECTS)));
 }
 
-// Generated line (was the random paragraph) ---------------------------
+// Today's Ortho text (was the random paragraph) -----------------------
 function renderLine() {
-	var box = document.getElementById("myDIV_MyParagraph");
-	var line = el("p", { class: "daily-line", "aria-live": "polite" });
-	var again = el("button", { type: "button", class: "button", "aria-label": "Another line", text: "↻" });
+	var box = document.getElementById("myDIV_OrthoText");
+	var text = el("div", { class: "daily-text", "aria-live": "polite" });
+	var again = el("button", { type: "button", class: "button", "aria-label": "More text", text: "\u21bb" });
 	box.appendChild(el("p", {}, [el("a", { href: PAGE + "?p=ortho", text: "Ortho" }), document.createTextNode(": today's invented language")]));
-	box.appendChild(line);
+	box.appendChild(text);
 	box.appendChild(again);
 	ORTHO.then(function (ortho) {
-		var next = ortho.dailyLine();
-		line.textContent = next() + " " + next();
-		again.addEventListener("click", function () { line.textContent = next() + " " + next(); });
+		var next = ortho.dailyText();
+		function show() {
+			text.textContent = "";
+			next().forEach(function (t) { text.appendChild(el("p", { text: t })); });
+		}
+		show();
+		again.addEventListener("click", show);
 	});
 }
 
 // Ads on the site's own pages ---------------------------------------------
 // This week's Weekly Campaign (made with offbrand), like ads on a real website: a box at the top of
-// the right column and a banner above the work map. Both link to the campaign.
+// the right column and a banner near the foot of the page. Both link to the campaign.
 function renderAds() {
 	var box = el("div", { class: "site-offbrand site-offbrand-box" });
 	var banner = el("div", { class: "site-offbrand site-offbrand-banner" });
 	var col = document.getElementById("myDIV_TopicNav_1");
 	col.insertBefore(box, col.firstChild);
-	var map = document.getElementById("myDIV_WorkMap");
-	map.parentNode.insertBefore(banner, map);
+	var foot = document.getElementById("myDIV_Visits");
+	foot.parentNode.insertBefore(banner, foot);
 	import("../vendor/offbrand/offbrand.js").then(function (offbrand) {
 		var href = PAGE + "?p=weekly-campaign";
 		offbrand.placeAd(box, "rectangle", href);
@@ -183,43 +236,22 @@ function renderAds() {
 	});
 }
 
-// Work map (bottom left of every page) -------------------------------------------------
-// A treemap of the project list: category -> tag -> project. A project with
-// several tags appears under each one, so block size shows how much work
-// carries that tag. Click a category or tag to zoom in; click a project to open it.
+// Work map (pinned in the left column) ---------------------------------
+// A treemap of the menu groups: group -> item -> project. A project in
+// several items appears under each, so block size shows how much work each
+// kind holds. Click a group or item to zoom in; click a project to open it.
 var ECHARTS = "https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js";
-var CATEGORY_COLORS = { ceramics: "#eb6834", projects: "#2a78d6", experiments: "#1baf7a" };
 
 function workMapData() {
-	return CATEGORIES.map(function (c) {
-		var projects = PROJECTS.filter(function (p) { return p.category === c.id; });
-		var byTag = {};
-		var untagged = [];
-		projects.forEach(function (p) {
-			var leaf = { name: p.title, value: 1, id: c.id + "/" + p.id, projectId: p.id };
-			if (!(p.tags || []).length) untagged.push(leaf);
-			(p.tags || []).forEach(function (t) {
-				(byTag[t] = byTag[t] || []).push({ name: leaf.name, value: 1, projectId: p.id });
+	return GROUPS.map(function (g) {
+		var children = g.items.map(function (item) {
+			var leaves = PROJECTS.filter(function (p) { return inItem(p, item); }).map(function (p) {
+				return { name: p.title, value: 1, projectId: p.id };
 			});
-		});
-		// Tags on only one project in this category fold into "other tags",
-		// so the map shows the groups that recur.
-		var other = [];
-		var children = Object.keys(byTag).sort().filter(function (t) {
-			if (byTag[t].length > 1) return true;
-			other = other.concat(byTag[t]);
-			return false;
-		}).map(function (t) {
-			return { name: t, children: byTag[t] };
-		});
-		// A project with several rare tags appears once under "other tags".
-		other = other.filter(function (leaf, i) {
-			return other.findIndex(function (o) { return o.projectId === leaf.projectId; }) === i;
-		});
-		if (other.length) children.push({ name: "other tags", children: other });
-		children = children.concat(untagged);
-		return { name: c.label, children: children, itemStyle: { color: CATEGORY_COLORS[c.id] } };
-	}).filter(function (c) { return c.children.length; });
+			return { name: item.label, children: leaves };
+		}).filter(function (c) { return c.children.length; });
+		return { name: g.label, children: children, itemStyle: { color: g.color } };
+	}).filter(function (g) { return g.children.length; });
 }
 
 // Visit counts --------------------------------------------------------
@@ -283,13 +315,15 @@ function allViews() {
 	return viewsCache;
 }
 
-// Most-visited map: category -> project, sized by views.
+// Most-visited map: group -> project, sized by views.
 function visitMapData(views) {
-	return CATEGORIES.map(function (c) {
-		var children = PROJECTS.filter(function (p) { return p.category === c.id && views[p.id] > 0; })
-			.map(function (p) { return { name: p.title, value: views[p.id], projectId: p.id }; });
-		return { name: c.label, children: children, itemStyle: { color: CATEGORY_COLORS[c.id] } };
-	}).filter(function (c) { return c.children.length; });
+	return GROUPS.map(function (g) {
+		var seen = {};
+		var children = PROJECTS.filter(function (p) {
+			return views[p.id] > 0 && g.items.some(function (item) { return inItem(p, item); });
+		}).map(function (p) { return { name: p.title, value: views[p.id], projectId: p.id }; });
+		return { name: g.label, children: children, itemStyle: { color: g.color } };
+	}).filter(function (g) { return g.children.length; });
 }
 
 function renderWorkMap() {
@@ -299,7 +333,7 @@ function renderWorkMap() {
 	var byVisits = el("button", { type: "button", class: "button", "aria-pressed": "false", text: "Most visited" });
 	var note = el("p", { class: "work-map-note", "aria-live": "polite" });
 	var box = el("div", { class: "work-map", role: "img",
-		"aria-label": "Map of work by category and tag. The same projects are listed in the right-hand column." });
+		"aria-label": "Map of work by kind. The same projects are listed as banners in the right-hand column." });
 	area.appendChild(title);
 	area.appendChild(el("div", { class: "work-map-toggle", role: "group", "aria-label": "Map shows" }, [byWork, byVisits]));
 	area.appendChild(note);
@@ -315,7 +349,7 @@ function renderWorkMap() {
 		try { localStorage.setItem("work-map-mode", mode); } catch (e) {}
 		note.textContent = "";
 		if (mode === "work") {
-			title.textContent = "Work by category and tag";
+			title.textContent = "Work by kind";
 			show(workMapData(), 2, "project");
 			return;
 		}
@@ -347,8 +381,8 @@ function renderWorkMap() {
 				leafDepth: depth,         // work: categories and tags, click a tag for projects
 				left: 0, right: 0, top: 0, bottom: 32,
 				breadcrumb: { show: true, bottom: 0, itemStyle: { color: "#d2d2d2", borderColor: "#d2d2d2", textStyle: { color: "#333" } } },
-				label: { show: true, color: "#fff", fontFamily: "Geneva, sans-serif", fontSize: 13 },
-				upperLabel: { show: true, height: 22, color: "#fff", fontFamily: "Geneva, sans-serif" },
+				label: { show: true, color: "#1d1d1b", fontFamily: "Geneva, sans-serif", fontSize: 13 },
+				upperLabel: { show: true, height: 22, color: "#1d1d1b", fontFamily: "Geneva, sans-serif" },
 				itemStyle: { borderColor: "#ebebeb", borderWidth: 2, gapWidth: 2, borderRadius: 4 },
 				levels: [
 					{ itemStyle: { borderWidth: 0, gapWidth: 4 }, upperLabel: { show: false } },
@@ -410,12 +444,11 @@ function renderProject(p) {
 			return el("li", {}, [el("a", { href: l.url, rel: "noopener", text: l.label })]);
 		})));
 	}
+	// More work as banners: related by tag first, then the newest of the rest.
 	var rel = related(p);
-	if (rel.length) {
-		main.appendChild(el("p", {}, [document.createTextNode("Related: ")].concat(rel.map(function (r) {
-			return el("a", { href: link(r), text: r.title + " " });
-		}))));
-	}
+	var more = rel.concat(newestFirst(PROJECTS).filter(function (q) { return q !== p && rel.indexOf(q) < 0; })).slice(0, 8);
+	main.appendChild(el("h2", { class: "column-title", text: rel.length ? "Related work" : "More work" }));
+	main.appendChild(bannerList(more, "work-banners-big"));
 }
 
 var ORTHO = import("../experiments/ortho.js");
@@ -427,14 +460,30 @@ function renderSite() {
 	});
 }
 
+// A menu item: its projects as banners.
+function renderItem(found) {
+	var main = document.getElementById("myDIV_ConceptMedia");
+	var list = newestFirst(PROJECTS.filter(function (p) { return inItem(p, found.item); }));
+	document.title = found.item.label + " \u2014 Lee Meredith";
+	document.querySelector('meta[name="description"]').setAttribute("content", found.group.label + " / " + found.item.label + ": work by Lee Meredith.");
+	main.appendChild(el("p", { class: "crumb", text: found.group.label }));
+	main.appendChild(el("h1", { text: found.item.label }));
+	main.appendChild(list.length ? bannerList(list, "work-banners-big") : el("p", { text: "Nothing here yet." }));
+}
+
 function renderPage() {
-	var id = new URLSearchParams(location.search).get("p");
-	var project = PROJECTS.filter(function (p) { return p.id === id; })[0];
+	var q = new URLSearchParams(location.search);
+	var project = PROJECTS.filter(function (p) { return p.id === q.get("p"); })[0];
+	var found = !project && q.get("t") ? findItem(q.get("t")) : null;
 	renderMenu();
 	if (project) renderProject(project);
-	else document.getElementById("myDIV_ConceptMedia").hidden = true;
+	else if (found) renderItem(found);
+	else {
+		document.getElementById("myDIV_ConceptMedia").hidden = true;
+		renderGrid();
+	}
+	if (!project && !found) document.body.classList.add("is-home");
 	renderLine();
-	renderGrid();
 	renderColumn();
 	if (!project || project.id !== "weekly-campaign") renderAds();
 	renderWorkMap();

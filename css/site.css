@@ -63,3 +63,32 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 .work-map-note { font: 13px Geneva, sans-serif; color: rgb(100,100,100); margin: 0 0 6px; min-height: 1em; }
 .visit-counter { clear: both; padding: 4px 10px; font: 13px Geneva, sans-serif; color: rgb(120,120,120); }
 .project-views { font-size: 13px; color: rgb(110,110,110); }
+
+/* Three columns: Ortho text and the pinned work map | the work | all work as banners.
+   On wide screens the left column keeps the map in view while the lists scroll. */
+@media (min-width: 1024px) {
+	#myDIV_AtWindowOpen { display: flex; align-items: stretch; }
+	#myDIV_AtWindowOpen > .column { float: none; }
+	#myDIV_WorkMap { position: sticky; top: 8px; }
+}
+@media (max-width: 1023px) {
+	#myDIV_AtWindowOpen { display: flex; flex-direction: column; }
+	#myDIV_Middle { order: 1; }
+	#myDIV_TopicNav_1 { order: 2; }
+	#myDIV_MyParagraph { order: 3; }
+}
+#myDIV_WorkMap { margin-top: 16px; }
+#myDIV_WorkMap .work-map { height: 360px; }
+.daily-text p { margin: 0 0 .8em; }
+
+/* Banners: a wide picture, the title, and tags. */
+.column-title { font: 16px Geneva, sans-serif; color: rgb(80,80,80); margin: 4px 0 10px; }
+.work-banners { display: grid; gap: 14px; }
+.work-banners-big { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+.work-banner { display: flex; flex-direction: column; gap: 3px; text-decoration: none; color: rgb(60,60,60); }
+.work-banner img { width: 100%; aspect-ratio: 231 / 100; object-fit: cover; background: #d2d2d2; }
+.work-banner-title { font: 15px Geneva, sans-serif; text-indent: 0; }
+.work-banner-tags { font: 12px Geneva, sans-serif; color: rgb(120,120,120); }
+.work-banner:hover .work-banner-title, .work-banner:focus .work-banner-title { text-decoration: underline; }
+#myDIV_TopicNav_1 .work-banner-title { font-size: 14px; }
+#myDIV_WorkMap { float: none; }
