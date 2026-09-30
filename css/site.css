@@ -110,3 +110,6 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 .work-map-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
 .work-map-main { flex: 1 1 360px; min-width: 0; }
 #myDIV_WorkMapAd { flex: 0 0 auto; }
+/* Keep the chart inside its own space. */
+.work-map-main, #myDIV_WorkMap .work-map { overflow: hidden; }
+#myDIV_WorkMap { min-width: 0; }

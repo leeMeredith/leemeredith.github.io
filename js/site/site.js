@@ -438,7 +438,10 @@ function renderWorkMap() {
 		chart.on("click", function (e) {
 			if (e.data && e.data.projectId) location.href = link({ id: e.data.projectId });
 		});
-		window.addEventListener("resize", function () { chart.resize(); });
+		// Redraw whenever the map's space changes size, e.g. when the ad beside
+		// it arrives or the columns reflow, so it never spills into other columns.
+		if (window.ResizeObserver) new ResizeObserver(function () { chart.resize(); }).observe(box);
+		else window.addEventListener("resize", function () { chart.resize(); });
 		draw();
 	};
 	document.head.appendChild(script);
