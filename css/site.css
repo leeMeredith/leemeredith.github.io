@@ -113,3 +113,20 @@ a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decorati
 /* Keep the chart inside its own space. */
 .work-map-main, #myDIV_WorkMap .work-map { overflow: hidden; }
 #myDIV_WorkMap { min-width: 0; }
+
+/* Ortho's seven dials as fluorescent highlighter (stokes inks) under black text. */
+.ow-phrases { background: #ffb300; }
+.ow-functionWords { background: #6ce1ff; }
+.ow-topics { background: #f9ff3f; }
+.ow-names { background: #ff6cc4; }
+.ow-commas { background: #ff6c6c; }
+.ow-scareQuotes { background: #f927e1; }
+.ow-quotation.ow-mark { background: #b3ff59; }
+.ow.ow-quotation { text-decoration: underline 3px #b3ff59; text-underline-offset: 3px; }
+.ow-mark { padding: 0 1px; }
+.ow span[class^="ow-"] { color: #000; }
+.daily-text .ow span, .ortho-out .ow span { border-radius: 2px; }
+.ortho-key { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 4px 0 10px; font: 12px Geneva, sans-serif; text-indent: 0; }
+.ortho-key-ink { padding: 1px 4px; color: #000; }
+.ortho-key-level { color: rgb(110,110,110); }
+.ortho-key-ink.ow-quotation { background: #b3ff59; }

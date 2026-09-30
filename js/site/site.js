@@ -238,20 +238,21 @@ function renderLine() {
 	var text = el("div", { class: "daily-text", "aria-live": "polite" });
 	var again = el("button", { type: "button", class: "button", "aria-label": "New text", text: "\u21bb" });
 	box.appendChild(el("p", {}, [el("a", { href: PAGE + "?p=ortho", text: "Ortho" }), document.createTextNode(": today's invented language"), again]));
-	box.appendChild(text);
 	ORTHO.then(function (ortho) {
-		var next = ortho.dailyStream();
+		box.appendChild(ortho.dialKey());
+		box.appendChild(text);
+		var next = ortho.dailyMarkedStream();
 		function fill() {
 			// Side by side only on wide screens; stacked, three paragraphs is enough.
 			var sideBySide = window.matchMedia("(min-width: 1024px)").matches;
 			var guard = 0;
 			while (guard++ < 200 && (text.children.length < 3 ||
 				(sideBySide && left.offsetHeight < middle.offsetHeight - 24))) {
-				text.appendChild(el("p", { text: next() }));
+				text.appendChild(el("p", {}, [next()]));
 			}
 		}
 		fill();
-		again.addEventListener("click", function () { text.textContent = ""; next = ortho.dailyStream(); fill(); });
+		again.addEventListener("click", function () { text.textContent = ""; next = ortho.dailyMarkedStream(); fill(); });
 		window.addEventListener("load", fill);
 		window.addEventListener("resize", fill);
 		middle.addEventListener("load", fill, true);   // each picture that loads may lengthen the middle
