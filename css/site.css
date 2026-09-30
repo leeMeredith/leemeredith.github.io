@@ -140,3 +140,5 @@ body.ortho-dials-on .ortho-dials .ortho-key { display: flex; }
 .ortho-dials-toggle { font: 12px Geneva, sans-serif; border: 1px solid rgb(180,180,180); cursor: pointer; margin: 2px 0 6px; }
 .ortho-dials-toggle[aria-pressed="true"] { background: rgb(80,80,80); color: rgb(235,235,235); }
 .gallery img:only-child { grid-column: 1 / -1; }
+
+.copyright { font-size: 0.85em; margin-top: 1.5em; }

@@ -63,6 +63,8 @@ function findItem(id) {
 	return null;
 }
 
+var WRITING = ["written", "paper", "plays", "play", "poetry", "prose"];
+
 var IMG = "assets/img/";
 var PAGE = "index.html";
 var FONT = "midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k";
@@ -516,6 +518,10 @@ function renderProject(p) {
 		main.appendChild(el("ul", { class: "links" }, p.links.map(function (l) {
 			return el("li", {}, [el("a", { href: l.url, rel: "noopener", text: l.label })]);
 		})));
+	}
+	// Writing (plays, prose, poetry, papers) carries a copyright line.
+	if ((p.tags || []).some(function (t) { return WRITING.indexOf(t) >= 0; })) {
+		main.appendChild(el("p", { class: "copyright", text: "© " + (p.year ? p.year + " " : "") + "Lee Meredith. All rights reserved." }));
 	}
 	// More work as banners: related by tag first, then the newest of the rest.
 	var rel = related(p);
