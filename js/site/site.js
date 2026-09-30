@@ -6,27 +6,42 @@
 //   right column               every project as a banner, newest first
 // Nothing here needs editing when a project is added; groups follow project tags.
 
+// Colours come from Lee's stokes ink table (fluorescent inks, converted from
+// linear light to screen sRGB), not from ECharts, whose defaults change
+// between releases. Every colour the work map uses is set here.
+var PAGE_GREY = "#ebebeb";   // the page background from leemere.css
+var INK = {
+	fluor_magenta: "#f927e1",
+	fluor_orange_red: "#ff9000",
+	fluor_yellow: "#f9ff3f",
+	fluor_green: "#b3ff59",
+	fluor_blue: "#6ce1ff",
+	stock_white: "#f6faff",
+	keyline_black: "#000000",
+	spill_grey: "#4d4561"
+};
+
 // The menu groups from the original site. Each item gathers the projects
-// carrying any of its tags. Colours are for the work map (checked for
-// colour-blind separation against the page background).
+// carrying any of its tags. Colours are for the work map: fluorescent inks,
+// separated from the page by black keylines as in a screenprint.
 var GROUPS = [
-	{ label: "2D", color: "#2a78d6", items: [
+	{ label: "2D", color: INK.fluor_blue, items: [
 		{ label: "35mm", tags: ["35mm"] },
 		{ label: "Coloring Book", tags: ["coloring book"] },
 		{ label: "Games", tags: ["game", "games", "board games", "tabletop games"] },
 		{ label: "Paint", tags: ["paint", "hand-painted"] } ] },
-	{ label: "3D", color: "#eb6834", items: [
+	{ label: "3D", color: INK.fluor_orange_red, items: [
 		{ label: "Ceramics", tags: ["ceramics"] } ] },
-	{ label: "Audio", color: "#1baf7a", items: [
+	{ label: "Audio", color: INK.fluor_green, items: [
 		{ label: "DJ", tags: ["dj", "vj"] },
 		{ label: "mp3", tags: ["audio", "mp3"] } ] },
-	{ label: "Programming", color: "#eda100", items: [
+	{ label: "Programming", color: INK.fluor_yellow, items: [
 		{ label: "Arduino", tags: ["arduino"] },
 		{ label: "Processing", tags: ["processing"] },
 		{ label: "Max", tags: ["max"] },
 		{ label: "JavaScript", tags: ["javascript"] },
 		{ label: "OF", tags: ["openframeworks"] } ] },
-	{ label: "Written", color: "#e87ba4", items: [
+	{ label: "Written", color: INK.fluor_magenta, items: [
 		{ label: "Paper", tags: ["paper"] },
 		{ label: "Plays", tags: ["plays", "play"] },
 		{ label: "Poetry", tags: ["poetry"] },
@@ -400,8 +415,18 @@ function renderWorkMap() {
 	}
 
 	function show(data, depth, unit) {
+		var keyline = { borderColor: INK.keyline_black, borderWidth: 1.5 };
 		chart.setOption({
+			// Everything ECharts would otherwise choose for itself.
+			color: [INK.fluor_blue, INK.fluor_orange_red, INK.fluor_green, INK.fluor_yellow, INK.fluor_magenta],
+			backgroundColor: "transparent",
+			textStyle: { color: INK.keyline_black, fontFamily: "Geneva, sans-serif" },
 			tooltip: {
+				backgroundColor: INK.stock_white,
+				borderColor: INK.keyline_black,
+				borderWidth: 1,
+				textStyle: { color: INK.keyline_black, fontFamily: "Geneva, sans-serif", fontSize: 13 },
+				extraCssText: "box-shadow: none; border-radius: 2px;",
 				formatter: function (info) {
 					var path = info.treePathInfo.slice(1).map(function (n) { return n.name; }).join(" \u203A ");
 					if (unit === "project" && info.data.projectId) return path;
@@ -414,16 +439,24 @@ function renderWorkMap() {
 				data: data,
 				roam: false,
 				nodeClick: "zoomToNode",
-				leafDepth: depth,         // work: categories and tags, click a tag for projects
+				leafDepth: depth,         // work: groups and items, click an item for projects
 				left: 0, right: 0, top: 0, bottom: 32,
-				breadcrumb: { show: true, bottom: 0, itemStyle: { color: "#d2d2d2", borderColor: "#d2d2d2", textStyle: { color: "#333" } } },
-				label: { show: true, color: "#1d1d1b", fontFamily: "Geneva, sans-serif", fontSize: 13 },
-				upperLabel: { show: true, height: 22, color: "#1d1d1b", fontFamily: "Geneva, sans-serif" },
-				itemStyle: { borderColor: "#ebebeb", borderWidth: 2, gapWidth: 2, borderRadius: 4 },
+				breadcrumb: { show: true, bottom: 0,
+					itemStyle: { color: INK.stock_white, borderColor: INK.keyline_black, borderWidth: 1, textStyle: { color: INK.keyline_black } },
+					emphasis: { itemStyle: { color: INK.fluor_yellow, textStyle: { color: INK.keyline_black } } } },
+				label: { show: true, color: INK.keyline_black, fontFamily: "Geneva, sans-serif", fontSize: 13 },
+				upperLabel: { show: true, height: 22, color: INK.keyline_black, fontFamily: "Geneva, sans-serif" },
+				itemStyle: { borderColor: INK.keyline_black, borderWidth: 1.5, gapWidth: 3, borderRadius: 0 },
+				emphasis: { itemStyle: { borderColor: INK.keyline_black, borderWidth: 3 }, label: { color: INK.keyline_black }, upperLabel: { color: INK.keyline_black } },
 				levels: [
-					{ itemStyle: { borderWidth: 0, gapWidth: 4 }, upperLabel: { show: false } },
-					{ itemStyle: { borderWidth: 0, gapWidth: 2 }, upperLabel: { show: true, color: "#333", fontSize: 14 } },
-					{ colorSaturation: [0.35, 0.6], itemStyle: { borderColorSaturation: 0.6, gapWidth: 2 } }
+					// Root and group levels take the page's own grey, so group names
+					// sit on the page and only the inked blocks carry keylines.
+					{ itemStyle: { borderColor: PAGE_GREY, borderWidth: 0, gapWidth: 6 }, upperLabel: { show: false } },
+					{ itemStyle: { borderColor: PAGE_GREY, borderWidth: 0, gapWidth: 3 }, upperLabel: { show: true, color: INK.keyline_black, fontSize: 14 } },
+					// Items: black keyline, no header strip when zoomed in; the breadcrumb
+					// under the map already names where you are.
+					{ itemStyle: keyline, upperLabel: { show: false } },
+					{ itemStyle: keyline }
 				]
 			}]
 		}, true);
