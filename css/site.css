@@ -1,0 +1,65 @@
+/* Small additions to leemere.css for work.html. */
+a:focus-visible, button:focus-visible { outline: 3px solid rgb(80,80,80); outline-offset: 2px; }
+button.dropdown-toggle { font: inherit; color: inherit; }
+.dropdown-body .dropdown-menu-item:focus { background-color: rgb(80,80,80); color: rgb(140,140,140); }
+
+.xMainNavPic_ a { display: block; line-height: 0; }
+.topic-thumb { float: right; margin: 0 0 8px 8px; }
+
+#myDIV_ConceptMedia h1 { margin: 0 0 8px; }
+#myDIV_ConceptMedia p { max-width: 42em; }
+.video { position: relative; aspect-ratio: 16 / 9; max-width: 700px; margin: 12px 0; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.gallery { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin: 12px 0; }
+.gallery img { width: 100%; height: auto; }
+.ortho-controls input { font: inherit; width: 9em; }
+.ortho-controls button { font: inherit; }
+.daily-line { font-size: 1.3em; }
+.navUpper a.button, .navUpper .dropdown-menu-item { float: none; }
+.navUpper a.button { color: rgb(0,0,0); font-family: Arial, sans-serif; font-size: 16px; text-decoration: none; padding: 5px 10px; }
+.placeholder { font-style: italic; opacity: .75; }
+.placeholder-image { width: 100%; max-width: 700px; height: auto; aspect-ratio: 7 / 4; object-fit: cover; margin: 12px 0; }
+.label-5, .label-3, .label-2 { display: none; }
+@media (max-width: 767px) { .label-full { display: none; } .label-5 { display: inline; } }
+@media (max-width: 424px) { .label-5 { display: none; } .label-3 { display: inline; } }
+@media (max-width: 374px) { .label-3 { display: none; } .label-2 { display: inline; } }
+
+/* Picture grid: hover label sits inside its tile (no sideways scroll) and shows on keyboard focus too. */
+#myDIV_NavMain .tooltip { position: relative; }
+#myDIV_NavMain .tooltiptext { width: 100px; left: 0; bottom: 0; font-size: 13px; pointer-events: none; white-space: normal; overflow-wrap: anywhere; }
+#myDIV_NavMain .tooltip:focus-within .tooltiptext { visibility: visible; }
+
+/* Project area: same type family as the columns. */
+#myDIV_ConceptMedia { font-family: Geneva, sans-serif; line-height: 1.5; }
+#myDIV_ConceptMedia h1 { font-size: 28px; font-weight: normal; color: rgb(60,60,60); }
+#myDIV_ConceptMedia .summary { color: rgb(100,100,100); margin-bottom: 8px; }
+#myDIV_ConceptMedia p { margin-bottom: 12px; }
+@media (max-width: 767px) {
+	#myDIV_ConceptMedia h1 { font-size: 22px; }
+	#myDIV_ConceptMedia { padding: 10px; }
+}
+
+/* Homepage work map */
+.work-map { width: 100%; height: 380px; }
+@media (max-width: 767px) { .work-map { height: 300px; } }
+.work-map-title { font-family: Geneva, sans-serif; font-size: 18px; font-weight: normal; color: rgb(60,60,60); margin: 0 0 8px; }
+#myDIV_WorkMap { float: left; }
+
+/* offbrand ads placed on the site's own pages */
+a.offbrand { text-decoration: none; }
+a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decoration: underline; }
+.site-offbrand-box { margin: 5px 0 24px; }
+.site-offbrand-box .offbrand-rectangle { width: 100%; max-width: 300px; }
+.site-offbrand-banner { clear: both; padding: 5px 10px; }
+
+
+/* Long drop-downs (Projects has many items) scroll instead of running off the screen. */
+#myDIV_ButtonNav .dropdown-body { max-height: 70vh; overflow-y: auto; z-index: 10; }
+
+/* Work map toggle and visit counts */
+.work-map-toggle { margin: 0 0 6px; }
+.work-map-toggle .button { font: 14px Geneva, sans-serif; color: rgb(60,60,60); border: 1px solid rgb(180,180,180); cursor: pointer; }
+.work-map-toggle .button[aria-pressed="true"] { background: rgb(80,80,80); color: rgb(235,235,235); }
+.work-map-note { font: 13px Geneva, sans-serif; color: rgb(100,100,100); margin: 0 0 6px; min-height: 1em; }
+.visit-counter { clear: both; padding: 4px 10px; font: 13px Geneva, sans-serif; color: rgb(120,120,120); }
+.project-views { font-size: 13px; color: rgb(110,110,110); }

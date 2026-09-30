@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lee Meredith</title>
+	<meta name="description" content="Art, creative coding, ceramics, and experimental projects by Lee Meredith.">
+	<link rel="stylesheet" type="text/css" href="leemere.css">
+	<link rel="stylesheet" type="text/css" href="css/site.css">
+	<link rel="stylesheet" type="text/css" href="js/vendor/offbrand/offbrand.css">
+	<script src="js/nav/myNav.js"></script>
+	<script src="js/nav/myNavData.js"></script>
+	<script src="js/dateTimeFormat/myDateTimeFormat.js"></script>
+	<script src="js/site/projects.js"></script>
+	<script src="js/site/site.js"></script>
+</head>
+<body id="myBody" class="backGround0">
+
+	<div id="myDIV_Timer" class="box floatL midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k" aria-hidden="true"></div>
+
+	<nav id="myDIV_ButtonNav" class="navUpper float-ms-L float-mm-L float-ml-R float-t-R float-l-R float-R" aria-label="Main"></nav>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+	<main id="myDIV_ConceptMedia" class="box col-l-8 col-ll-8 col-8 colorBorder0 mainLink0"></main>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+	<div id="myDIV_AtWindowOpen">
+
+		<div id="myDIV_MyParagraph" class="column main col-t-6 col-l-4 col-ll-4 col-3 midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k"></div>
+
+		<div id="myDIV_NavMain" class="box midFont col-t-5 col-l-4 col-ll-4 col-5"></div>
+
+		<div id="myDIV_TopicNav_1" class="column col-l-3 col-ll-3 col-3 float-l-R float-m-L midFont-ms midFont-mm midFont-ml midFont-t midFont-l midFont-ll midBigFont-k"></div>
+
+	</div>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+	<div id="myDIV_WorkMap" class="box floatL col-t-8 col-l-8 col-ll-8 col-8 colorBorder0"></div>
+
+	<div id="myDIV_Visits" class="visit-counter" aria-live="polite"></div>
+
+	<div class="clearthefloats x8 colorBorder0"></div>
+
+	<div id="myDIV_NavSocial" class="boxColor0"></div>
+
+	<div id="myDIV_NavBottom" class="navBottom float-R float-m-L"></div>
+
+<script>
+	myId_Timer = "myDIV_Timer";
+	myTimer();
+	renderSite();
+	document.getElementById("myDIV_NavSocial").innerHTML = myNavSocialBody(navSocial);
+	document.getElementById("myDIV_NavBottom").innerHTML = myNavBottom(navBottom);
+</script>
+</body>
+</html>

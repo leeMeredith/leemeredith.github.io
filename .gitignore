@@ -1,0 +1,26 @@
+# Large media stays local; see README.md and MEDIA_MANIFEST.tsv.
+/media/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+._*
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Possible future tooling output
+node_modules/
+dist/
+build/
+coverage/
