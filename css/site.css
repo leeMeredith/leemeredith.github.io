@@ -50,7 +50,8 @@ a.offbrand { text-decoration: none; }
 a.offbrand:hover .offbrand-call, a.offbrand:focus .offbrand-call { text-decoration: underline; }
 .site-offbrand-box { margin: 5px 0 24px; }
 .site-offbrand-box .offbrand-rectangle { width: 100%; max-width: 300px; }
-.site-offbrand-banner { clear: both; padding: 5px 10px; }
+.site-offbrand-banner { clear: both; padding: 14px 0 0; max-width: 66%; }
+@media (max-width: 1023px) { .site-offbrand-banner { max-width: none; } }
 
 
 /* Long drop-downs (Projects has many items) scroll instead of running off the screen. */

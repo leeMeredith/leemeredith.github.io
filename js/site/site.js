@@ -246,7 +246,7 @@ function renderLine() {
 // Ads on the site's own pages ---------------------------------------------
 // Two campaigns made with offbrand run like ads on a real website, both
 // linking to the Weekly Campaign page:
-//   every 3 days   a box at the top of the right column, and a banner at the foot
+//   every 3 days   a box at the top of the right column, and a banner under the work map
 //   every 12 hours a tall skyscraper partway down the right column
 function renderAds() {
 	var box = el("div", { class: "site-offbrand site-offbrand-box" });
@@ -256,8 +256,7 @@ function renderAds() {
 	col.insertBefore(box, col.firstChild);
 	// After the sixth project in the column (each project is two elements).
 	col.insertBefore(sky, col.children[1 + 6 * 2] || null);
-	var foot = document.getElementById("myDIV_Visits");
-	foot.parentNode.insertBefore(banner, foot);
+	document.getElementById("myDIV_WorkMap").appendChild(banner);
 	import("../vendor/offbrand/offbrand.js").then(function (offbrand) {
 		var href = PAGE + "?p=weekly-campaign";
 		offbrand.placeAd(box, "rectangle", href, "3d");
@@ -515,7 +514,7 @@ function renderPage() {
 	if (!project && !found) document.body.classList.add("is-home");
 	renderLine();
 	renderColumn();
-	if (!project || project.id !== "weekly-campaign") renderAds();
 	renderWorkMap();
+	if (!project || project.id !== "weekly-campaign") renderAds();
 	renderVisits(project);
 }
