@@ -44,10 +44,22 @@ var PROJECTS = [
 	title: "Ortho",
 	summary: "An invented-language generator: same seed, same language.",
 	category: "experiments",
+	thumb: "thumbs/ortho.jpg",
 	year: 2026,
-	links: [{ label: "Ortho on GitHub", url: "https://github.com/leeMeredith/ortho" }],
+	text: [
+		"Ortho invents languages: pseudo-words that hold the shape and internal consistency of a language without belonging to any existing one. A seed does not merely start a language, it is the language; the same number gives the same tongue on every machine, forever. Seven dials weave in recurring phrases, grammar words, subjects, names, commas, quotations, and scare quotes.",
+		"The JavaScript reference and specification are the authority. A shared C kernel carries the same language into Max/MSP and openFrameworks, and every version checks itself against the same golden vectors. It grew out of randomParagraph (2016), the generator that once filled this site's homepage."
+	],
+	images: [{ src: "ortho/ofxortho.jpg", alt: "ofxOrtho in openFrameworks, with words coloured by where they came from" }],
+	links: [
+		{ label: "Ortho on GitHub (reference and specification)", url: "https://github.com/leeMeredith/ortho" },
+		{ label: "ortho-kernel: the shared C engine", url: "https://github.com/leeMeredith/ortho-kernel" },
+		{ label: "ortho-max: Max/MSP external", url: "https://github.com/leeMeredith/ortho-max" },
+		{ label: "ofxOrtho: openFrameworks addon", url: "https://github.com/leeMeredith/ofxOrtho" },
+		{ label: "randomParagraph (2016), its ancestor", url: "https://github.com/leeMeredith/randomParagraph" }
+	],
 	script: "js/experiments/ortho.js",
-	tags: ["language", "generative", "javascript", "poetry"]
+	tags: ["language", "generative", "javascript", "poetry", "max", "openframeworks"]
 },
 {
 	id: "weekly-campaign",
@@ -76,6 +88,71 @@ var PROJECTS = [
 	],
 	links: [{ label: "ofxManifold on GitHub", url: "https://github.com/leeMeredith/ofxManifold" }],
 	tags: ["openframeworks", "c++", "interpolation", "presets", "spatial audio", "addon"]
+},
+
+{
+	id: "ofxecharts",
+	title: "ofxECharts",
+	summary: "An openFrameworks companion for Apache ECharts: the app publishes JSON snapshots and a browser dashboard charts them live.",
+	category: "projects",
+	thumb: "thumbs/ofxecharts.jpg",
+	year: 2026,
+	text: [
+		"openFrameworks writes a complete JSON snapshot of its data; a plain static server hands it to the browser, where ECharts draws it. There is deliberately no HTTP server, socket, cloud sync, or control path back into the app, so each side stays simple.",
+		"The included example generates two signals, keeps 200 samples, publishes every half second, and shows them both in openFrameworks and in a self-updating dashboard: a time series, a brightness-versus-movement scatter, and a bar chart of current values. Each snapshot is validated and swapped in whole, so the browser never reads a half-written file and keeps the last good chart if publishing stops."
+	],
+	images: [{ src: "ofxecharts/dashboard.jpg", alt: "The ofxECharts live dashboard: a time series, a scatter chart, and a bar chart fed by an openFrameworks app" }],
+	links: [{ label: "ofxECharts on GitHub", url: "https://github.com/leeMeredith/ofxECharts" }],
+	tags: ["openframeworks", "c++", "echarts", "data visualization", "addon"]
+},
+{
+	id: "ofxscphasebridge",
+	title: "ofxScPhaseBridge",
+	summary: "One clock shared between SuperCollider and openFrameworks over OSC, so you can see whether the two stay in sync.",
+	category: "projects",
+	thumb: "thumbs/ofxscphasebridge.jpg",
+	year: 2026,
+	text: [
+		"SuperCollider owns the clock and sends a phase ramp, 0 to 1, once per bar. openFrameworks divides it into a step grid at its own frame rate; click a step to arm it and it sounds once per bar as the phase sweeps across. The on-screen flash is driven by the beat echoed back from SuperCollider, so if the two ever drift you can watch them separate.",
+		"The whole contract is two messages (/phase from SuperCollider, /beat back from openFrameworks) plus an optional /tempo. Built small on purpose, with no program in the middle hiding the one question that matters: are these two actually in sync? It began as the sc-of-phase-bridge example and is now packaged as an addon."
+	],
+	images: [{ src: "ofxscphasebridge/screenshot_phasebridge.jpg", alt: "The phase bridge example: a step grid in openFrameworks driven by SuperCollider's phase" }],
+	links: [
+		{ label: "ofxScPhaseBridge on GitHub", url: "https://github.com/leeMeredith/ofxScPhaseBridge" },
+		{ label: "The original example: sc-of-phase-bridge", url: "https://github.com/leeMeredith/sc-of-phase-bridge" }
+	],
+	tags: ["openframeworks", "supercollider", "osc", "sound", "timing", "addon"]
+},
+{
+	id: "bbox",
+	title: "bbox",
+	summary: "A Max UI object for spatial event detection: enter and exit events and position tracking inside a rectangle.",
+	category: "projects",
+	thumb: "thumbs/bbox.jpg",
+	year: 2026,
+	text: [
+		"bbox takes coordinates from the mouse or from any data source (Jitter, OSC, OpenCV, MediaPipe, or a custom tracker) and reports when something enters or leaves its region, where it is while inside, and, optionally, smoothed motion data. Coordinates can be local, patcher, or screen space.",
+		"It grew out of the same scaffolding as max-cmake-template, as one of a small family of Max externals built under a b-prefix convention."
+	],
+	images: [
+		{ src: "bbox/bbox_exit_enter_0.jpg", alt: "bbox in a Max patch reporting enter and exit events" },
+		{ src: "bbox/bbox_exit_enter_1.jpg", alt: "bbox tracking a point inside its region" }
+	],
+	links: [{ label: "bbox on GitHub", url: "https://github.com/leeMeredith/bbox" }],
+	tags: ["max", "c", "tracking", "interaction design", "external"]
+},
+{
+	id: "max-cmake-template",
+	title: "max-cmake-template",
+	summary: "A blank, heavily documented starter object for Max 9, built with CMake and the Max SDK.",
+	category: "projects",
+	year: 2026,
+	text: [
+		"Deliberately the most boring object possible, a two-number calculator, so that what shows is every part of a real Max external: inlets and outlets, methods, attributes, save and restore, and assist tooltips, split sensibly across two files.",
+		"It is meant to get people unstuck: the right SDK calls, the build incantation, and why an object silently won't load. bbox is the finished object that grew from the same scaffolding."
+	],
+	links: [{ label: "max-cmake-template on GitHub", url: "https://github.com/leeMeredith/max-cmake-template" }],
+	tags: ["max", "c", "cmake", "teaching", "external"]
 },
 
 // Moved from the old js/myWorkMedia/myWorkData.js (step 8). Entries without a summary
@@ -1101,7 +1178,8 @@ var PROJECTS = [
 		"The Augmented reality mirror therapy app uses the Kinect to capture a real time image of the intact limb and the (ARM) app then create a digital mirror limb (phantom limb) image. Then, the user can observe their intact limb and phantom limb on a monitor with the ability to control their point of view in 360 degrees of freedom.",
 		"Virtual Prosthetics Kinect Pic",
 		"Augmented Reality Mirror Therapy For Phantom LimbPain Abstract",
-		"Kareemah Batts, Desmond Heeley, Joe Labrie, Michael Lichter, Jennifer Eftychiou PT DPT, Jeffrey Heckman DO"
+		"Kareemah Batts, Desmond Heeley, Joe Labrie, Michael Lichter, Jennifer Eftychiou PT DPT, Jeffrey Heckman DO",
+		"2026: ARM builds again with openFrameworks 0.12.1 on Apple silicon and runs with a live Kinect view; its records now use JSON. The source is on GitHub with a collaboration brief for clinicians and researchers interested in the work."
 	],
 	links: [
 		{
@@ -1127,6 +1205,10 @@ var PROJECTS = [
 		{
 			label: "Abstract",
 			url: "assets/text/ARM/AugmentedRealityMirrorTherapyForPhantomLimbPain.pdf"
+		},
+		{
+			label: "AugmentedRealityMirror on GitHub",
+			url: "https://github.com/leeMeredith/AugmentedRealityMirror"
 		}
 	],
 	tags: [
