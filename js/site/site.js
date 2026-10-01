@@ -435,17 +435,29 @@ function renderLine() {
 		box.appendChild(ortho.dialToggle());
 		box.appendChild(text);
 		var next = ortho.dailyMarkedStream();
+		var made = [];   // paragraphs written so far, reused when the window grows again
+		// How tall the column should be: as tall as the middle column, but never
+		// more than about two window-heights, so a smaller window gets less text,
+		// the way the clock gets fewer digits. Stacked (narrow screens), three
+		// paragraphs is enough.
+		function target() {
+			if (!window.matchMedia("(min-width: 1024px)").matches) return 0;
+			return Math.min(middle.offsetHeight - 24, window.innerHeight * 2);
+		}
 		function fill() {
-			// Side by side only on wide screens; stacked, three paragraphs is enough.
-			var sideBySide = window.matchMedia("(min-width: 1024px)").matches;
-			var guard = 0;
-			while (guard++ < 200 && (text.children.length < 3 ||
-				(sideBySide && left.offsetHeight < middle.offsetHeight - 24))) {
-				text.appendChild(el("p", {}, [next()]));
+			var goal = target(), guard = 0;
+			while (guard++ < 200 && (text.children.length < 3 || left.offsetHeight < goal)) {
+				var i = text.children.length;
+				if (!made[i]) made[i] = next();
+				text.appendChild(el("p", {}, [made[i]]));
+			}
+			// Too long (the window got smaller): take paragraphs back off the end.
+			while (text.children.length > 3 && left.offsetHeight - text.lastChild.offsetHeight >= goal) {
+				text.removeChild(text.lastChild);
 			}
 		}
 		fill();
-		again.addEventListener("click", function () { text.textContent = ""; next = ortho.dailyMarkedStream(); fill(); });
+		again.addEventListener("click", function () { text.textContent = ""; made = []; next = ortho.dailyMarkedStream(); fill(); });
 		window.addEventListener("load", fill);
 		window.addEventListener("resize", fill);
 		middle.addEventListener("load", fill, true);   // each picture that loads may lengthen the middle
@@ -789,6 +801,11 @@ function renderProject(p) {
 		if (play && !p.placeholder.text) main.appendChild(el("p", {}, stageText(t)));
 		else main.appendChild(el("p", { class: p.placeholder.text ? "placeholder" : "", text: t }));
 	});
+	// Ceramics: today's studio pots first, the earlier photos after.
+	if (p.id === "ceramics") {
+		main.appendChild(studioStrip());
+		if (p.images) main.appendChild(el("h2", { class: "column-title", text: "Earlier work" }));
+	}
 	if (p.images) {
 		main.appendChild(el("div", { class: "gallery" }, p.images.map(function (img, i) {
 			// Pictures without their own description are at least named.
@@ -805,7 +822,6 @@ function renderProject(p) {
 	if (writing) {
 		main.appendChild(el("p", { class: "copyright", text: "© " + (p.year ? p.year + " " : "") + "Lee Meredith. All rights reserved." }));
 	}
-	if (p.id === "ceramics") main.appendChild(studioStrip());
 	// More work as banners: related by tag first, then the newest of the rest.
 	var rel = related(p);
 	var more = rel.concat(newestFirst(PROJECTS).filter(function (q) { return q !== p && rel.indexOf(q) < 0; })).slice(0, 8);
