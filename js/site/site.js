@@ -28,6 +28,10 @@ var INK = {
 // The menu groups from the original site. Each item gathers the projects
 // carrying any of its tags. Colours are for the work map: fluorescent inks,
 // separated from the page by black keylines as in a screenprint.
+// New Hope Ceramics, the pottery studio, is its own site at newhopeceramics/
+// (its own repository). It keeps the one list of pots; this site reads it.
+var STUDIO = "newhopeceramics/";
+
 var GROUPS = [
 	{ label: "2D", color: INK.fluor_blue, items: [
 		{ label: "35mm", tags: ["35mm"] },
@@ -35,7 +39,8 @@ var GROUPS = [
 		{ label: "Games", tags: ["game", "games", "board games", "tabletop games"] },
 		{ label: "Paint", tags: ["paint", "hand-painted"] } ] },
 	{ label: "3D", color: INK.fluor_orange_red, items: [
-		{ label: "Ceramics", tags: ["ceramics"] } ] },
+		{ label: "Ceramics", tags: ["ceramics"] },
+		{ label: "New Hope Ceramics", tags: [], url: STUDIO } ] },
 	{ label: "Audio", color: INK.fluor_green, items: [
 		{ label: "DJ", tags: ["dj", "vj"] },
 		{ label: "mp3", tags: ["audio", "mp3"] } ] },
@@ -237,6 +242,7 @@ function menuButton(label, href) {
 function dropdown(group) {
 	var toggle = el("button", { type: "button", class: "dropdown-toggle button " + FONT, "aria-expanded": "false", "aria-label": group.label }, menuLabel(group.label));
 	var body = el("div", { class: "dropdown-body dropdown-body-t-lr dropdown-body-l-lr dropdown-body-ll-lr dropdown-body-lr " + FONT }, group.items.map(function (item) {
+		if (item.url) return el("a", { class: "dropdown-menu-item", href: item.url, text: item.label + " \u2197" });
 		var n = PROJECTS.filter(function (p) { return inItem(p, item); }).length;
 		return el("a", { class: "dropdown-menu-item", href: PAGE + "?t=" + itemId(item), text: item.label + " (" + n + ")" });
 	}));
@@ -736,6 +742,32 @@ function readingBar() {
 	return el("div", { class: "reading-bar", role: "group", "aria-label": "Reading" }, [toggle, smaller, larger, print]);
 }
 
+// Pieces from the studio, read from the studio's own list (newhopeceramics/js/pieces.js)
+// so they're always current. If it can't load, the strip simply stays empty.
+function studioStrip() {
+	var box = el("section", { class: "studio-strip", "aria-label": "From the studio" }, [
+		el("h2", { class: "column-title", text: "From the studio: New Hope Ceramics" })
+	]);
+	var list = el("div", { class: "work-banners work-banners-big" });
+	box.appendChild(list);
+	box.appendChild(el("p", {}, [el("a", { href: STUDIO, text: "Visit the studio \u2192" })]));
+	var script = el("script", { src: STUDIO + "js/pieces.js?v=" + SITE_VERSION });
+	script.onload = function () {
+		(window.PIECES || []).filter(function (x) { return x.room !== "Studio" && x.images.length; }).slice(0, 8).forEach(function (x) {
+			var src = STUDIO + "media/img/" + x.images[0];
+			var pic = el("picture", {}, [el("source", { type: "image/webp", srcset: src.replace(/\.\w+$/, ".webp") }), el("img", { src: src, alt: "", loading: "lazy" })]);
+			fitWhole(pic.querySelector("img"));
+			list.appendChild(el("a", { class: "work-banner", href: STUDIO + "index.html?p=" + encodeURIComponent(x.id) }, [
+				pic,
+				el("span", { class: "work-banner-title", text: x.title }),
+				el("span", { class: "work-banner-tags", text: [x.kind].concat(x.glaze).join(" \u00b7 ") })
+			]));
+		});
+	};
+	document.head.appendChild(script);
+	return box;
+}
+
 function renderProject(p) {
 	var main = document.getElementById("myDIV_ConceptMedia");
 	document.title = p.title + " — Lee Meredith";
@@ -773,6 +805,7 @@ function renderProject(p) {
 	if (writing) {
 		main.appendChild(el("p", { class: "copyright", text: "© " + (p.year ? p.year + " " : "") + "Lee Meredith. All rights reserved." }));
 	}
+	if (p.id === "ceramics") main.appendChild(studioStrip());
 	// More work as banners: related by tag first, then the newest of the rest.
 	var rel = related(p);
 	var more = rel.concat(newestFirst(PROJECTS).filter(function (q) { return q !== p && rel.indexOf(q) < 0; })).slice(0, 8);
