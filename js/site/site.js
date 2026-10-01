@@ -387,16 +387,25 @@ function renderColumn() {
 function filterColumn(label, ids) {
 	var col = document.getElementById("myDIV_TopicNav_1");
 	var bar = col.querySelector(".column-filter");
+	// Hiding most of the column would shorten the page and make the browser
+	// scroll, carrying the map away from where it was clicked. So the column
+	// keeps its full height while filtered, and the map is held in place.
+	var map = document.getElementById("myDIV_WorkMap");
+	var before = map.getBoundingClientRect().top;
+	if (ids && !col.style.minHeight) col.style.minHeight = col.offsetHeight + "px";
+	if (!ids) col.style.minHeight = "";
 	col.querySelectorAll(".column-entry").forEach(function (e) {
 		e.hidden = !!ids && ids.indexOf(e.getAttribute("data-id")) < 0;
 	});
-	if (!ids) { bar.hidden = true; return; }
+	function hold() { window.scrollBy(0, map.getBoundingClientRect().top - before); }
+	if (!ids) { bar.hidden = true; hold(); return; }
 	var all = el("button", { type: "button", class: "button", text: "Show all" });
 	all.addEventListener("click", function () { filterColumn(null, null); document.dispatchEvent(new Event("mapreset")); });
 	bar.textContent = "";
 	bar.appendChild(document.createTextNode(label + ": " + ids.length + (ids.length === 1 ? " project " : " projects ")));
 	bar.appendChild(all);
 	bar.hidden = false;
+	hold();
 }
 
 // The project ids under a map block.
