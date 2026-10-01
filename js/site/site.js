@@ -95,6 +95,18 @@ function picture(attrs) {
 	return el("picture", {}, [el("source", { type: "image/webp", srcset: attrs.src.replace(/\.\w+$/, ".webp") }), img]);
 }
 
+// Banner strips are wide (231 x 100). A picture of another shape, such as a
+// square thumbnail, would be cut to fit; instead, once it loads and its shape
+// is known, it is shown whole at its own proportions on a grey band.
+function fitWhole(img) {
+	function check() {
+		if (!img.naturalWidth) return;
+		var off = Math.abs((img.naturalWidth / img.naturalHeight) / (231 / 100) - 1);
+		img.classList.toggle("fit-whole", off > 0.03);
+	}
+	if (img.complete) check(); else img.addEventListener("load", check);
+}
+
 function thumb(p, size) {
 	var src = p.thumb ? IMG + p.thumb : placeholderImage(p.title);
 	return picture({ src: src, alt: p.title, width: size, height: size });
@@ -126,8 +138,10 @@ function placeholderBanner(title) {
 // A project as a banner: wide picture, title, and its tags.
 function banner(p) {
 	var src = p.banner ? IMG + p.banner : p.thumb ? IMG + p.thumb : placeholderBanner(p.title);
+	var pic = picture({ src: src, alt: "", loading: "lazy" });
+	fitWhole(pic.tagName === "IMG" ? pic : pic.querySelector("img"));
 	return el("a", { class: "work-banner", href: link(p) }, [
-		picture({ src: src, alt: "", loading: "lazy" }),
+		pic,
 		el("span", { class: "work-banner-title", text: p.title + (p.year ? " (" + p.year + ")" : "") }),
 		(p.tags || []).length ? el("span", { class: "work-banner-tags", text: p.tags.slice(0, 6).join(" \u00b7 ") }) : null
 	]);

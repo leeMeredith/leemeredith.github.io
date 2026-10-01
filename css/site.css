@@ -247,3 +247,6 @@ picture { display: contents; }
 .navBottom a { color: rgb(92,92,92); }
 [data-theme="dark"] .navBottom a { color: rgb(165,165,165); }
 [data-theme="dark"] .work-banner-title { color: rgb(200,200,200); }
+/* A banner picture of a different shape: shown whole, never cut or stretched. */
+.work-banner img.fit-whole { object-fit: contain; background: rgb(210,210,210); }
+[data-theme="dark"] .work-banner img.fit-whole { background: rgb(40,40,40); }
