@@ -206,3 +206,24 @@ picture { display: contents; }
 @media (prefers-reduced-motion: reduce) {
 	@view-transition { navigation: none; }
 }
+
+/* The right column, narrowed by a click on the map. */
+.column-filter { position: sticky; top: 0; z-index: 3; margin: 0 0 8px; padding: 6px 10px; font: var(--text-small) Geneva, sans-serif;
+	background: rgb(235,235,235); border-bottom: 1px solid rgb(190,190,190); }
+.column-filter .button { font: inherit; margin-left: 6px; border: 1px solid rgb(180,180,180); cursor: pointer; }
+[data-theme="dark"] .column-filter { background: rgb(24,24,24); border-color: rgb(70,70,70); }
+[data-theme="dark"] .column-filter .button { background: rgb(40,40,40); color: rgb(200,200,200); border-color: rgb(90,90,90); }
+
+/* Motion as you scroll: pictures and entries fade up as they come into view.
+   Pure CSS, in browsers that support scroll-driven animation; none at all for
+   visitors who ask for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		.work-banner, .column-entry, .xMainNavPic_, .gallery img {
+			animation: scroll-in linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 60%;
+		}
+		@keyframes scroll-in { from { opacity: 0; transform: translateY(16px); } }
+	}
+}

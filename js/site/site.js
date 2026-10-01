@@ -257,14 +257,40 @@ function blurb(p) {
 
 function renderColumn() {
 	var col = document.getElementById("myDIV_TopicNav_1");
+	col.appendChild(el("p", { class: "column-filter", "aria-live": "polite", hidden: "" }));
 	newestFirst(PROJECTS).forEach(function (p) {
 		var picture = el("a", { href: link(p), class: "topic-thumb" }, [thumb(p, 100)]);
-		col.appendChild(el("div", { class: "box navRight colorBorder0 " + FONT }, [
-			el("h2", {}, [el("a", { href: link(p), text: p.title })]),
-			el("p", {}, [picture, el("span", { class: p.placeholder.summary ? "placeholder" : "", text: blurb(p) })])
+		col.appendChild(el("div", { class: "column-entry", "data-id": p.id }, [
+			el("div", { class: "box navRight colorBorder0 " + FONT }, [
+				el("h2", {}, [el("a", { href: link(p), text: p.title })]),
+				el("p", {}, [picture, el("span", { class: p.placeholder.summary ? "placeholder" : "", text: blurb(p) })])
+			]),
+			el("div", { class: "clearthefloats x2" })
 		]));
-		col.appendChild(el("div", { class: "clearthefloats x2" }));
 	});
+}
+
+// Show only some projects in the right column (from a click on the map),
+// or all of them again when ids is null.
+function filterColumn(label, ids) {
+	var col = document.getElementById("myDIV_TopicNav_1");
+	var bar = col.querySelector(".column-filter");
+	col.querySelectorAll(".column-entry").forEach(function (e) {
+		e.hidden = !!ids && ids.indexOf(e.getAttribute("data-id")) < 0;
+	});
+	if (!ids) { bar.hidden = true; return; }
+	var all = el("button", { type: "button", class: "button", text: "Show all" });
+	all.addEventListener("click", function () { filterColumn(null, null); document.dispatchEvent(new Event("mapreset")); });
+	bar.textContent = "";
+	bar.appendChild(document.createTextNode(label + ": " + ids.length + (ids.length === 1 ? " project " : " projects ")));
+	bar.appendChild(all);
+	bar.hidden = false;
+}
+
+// The project ids under a map block.
+function projectIds(node) {
+	if (node.projectId) return [node.projectId];
+	return (node.children || []).reduce(function (a, c) { return a.concat(projectIds(c)); }, []);
 }
 
 // Today's Ortho text (was the random paragraph) -----------------------
@@ -516,7 +542,16 @@ function renderWorkMap() {
 		chart = echarts.init(box);
 		chart.on("click", function (e) {
 			if (e.data && e.data.projectId) location.href = link({ id: e.data.projectId });
+			// A group or kind of work: the right column narrows to its projects.
+			else if (e.data && e.data.children) filterColumn(e.data.name, projectIds(e.data));
+			// The breadcrumb: "All work" shows everything again, a group narrows to it.
+			else if (e.selfType === "breadcrumb" && e.nodeData) {
+				var node = e.nodeData;
+				if (!node.depth) filterColumn(null, null);
+				else filterColumn(node.name, projectIds(node.hostTree.data.getRawDataItem(node.dataIndex)));
+			}
 		});
+		document.addEventListener("mapreset", function () { draw(); });
 		// Redraw whenever the map's space changes size, e.g. when the ad beside
 		// it arrives or the columns reflow, so it never spills into other columns.
 		if (window.ResizeObserver) new ResizeObserver(function () { chart.resize(); }).observe(box);
