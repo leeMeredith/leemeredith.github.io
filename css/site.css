@@ -306,3 +306,14 @@ body.reading-large #myDIV_ConceptMedia { font-size: 24px; }
 #myDIV_Timer { float: none; width: auto; }
 #myDIV_Timer > .box { float: none; width: 100%; box-sizing: border-box; }
 #myDIV_Timer .dateTimeP { word-break: break-all; }
+
+/* Drop-down menus: always in front of the page (ads, map, text) and take every
+   click, on a solid block of the day's ink so they read over anything. */
+#myDIV_ButtonNav { position: relative; z-index: 1000; }
+.dropdown.shown { z-index: 1000; }
+.dropdown-body { z-index: 1000; background-color: var(--day-ink) !important; border: 2px solid #000 !important;
+	box-shadow: 3px 3px 0 #000 !important; border-radius: 0 !important; }
+.dropdown-body .dropdown-menu-item, [data-theme="dark"] .dropdown-body .dropdown-menu-item { color: #000; }
+.dropdown-body .dropdown-menu-item:hover, .dropdown-body .dropdown-menu-item:focus { background-color: #000; color: var(--day-ink); }
+#myDIV_ButtonNav .dropdown-body a.dropdown-menu-item { color: #000; }
+#myDIV_ButtonNav .dropdown-body a.dropdown-menu-item:hover, #myDIV_ButtonNav .dropdown-body a.dropdown-menu-item:focus { background: #000; color: var(--day-ink); }
