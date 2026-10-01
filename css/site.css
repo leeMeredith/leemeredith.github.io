@@ -250,3 +250,21 @@ picture { display: contents; }
 /* A banner picture of a different shape: shown whole, never cut or stretched. */
 .work-banner img.fit-whole { object-fit: contain; background: rgb(210,210,210); }
 [data-theme="dark"] .work-banner img.fit-whole { background: rgb(40,40,40); }
+
+/* The day: one fluorescent ink a day, chosen by the date (see site.js). */
+:root { --day-ink: #b3ff59; }
+::selection { background: var(--day-ink); color: #000; }
+#myDIV_Timer { border-bottom: 4px solid var(--day-ink); }
+.column-filter { border-bottom-color: var(--day-ink); }
+.today { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 14px; padding: 10px; text-decoration: none; color: inherit;
+	border-left: 8px solid var(--day-ink); background: rgb(228,228,228); }
+.today img { width: 40%; max-width: 220px; height: auto; display: block; }
+.today-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.today-label, .today-ink { font: var(--text-small) Geneva, sans-serif; color: rgb(92,92,92); }
+.today-title { font-size: var(--heading); color: rgb(40,40,40); }
+.today-summary { color: rgb(70,70,70); }
+.today:hover .today-title { text-decoration: underline; }
+[data-theme="dark"] .today { background: rgb(34,34,34); }
+[data-theme="dark"] .today-title { color: rgb(225,225,225); }
+[data-theme="dark"] .today-summary { color: rgb(190,190,190); }
+[data-theme="dark"] .today-label, [data-theme="dark"] .today-ink { color: rgb(165,165,165); }

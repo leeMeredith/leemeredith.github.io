@@ -255,12 +255,62 @@ function themeToggle() {
 function renderGrid() {
 	var grid = document.getElementById("myDIV_NavMain");
 	grid.before(el("h1", { class: "visually-hidden", text: "Lee Meredith: work" }));
+	grid.before(renderToday());
 	newestFirst(PROJECTS).forEach(function (p) {
 		grid.appendChild(el("div", { class: "boxZero xMainNavPic_ xMainNavPic_m floatL tooltip" }, [
 			el("span", { class: "tooltiptext", text: p.title }),
 			el("a", { href: link(p) }, [thumb(p, 100)])
 		]));
 	});
+}
+
+// The day ------------------------------------------------------------
+// The date is a seed, as in offbrand and Ortho: each day the whole site takes
+// one fluorescent ink as its accent, and the home page features one project.
+// Everyone sees the same day; tomorrow it changes.
+var DAY_INKS = [
+	{ name: "fluorescent magenta", color: INK.fluor_magenta },
+	{ name: "fluorescent orange", color: INK.fluor_orange_red },
+	{ name: "fluorescent yellow", color: INK.fluor_yellow },
+	{ name: "fluorescent green", color: INK.fluor_green },
+	{ name: "fluorescent blue", color: INK.fluor_blue }
+];
+
+function daySeed() {
+	var d = new Date();
+	return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+}
+
+// A small seeded random-number generator (mulberry32).
+function dayRandom(salt) {
+	var a = (daySeed() * 2654435761 + salt) >>> 0;
+	return function () {
+		a = (a + 0x6d2b79f5) >>> 0;
+		var t = Math.imul(a ^ (a >>> 15), 1 | a);
+		t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+	};
+}
+
+function dayInk() { return DAY_INKS[Math.floor(dayRandom(1)() * DAY_INKS.length)]; }
+
+function applyDayInk() { document.documentElement.style.setProperty("--day-ink", dayInk().color); }
+
+// Today's project: one with its own picture and words, chosen by the date.
+function renderToday() {
+	var real = PROJECTS.filter(function (p) { return p.thumb && !p.placeholder.summary; });
+	var p = real[Math.floor(dayRandom(2)() * real.length)];
+	var date = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+	var pic = picture({ src: IMG + (p.banner || p.thumb), alt: "" });
+	return el("a", { class: "today", href: link(p) }, [
+		pic,
+		el("span", { class: "today-text" }, [
+			el("span", { class: "today-label", text: "Today, " + date }),
+			el("span", { class: "today-title", text: p.title + (p.year ? " (" + p.year + ")" : "") }),
+			el("span", { class: "today-summary", text: p.summary }),
+			el("span", { class: "today-ink", text: "Today's ink: " + dayInk().name })
+		])
+	]);
 }
 
 // Right column, as on the original site: a square picture with the opening
@@ -647,6 +697,7 @@ function renderItem(found) {
 }
 
 function renderPage() {
+	applyDayInk();
 	var q = new URLSearchParams(location.search);
 	// Old addresses for projects that have been renamed.
 	var RENAMED = { "weekly-campaign": "offbrand" };
