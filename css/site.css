@@ -12,8 +12,11 @@ button.dropdown-toggle { font: inherit; color: inherit; }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 /* Project pictures: one column, each as wide as the text column, but never
    taller than the window, so a tall cover is seen whole. */
-.gallery { display: flex; flex-direction: column; gap: 12px; margin: 12px 0; }
-.gallery img { display: block; width: auto; max-width: 100%; max-height: 90vh; height: auto; }
+.gallery { display: block; margin: 12px 0; }
+/* Plain block layout, not flex: a flex column stretches each picture to the
+   column's width, and Safari then squashes a tall one to fit the height
+   limit. object-fit keeps the shape even if a browser stretches the box. */
+.gallery img { display: block; width: auto; height: auto; max-width: 100%; max-height: 90vh; object-fit: contain; margin: 0 0 12px; }
 .ortho-controls input { font: inherit; width: 9em; }
 .ortho-controls button { font: inherit; }
 .daily-line { font-size: 1.3em; }
@@ -317,3 +320,7 @@ body.reading-large #myDIV_ConceptMedia { font-size: 24px; }
 .dropdown-body .dropdown-menu-item:hover, .dropdown-body .dropdown-menu-item:focus { background-color: #000; color: var(--day-ink); }
 #myDIV_ButtonNav .dropdown-body a.dropdown-menu-item { color: #000; }
 #myDIV_ButtonNav .dropdown-body a.dropdown-menu-item:hover, #myDIV_ButtonNav .dropdown-body a.dropdown-menu-item:focus { background: #000; color: var(--day-ink); }
+
+/* Square thumbnails (home grid, right column): a picture of another shape is
+   trimmed to the square, never squeezed into it. */
+.xMainNavPic_ img, .topic-thumb img { object-fit: cover; }
