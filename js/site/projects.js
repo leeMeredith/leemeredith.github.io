@@ -12,7 +12,7 @@ var PROJECTS = [
 	images: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19].map(function (n) {
 		return { src: "Ceramics/the_ceramics_still_have_" + n + ".jpg", alt: "Clear glaze vessel, photo " + (n + 1) };
 	}).concat([{ src: "Ceramics/pots.jpg", alt: "A group of pots" }]),
-	links: [{ label: "More ceramics on Flickr", url: "https://www.flickr.com/photos/antisuji/albums/72157647565271623" }],
+	links: [{ label: "New Hope Ceramics, the studio", url: "https://leemeredith.github.io/newhopeceramics/" }, { label: "More ceramics on Flickr", url: "https://www.flickr.com/photos/antisuji/albums/72157647565271623" }],
 	tags: ["clay", "ceramics"]
 },
 {
