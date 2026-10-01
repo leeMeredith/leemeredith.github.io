@@ -240,6 +240,7 @@ function themeToggle() {
 // Picture grid and right column --------------------------------------
 function renderGrid() {
 	var grid = document.getElementById("myDIV_NavMain");
+	grid.before(el("h1", { class: "visually-hidden", text: "Lee Meredith: work" }));
 	newestFirst(PROJECTS).forEach(function (p) {
 		grid.appendChild(el("div", { class: "boxZero xMainNavPic_ xMainNavPic_m floatL tooltip" }, [
 			el("span", { class: "tooltiptext", text: p.title }),
@@ -589,8 +590,10 @@ function renderProject(p) {
 	}
 	(p.text || []).forEach(function (t) { main.appendChild(el("p", { class: p.placeholder.text ? "placeholder" : "", text: t })); });
 	if (p.images) {
-		main.appendChild(el("div", { class: "gallery" }, p.images.map(function (img) {
-			return picture({ src: IMG + img.src, alt: img.alt, loading: "lazy" });
+		main.appendChild(el("div", { class: "gallery" }, p.images.map(function (img, i) {
+			// Pictures without their own description are at least named.
+			var alt = img.alt || p.title + (p.images.length > 1 ? ", picture " + (i + 1) : "");
+			return picture({ src: IMG + img.src, alt: alt, loading: "lazy" });
 		})));
 	}
 	if (p.links) {

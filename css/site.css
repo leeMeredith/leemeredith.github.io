@@ -228,3 +228,22 @@ picture { display: contents; }
 		@keyframes scroll-in { from { opacity: 0; transform: translateY(16px); } }
 	}
 }
+
+/* Readable contrast: greys that were too pale for small text, darkened in
+   light mode and lightened in dark mode so text reads at 4.5:1 or better. */
+.placeholder { opacity: 1; }
+.navRight a:link, .navRight h2 a { color: rgb(92,92,85); }
+.mainLink0 a, .work-banner-title, .work-banner-tags, .navRight .placeholder { color: rgb(92,92,92); }
+[data-theme="dark"] .navRight p span, [data-theme="dark"] .navRight .placeholder,
+[data-theme="dark"] .work-banner-tags, [data-theme="dark"] .mainLink0 a { color: rgb(165,165,165); }
+[data-theme="dark"] .navRight a:link, [data-theme="dark"] .navRight h2 a { color: rgb(185,185,175); }
+
+/* Text only screen readers hear, such as the home page's main heading. */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* A "Skip to content" link, shown only when reached with the keyboard. */
+.skip-link { position: absolute; left: 8px; top: -60px; z-index: 10; padding: 8px 12px; background: rgb(40,40,40); color: rgb(245,245,245); font: 16px Geneva, sans-serif; }
+.skip-link:focus { top: 8px; }
+#myDIV_Middle:focus { outline: none; }
+.navBottom a { color: rgb(92,92,92); }
+[data-theme="dark"] .navBottom a { color: rgb(165,165,165); }
+[data-theme="dark"] .work-banner-title { color: rgb(200,200,200); }
