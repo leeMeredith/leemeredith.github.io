@@ -268,3 +268,36 @@ picture { display: contents; }
 [data-theme="dark"] .today-title { color: rgb(225,225,225); }
 [data-theme="dark"] .today-summary { color: rgb(190,190,190); }
 [data-theme="dark"] .today-label, [data-theme="dark"] .today-ink { color: rgb(165,165,165); }
+
+/* Writing: stage directions, the reading view and printing. */
+.stage { font-style: italic; color: rgb(80,80,80); }
+[data-theme="dark"] .stage { color: rgb(175,175,175); }
+.reading-bar { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }
+.reading-bar .button { font: var(--text-small) Geneva, sans-serif; border: 1px solid rgb(180,180,180); cursor: pointer; padding: 3px 10px; }
+[data-theme="dark"] .reading-bar .button { background: rgb(40,40,40); color: rgb(200,200,200); border-color: rgb(90,90,90); }
+
+/* Reading view: everything but the text steps aside. */
+body.reading #myDIV_MyParagraph, body.reading #myDIV_TopicNav_1, body.reading #myDIV_WorkMap,
+body.reading .column-title, body.reading .work-banners, body.reading .offbrand-unit, body.reading #myDIV_WorkMapAd,
+body.reading #myDIV_NavSocial, body.reading .project-views { display: none !important; }
+body.reading #myDIV_Middle { float: none !important; width: auto !important; max-width: 36em; margin: 0 auto !important; padding: 0 16px; box-sizing: content-box; }
+body.reading #myDIV_AtWindowOpen { display: block !important; }
+body.reading #myDIV_ConceptMedia { font-family: Georgia, "Times New Roman", serif; line-height: 1.7; }
+body.reading #myDIV_ConceptMedia p { max-width: none; margin-bottom: 1em; }
+body.reading .reading-bar, body.reading .summary { font-family: Geneva, sans-serif; }
+body.reading-small #myDIV_ConceptMedia { font-size: 17px; }
+body.reading-medium #myDIV_ConceptMedia { font-size: 20px; }
+body.reading-large #myDIV_ConceptMedia { font-size: 24px; }
+
+/* Printing: just the work, its title and the copyright line. */
+@media print {
+	#myDIV_Timer, #myDIV_ButtonNav, #myDIV_MyParagraph, #myDIV_TopicNav_1, #myDIV_WorkMap, .skip-link,
+	.column-title, .work-banners, .offbrand-unit, .reading-bar, footer, #myDIV_NavSocial, .theme-toggle { display: none !important; }
+	body, .backGround0, .main { background: #fff !important; color: #000 !important; }
+	#myDIV_Middle { float: none; width: auto; margin: 0; }
+	#myDIV_ConceptMedia { font: 12pt/1.6 Georgia, "Times New Roman", serif; }
+	#myDIV_ConceptMedia p { max-width: none; }
+	.stage { color: #000; }
+	.gallery img { max-height: 60vh; break-inside: avoid; }
+	.copyright { margin-top: 2em; }
+}

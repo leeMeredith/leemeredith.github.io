@@ -638,6 +638,48 @@ function videoEmbed(ref) {
 	]);
 }
 
+function isWriting(p) {
+	return (p.tags || []).some(function (t) { return WRITING.indexOf(t) >= 0; });
+}
+
+// In a play, the stage directions (the parts in brackets) are set in italics.
+function stageText(t) {
+	return t.split(/(\([^)]*\))/).filter(Boolean).map(function (part) {
+		return part.charAt(0) === "(" ? el("em", { class: "stage", text: part }) : document.createTextNode(part);
+	});
+}
+
+// Reading view for writing: the page clears to the text alone, in a book-like
+// column, with a choice of text size. Both are remembered for next time.
+var READ_SIZES = ["small", "medium", "large"];
+
+function readingBar() {
+	var on = false, size = "medium";
+	try { on = localStorage.getItem("reading") === "on"; size = localStorage.getItem("reading-size") || "medium"; } catch (e) {}
+	var toggle = el("button", { type: "button", class: "button reading-toggle" });
+	var smaller = el("button", { type: "button", class: "button", "aria-label": "Smaller text", text: "A\u2212" });
+	var larger = el("button", { type: "button", class: "button", "aria-label": "Larger text", text: "A+" });
+	var print = el("button", { type: "button", class: "button", text: "Print" });
+	function apply() {
+		document.body.classList.toggle("reading", on);
+		READ_SIZES.forEach(function (s) { document.body.classList.toggle("reading-" + s, on && s === size); });
+		toggle.textContent = on ? "Leave reading view" : "Reading view";
+		toggle.setAttribute("aria-pressed", on);
+		smaller.hidden = larger.hidden = !on;
+		try { localStorage.setItem("reading", on ? "on" : "off"); localStorage.setItem("reading-size", size); } catch (e) {}
+	}
+	function step(d) {
+		size = READ_SIZES[Math.max(0, Math.min(READ_SIZES.length - 1, READ_SIZES.indexOf(size) + d))];
+		apply();
+	}
+	toggle.addEventListener("click", function () { on = !on; apply(); if (on) window.scrollTo(0, 0); });
+	smaller.addEventListener("click", function () { step(-1); });
+	larger.addEventListener("click", function () { step(1); });
+	print.addEventListener("click", function () { window.print(); });
+	apply();
+	return el("div", { class: "reading-bar", role: "group", "aria-label": "Reading" }, [toggle, smaller, larger, print]);
+}
+
 function renderProject(p) {
 	var main = document.getElementById("myDIV_ConceptMedia");
 	document.title = p.title + " — Lee Meredith";
@@ -652,7 +694,13 @@ function renderProject(p) {
 		main.appendChild(stage);
 		import("../../" + p.script + "?v=" + SITE_VERSION).then(function (mod) { mod.mount(stage); });
 	}
-	(p.text || []).forEach(function (t) { main.appendChild(el("p", { class: p.placeholder.text ? "placeholder" : "", text: t })); });
+	var writing = isWriting(p);
+	if (writing && !p.placeholder.text) main.appendChild(readingBar());
+	var play = (p.tags || []).some(function (t) { return t === "plays" || t === "play"; });
+	(p.text || []).forEach(function (t) {
+		if (play && !p.placeholder.text) main.appendChild(el("p", {}, stageText(t)));
+		else main.appendChild(el("p", { class: p.placeholder.text ? "placeholder" : "", text: t }));
+	});
 	if (p.images) {
 		main.appendChild(el("div", { class: "gallery" }, p.images.map(function (img, i) {
 			// Pictures without their own description are at least named.
@@ -666,7 +714,7 @@ function renderProject(p) {
 		})));
 	}
 	// Writing (plays, prose, poetry, papers) carries a copyright line.
-	if ((p.tags || []).some(function (t) { return WRITING.indexOf(t) >= 0; })) {
+	if (writing) {
 		main.appendChild(el("p", { class: "copyright", text: "© " + (p.year ? p.year + " " : "") + "Lee Meredith. All rights reserved." }));
 	}
 	// More work as banners: related by tag first, then the newest of the rest.
