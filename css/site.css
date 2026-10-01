@@ -254,7 +254,6 @@ picture { display: contents; }
 /* The day: one fluorescent ink a day, chosen by the date (see site.js). */
 :root { --day-ink: #b3ff59; }
 ::selection { background: var(--day-ink); color: #000; }
-#myDIV_Timer { border-bottom: 4px solid var(--day-ink); }
 .column-filter { border-bottom-color: var(--day-ink); }
 .today { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 14px; padding: 10px; text-decoration: none; color: inherit;
 	border-left: 8px solid var(--day-ink); background: rgb(228,228,228); }
@@ -301,3 +300,9 @@ body.reading-large #myDIV_ConceptMedia { font-size: 24px; }
 	.gallery img { max-height: 60vh; break-inside: avoid; }
 	.copyright { margin-top: 2em; }
 }
+
+/* The clock spans the page; its columns are measured and filled to exactly
+   three rows by js/dateTimeFormat/myDateTimeFormat.js. */
+#myDIV_Timer { float: none; width: auto; }
+#myDIV_Timer > .box { float: none; width: 100%; box-sizing: border-box; }
+#myDIV_Timer .dateTimeP { word-break: break-all; }

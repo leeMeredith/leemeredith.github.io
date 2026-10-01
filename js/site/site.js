@@ -67,7 +67,9 @@ function findItem(id) {
 	return null;
 }
 
-var WRITING = ["written", "paper", "plays", "play", "poetry", "prose"];
+// Writing that carries a copyright line and gets the reading view: prose, plays
+// and papers. (Ortho is open source, so poetry tags alone don't count.)
+var WRITING = ["paper", "plays", "play", "prose"];
 
 var IMG = "assets/img/";
 var PAGE = "index.html";

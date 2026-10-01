@@ -91,96 +91,42 @@ function myTimer() {
 	
 	all += outHour.toString() + minute.toString();// + second.toString();
 	
-	var dTClassArr = [];
-	for(var a = 0; a < all.length; a++) {
-	
-		//dT += '<div id = "divDT_0" class="dateTime xT4" >';//
-		if(all.length == 1){dTClassArr[a] = '<div id = "divDT_1" class="dateTime xT1" >';}
-		if(all.length == 2){dTClassArr[a] = '<div id = "divDT_2" class="dateTime xT2" >';}
-		
-		if(all.length == 3){dTClassArr[a] = '<div id = "divDT_3" class="dateTime xT3" >';}
-		if(all.length == 4){dTClassArr[a] = '<div id = "divDT_4" class="dateTime xT4" >';}
-		
-		if(all.length == 5){dTClassArr[a] = '<div id = "divDT_5" class="dateTime xT5" >';}
-		if(all.length == 6){dTClassArr[a] = '<div id = "divDT_6" class="dateTime xT6" >';}
-		if(all.length == 7){dTClassArr[a] = '<div id = "divDT_7" class="dateTime xT7" >';}
-		if(all.length == 8){dTClassArr[a] = '<div id = "divDT_8" class="dateTime xT8" >';}
-	
-	}
-	
-	var numOf = 0;
-	for(var a = 0; a < all.length; a++) {
-		if (idMinWidthDTF == 0) {
-			if(all.length == 3){numOf = 8;}
-			if(all.length == 4){numOf = 5;}
-		}
-		if (idMinWidthDTF == 1) {
-			if(all.length == 3){numOf = 42;}
-			if(all.length == 4){numOf = 30;}
-		}
-		if (idMinWidthDTF == 2) {
-			if(all.length == 3){numOf = 54;}
-			if(all.length == 4){numOf = 60;}
-		}
-		if (idMinWidthDTF == 3){
-			if(all.length == 3){numOf = 84;}
-			if(all.length == 4){numOf = 60;}
-		}
-		if (idMinWidthDTF == 4){
-			if(all.length == 3){numOf = 114;}
-			if(all.length == 4){numOf = 87;}
-		}
-		if (idMinWidthDTF == 5){
-			if(all.length == 3){numOf = 165;}
-			if(all.length == 4){numOf = 123;}
-		}
-		if (idMinWidthDTF == 6){
-			if(all.length == 3){numOf = 153;}
-			if(all.length == 4){numOf = 114;}
-		}
-		
-		//if(all.length == 1){numOf = 0;}
-		//if(all.length == 2){numOf = 0;}
-		
-/*
-		if(all.length == 3){numOf = 68;}// all 102, 3 div 34
-		if(all.length == 4){numOf = 50;}// 4 div 25 
-*/
-		
-		//if(all.length == 5){numOf = 0;}
-		//if(all.length == 6){numOf = 0;}
-				
-		dT += dTClassArr[a];
-		dT += myTimeHeader(numOf,all[a]);
-		dT += '</div>';
-		
-		//var test_me = "divDT_" + nId;
-		
-		//document.getElementById(testme).style.width = "500px";
-	}
-	
-	//if(all.length >= 5){
-		// var numLengthDv = 875/(all.length-1);
-		// numLengthDv = Math.floor(numLengthDv);
-		
-		//document.getElementById("divDT_0").setAttribute("class","dateTime_1");
-		//document.getElementById("divDT_0").style.width = "500px";
-		//document.getElementById('divDT_0').setAttribute("style","width:500px");
-		//document.getElementById("divDT_0").setAttribute("class","wide");
-	//}
-	
-	//console.log(all.length +"   "+ outHour );
-	out = '<div class="box boxColor0 xp9 colorBorder0 floatL">';
-	
-	out += dT;
-	
-	out += '</div>'
-	out += '<div class="clearthefloats"></div>';//"<br>";
+	// One column per digit, each filled with exactly three full rows of that
+	// digit. The count is measured, not fixed: how many copies of this digit
+	// (a "1" is narrower than an "8") fit across this column at the current
+	// text size, times three. So the rows stay full at every window width.
+	var box = document.getElementById(myId_Timer);
+	var key = all + "|" + box.clientWidth;
+	if (key === lastClockKey) return;
+	lastClockKey = key;
 
-	//out = outHour + ":" + minute + ":" + second;
+	var dT = "";
+	for (var a = 0; a < all.length; a++) {
+		dT += '<div class="dateTime xT' + all.length + '"><p class="dateTimeP"></p></div>';
+	}
+	box.innerHTML = '<div class="box boxColor0 xp9 colorBorder0 floatL">' + dT + '</div><div class="clearthefloats"></div>';
 
-    document.getElementById(myId_Timer).innerHTML = out;
-    //return out;
+	var cells = box.querySelectorAll(".dateTimeP");
+	for (var c = 0; c < cells.length; c++) {
+		var digit = all[c];
+		var width = cells[c].clientWidth;
+		var perRow = Math.max(1, Math.floor((width - 1) / digitWidth(digit, cells[c])));
+		cells[c].textContent = new Array(perRow * CLOCK_ROWS + 1).join(digit);
+	}
+}
+
+var CLOCK_ROWS = 3;
+var lastClockKey = "";
+var measureCanvas = null;
+
+// The width of one digit in the clock's own font, measured.
+function digitWidth(digit, el) {
+	measureCanvas = measureCanvas || document.createElement("canvas");
+	var ctx = measureCanvas.getContext("2d");
+	var cs = getComputedStyle(el);
+	ctx.font = cs.fontStyle + " " + cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+	var w = ctx.measureText(new Array(21).join(digit)).width / 20;
+	return w + (parseFloat(cs.letterSpacing) || 0);
 }
 
 //myTimeHeader------------------------------------_
