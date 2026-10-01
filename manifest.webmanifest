@@ -1,0 +1,15 @@
+{
+	"name": "Lee Meredith",
+	"short_name": "Lee Meredith",
+	"description": "Art, creative coding, ceramics, and experimental projects by Lee Meredith.",
+	"start_url": "./",
+	"scope": "./",
+	"display": "standalone",
+	"background_color": "#ebebeb",
+	"theme_color": "#ebebeb",
+	"icons": [
+		{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+		{ "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+		{ "src": "assets/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+	]
+}
