@@ -168,11 +168,56 @@ function newestFirst(list) {
 	return list.slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
 }
 
-function related(project) {
-	var tags = project.tags || [];
-	return PROJECTS.filter(function (p) {
-		return p !== project && (p.tags || []).some(function (t) { return tags.indexOf(t) >= 0; });
+// Related work, most closely related first. Each other project is scored on:
+//   shared tags, each weighted by how rare it is on the site, so sharing
+//     "pix table" (a handful of projects) counts far more than "openframeworks";
+//   shared words in titles and descriptions, weighted the same way, so
+//     "ofDrawEllipse" or "Radiuses" pull strongly and everyday words barely
+//     count (Ortho stand-in text is left out, being no one's real words);
+//   a small extra for the same year, a smaller one for a year either side.
+// Only projects scoring above zero are related.
+var STOP = ("a an and are as at be but by for from has have i in into is it its of on or that the this to was " +
+	"were will with you your my me we our not no so if then than there their they them which who what when where how " +
+	"can do does did just also about up out all any each more most other some such only own same too very").split(" ");
+
+function words(p) {
+	var text = [p.title, p.placeholder.summary ? "" : p.summary].concat(p.placeholder.text ? [] : (p.text || [])).join(" ");
+	// Split camelCase and snake_case names too: ofDrawEllipse -> of draw ellipse.
+	text = text.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[_\/]/g, " ").toLowerCase();
+	var seen = {};
+	(text.match(/[a-z][a-z0-9']+/g) || []).forEach(function (w) {
+		if (w.length > 2 && STOP.indexOf(w) < 0) seen[w] = true;
 	});
+	(p.tags || []).forEach(function (t) { seen["#" + t] = true; });
+	return seen;
+}
+
+var relatedIndex = null;
+function relatedScores() {
+	if (relatedIndex) return relatedIndex;
+	var bags = PROJECTS.map(words), df = {};
+	bags.forEach(function (bag) { for (var w in bag) df[w] = (df[w] || 0) + 1; });
+	relatedIndex = { bags: bags, weight: function (w) {
+		// Rarer means stronger; tags count double, being chosen on purpose.
+		var idf = Math.log(PROJECTS.length / df[w]);
+		return w.charAt(0) === "#" ? 2 * idf : idf;
+	} };
+	return relatedIndex;
+}
+
+function related(project) {
+	var idx = relatedScores();
+	var mine = idx.bags[PROJECTS.indexOf(project)];
+	return PROJECTS.map(function (p, i) {
+		if (p === project) return null;
+		var score = 0;
+		for (var w in mine) if (idx.bags[i][w]) score += idx.weight(w);
+		if (score > 0 && p.year && project.year) {
+			var gap = Math.abs(p.year - project.year);
+			score += gap === 0 ? 1 : gap === 1 ? 0.4 : 0;
+		}
+		return score > 0 ? { p: p, score: score } : null;
+	}).filter(Boolean).sort(function (a, b) { return b.score - a.score; }).map(function (r) { return r.p; });
 }
 
 // Top menu ------------------------------------------------------------
