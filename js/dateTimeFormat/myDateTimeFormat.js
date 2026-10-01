@@ -91,10 +91,10 @@ function myTimer() {
 	
 	all += outHour.toString() + minute.toString();// + second.toString();
 	
-	// One column per digit, each filled with exactly three full rows of that
-	// digit. The count is measured, not fixed: how many copies of this digit
+	// One column per digit, each filled with exactly full rows of that
+	// digit (three, or two on a phone). The count is measured, not fixed: how many copies of this digit
 	// (a "1" is narrower than an "8") fit across this column at the current
-	// text size, times three. So the rows stay full at every window width.
+	// text size, times the rows. So the rows stay full at every window width.
 	var box = document.getElementById(myId_Timer);
 	var key = all + "|" + box.clientWidth;
 	if (key === lastClockKey) return;
@@ -111,11 +111,13 @@ function myTimer() {
 		var digit = all[c];
 		var width = cells[c].clientWidth;
 		var perRow = Math.max(1, Math.floor((width - 1) / digitWidth(digit, cells[c])));
-		cells[c].textContent = new Array(perRow * CLOCK_ROWS + 1).join(digit);
+		cells[c].textContent = new Array(perRow * clockRows() + 1).join(digit);
 	}
 }
 
-var CLOCK_ROWS = 3;
+// Three rows, or two on phone-sized screens (under 768px wide, where the
+// site's tablet layout begins).
+function clockRows() { return window.matchMedia("(max-width: 767px)").matches ? 2 : 3; }
 var lastClockKey = "";
 var measureCanvas = null;
 

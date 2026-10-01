@@ -302,7 +302,7 @@ body.reading-large #myDIV_ConceptMedia { font-size: 24px; }
 }
 
 /* The clock spans the page; its columns are measured and filled to exactly
-   three rows by js/dateTimeFormat/myDateTimeFormat.js. */
+   three rows (two on phones) by js/dateTimeFormat/myDateTimeFormat.js. */
 #myDIV_Timer { float: none; width: auto; }
 #myDIV_Timer > .box { float: none; width: 100%; box-sizing: border-box; }
 #myDIV_Timer .dateTimeP { word-break: break-all; }
