@@ -3,6 +3,23 @@
 
 var PROJECTS = [
 {
+	id: "behavioral-grammar",
+	title: "Behavioral Grammar",
+	summary: "A seven-stage compression method for extracting structural pattern from language, tested on a single scene of The Tempest.",
+	category: "writing",
+	thumb: "thumbs/behavioral-grammar.jpg",
+	banner: "behavioral-grammar/banner.jpg",
+	year: 2026,
+	text: [
+		"Language is behavior made visible. Behavior, once it has a shape, repeats at every scale. Words and actions are parallel outputs of the same underlying structure, and language inflates problems by making structurally similar situations feel fundamentally different from one another.",
+		"The hypothesis under test: if linguistic inflation is stripped from a text, the underlying behavioral structure becomes visible, and that structure is recognizable across scales, from personal argument to institutional conflict to war.",
+		"The method runs seven stages, each preserving the one before, with event structure, formal structure and semantic content held independent until synthesis. It was tested on Prospero and Caliban in The Tempest, Act 1 Scene 2, lines 319–374, and compressed the scene to nine moves: establish, invest, consolidate, claim, redirect, fortify, justify, reverse, exit. Caliban wins the argument. He loses the exchange.",
+		"The same nine moves were then mapped, in the same order, onto colonial administration, a workplace betrayal, a dominant power and a rising state, and a relationship of dependence."
+	],
+	links: [{ label: "Read the full working document", url: "writing/behavioral-grammar.html" }],
+	tags: ["written", "paper", "language", "linguistics", "shakespeare", "the tempest", "behavioral grammar"]
+},
+{
 	id: "ceramics",
 	title: "Ceramics",
 	summary: "Clear glaze vessels.",

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Grammar — Pipeline through Shakespeare</title>
+<link rel="icon" href="../assets/icons/icon.svg" type="image/svg+xml">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif;
+  background: #fdfdfc;
+  color: #1a1a1a;
+  line-height: 1.55;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+}
+
+/* Header */
+header {
+  margin-bottom: 4rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #d4d4d0;
+}
+
+.doc-meta {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+  color: #0a0a0a;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: #4a4a4a;
+  max-width: 40em;
+}
+
+.header-meta {
+  margin-top: 2rem;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #555;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1.5rem;
+}
+
+.header-meta dt { color: #888; }
+
+/* Sections */
+section { margin-bottom: 3.5rem; }
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e0e0dc;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #2a2a2a;
+}
+
+p:last-child { margin-bottom: 0; }
+
+/* Hypothesis */
+.hypothesis {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 2px solid #999;
+  background: #f6f5f2;
+}
+
+.hypothesis-label {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+/* Pipeline table */
+.pipeline-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.pipeline-table th,
+.pipeline-table td {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #e0e0dc;
+  vertical-align: top;
+}
+
+.pipeline-table th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #999;
+}
+
+.pipeline-table td.stage-num {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  color: #666;
+  width: 4rem;
+  white-space: nowrap;
+}
+
+.pipeline-table td.stage-name {
+  font-weight: 600;
+  width: 12rem;
+}
+
+.pipeline-table td.stage-desc { color: #3a3a3a; }
+
+/* Anchor text */
+.anchor-text {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #f6f5f2;
+  border: 1px solid #e0e0dc;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.anchor-attribution {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #d4d4d0;
+}
+
+.speaker {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #555;
+  margin-top: 0.9rem;
+  margin-bottom: 0.15rem;
+  display: block;
+}
+
+.speaker:first-of-type { margin-top: 0; }
+.line { color: #1a1a1a; margin-bottom: 0; }
+
+/* Signals */
+.signals dl { margin: 1rem 0; }
+
+.signals dt {
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.35rem;
+  color: #0a0a0a;
+}
+
+.signals dt:first-child { margin-top: 0; }
+.signals dd { color: #2a2a2a; margin-bottom: 0.5rem; }
+
+/* Exchanges */
+.exchange {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+  border-left: 1px solid #d4d4d0;
+}
+
+.exchange-header {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.exchange-title {
+  font-weight: 600;
+  color: #0a0a0a;
+  margin-bottom: 0.5rem;
+}
+
+.exchange-fields {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.3rem 1rem;
+  font-size: 0.95rem;
+}
+
+.exchange-fields dt {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding-top: 0.15rem;
+}
+
+.exchange-fields dd { color: #2a2a2a; }
+
+/* Nine moves */
+.moves {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #f6f5f2;
+  border: 1px solid #e0e0dc;
+}
+
+.moves-title {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #d4d4d0;
+}
+
+.moves ol {
+  list-style: none;
+  counter-reset: move;
+}
+
+.moves li {
+  counter-increment: move;
+  display: grid;
+  grid-template-columns: 1.5rem 8rem 1fr;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  font-size: 0.95rem;
+  align-items: baseline;
+}
+
+.moves li::before {
+  content: counter(move) ".";
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.moves .move-name {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #555;
+  font-weight: 600;
+}
+
+.moves .move-text { color: #1a1a1a; }
+
+/* Mappings */
+.mapping {
+  margin: 1.5rem 0;
+  padding: 1rem 0 1rem 1.25rem;
+  border-left: 2px solid #d4d4d0;
+}
+
+.mapping-scale {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.mapping-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: #0a0a0a;
+}
+
+.mapping-body {
+  font-size: 0.95rem;
+  color: #2a2a2a;
+  margin-bottom: 0.5rem;
+}
+
+.mapping-match {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* Dry/wet table */
+.parallel {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.parallel th,
+.parallel td {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #e0e0dc;
+  vertical-align: top;
+  width: 50%;
+}
+
+.parallel th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #999;
+}
+
+.parallel td em { color: #1a1a1a; }
+
+/* Findings */
+.finding {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1.25rem;
+  background: #fff;
+  border: 1px solid #999;
+}
+
+.finding-label {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.finding p { margin-bottom: 0; color: #0a0a0a; }
+
+/* Footer */
+footer {
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #d4d4d0;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  main { padding: 2rem 1.25rem 4rem; }
+  h1 { font-size: 1.6rem; }
+  .exchange-fields { grid-template-columns: 1fr; gap: 0.15rem; }
+  .exchange-fields dt { margin-top: 0.5rem; }
+  .moves li { grid-template-columns: 1.25rem 1fr; row-gap: 0.15rem; }
+  .moves .move-name { grid-column: 2; }
+  .moves .move-text { grid-column: 1 / -1; padding-left: 2rem; }
+  .pipeline-table td.stage-name { width: auto; }
+  .parallel td { display: block; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<main>
+
+<header>
+  <div class="doc-meta">Working document · Session 1 · Version 10</div>
+  <h1>Behavioral grammar: a pipeline through Shakespeare</h1>
+  <p class="subtitle">A seven-stage compression method for extracting structural pattern from language, tested on a single scene, and the finding it produced.</p>
+
+  <dl class="header-meta">
+    <dt>Test scene</dt>
+    <dd>The Tempest, Act 1 Scene 2, lines 319–374</dd>
+    <dt>Method</dt>
+    <dd>Seven-stage compression across three domains</dd>
+    <dt>Output</dt>
+    <dd>Nine-move behavioral pattern with cross-context validation</dd>
+  </dl>
+</header>
+
+<section>
+  <h2>Premise</h2>
+  <p>Language is behavior made visible. Behavior, once it has a shape, repeats at every scale. Words and actions are parallel outputs of the same underlying structure, and language inflates problems by making structurally similar situations feel fundamentally different from one another.</p>
+
+  <div class="hypothesis">
+    <div class="hypothesis-label">Hypothesis under test</div>
+    <p>If linguistic inflation is stripped from a text, the underlying behavioral structure becomes visible. That structure is recognizable across scales — personal argument, institutional conflict, war — because human cognition runs on the same primitive patterns regardless of context.</p>
+  </div>
+
+  <p>Shakespeare was selected as the primary corpus because the language is dense with metaphor and redundancy, the text is stable across time, and the plays already encode structural information through form — rhyme, meter, verse, prose — operating as an independent channel alongside semantic content. This means the corpus is partially pre-compressed by a craftsman, and that compression layer becomes a check against the analytical compression that follows.</p>
+</section>
+
+<section>
+  <h2>Method</h2>
+  <p>Seven stages, each preserving the prior. Three domains held independent until synthesis. Semantic content is the only domain that gets simplified; event structure and formal structure are preserved and recorded only.</p>
+
+  <table class="pipeline-table">
+    <thead>
+      <tr>
+        <th>Stage</th>
+        <th>Name</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="stage-num">0</td>
+        <td class="stage-name">Anchor</td>
+        <td class="stage-desc">Original text preserved unchanged. Every transformation is measured against this.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">0.5</td>
+        <td class="stage-name">Formal signals</td>
+        <td class="stage-desc">Log rhyme, meter, verse/prose, entrances and exits. Preserve only; do not simplify.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">1</td>
+        <td class="stage-name">Literal simplification</td>
+        <td class="stage-desc">Rewrite each line in plain modern English. Archaic vocabulary and inverted syntax only.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">2</td>
+        <td class="stage-name">Structural normalization</td>
+        <td class="stage-desc">Convert to schema: Speaker, Intent, Target, Action, Conflict. Strip poetry; read behavior.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">3</td>
+        <td class="stage-name">Redundancy collapse</td>
+        <td class="stage-desc">Ideas appearing more than once reduced to a single instance.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">4</td>
+        <td class="stage-name">Pattern extraction</td>
+        <td class="stage-desc">Identify the class of situation. Name it abstractly enough to apply outside the text.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">5</td>
+        <td class="stage-name">Cross-context mapping</td>
+        <td class="stage-desc">Test the pattern against situations outside the text. Preserve load-bearing differences.</td>
+      </tr>
+      <tr>
+        <td class="stage-num">6</td>
+        <td class="stage-name">Minimal form</td>
+        <td class="stage-desc">Compress to essential structure. Produce the predictive layer. Check against Stage 0.5.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Scene</h2>
+  <p>Prospero summons Caliban from his rocky confinement. What follows is one of the densest exchanges in the play: a confrontation between a man who holds absolute power and a man who holds only language.</p>
+
+  <div class="anchor-text">
+    <div class="anchor-attribution">William Shakespeare · The Tempest · Act 1 Scene 2, lines 319–374</div>
+
+    <span class="speaker">Prospero</span>
+    <p class="line">Thou poisonous slave, got by the devil himself upon thy wicked dam, come forth!</p>
+
+    <span class="speaker">Caliban</span>
+    <p class="line">As wicked dew as e'er my mother brush'd with raven's feather from unwholesome fen drop on you both! A south-west blow on ye and blister you all o'er!</p>
+
+    <span class="speaker">Prospero</span>
+    <p class="line">For this, be sure, tonight thou shalt have cramps, side-stitches that shall pen thy breath up; urchins shall, for that vast of night that they may work, all exercise on thee; thou shalt be pinch'd as thick as honeycomb, each pinch more stinging than bees that made 'em.</p>
+
+    <span class="speaker">Caliban</span>
+    <p class="line">I must eat my dinner. This island's mine, by Sycorax my mother, which thou takest from me. When thou camest first, thou strokedst me and madest much of me, wouldst give me water with berries in't, and teach me how to name the bigger light, and how the less, that burn by day and night: and then I loved thee and show'd thee all the qualities o' the isle, the fresh springs, brine-pits, barren place and fertile: cursed be I that did so! All the charms of Sycorax, toads, beetles, bats, light on you! For I am all the subjects that you have, which first was mine own king: and here you sty me in this hard rock, whiles you do keep from me the rest o' the island.</p>
+
+    <span class="speaker">Prospero</span>
+    <p class="line">Thou most lying slave, whom stripes may move, not kindness! I have used thee, filth as thou art, with human care, and lodged thee in mine own cell, till thou didst seek to violate the honour of my child.</p>
+
+    <span class="speaker">Caliban</span>
+    <p class="line">O ho, O ho! Would't had been done! Thou didst prevent me; I had peopled else this isle with Calibans.</p>
+
+    <span class="speaker">Prospero</span>
+    <p class="line">Abhorred slave, which any print of goodness wilt not take, being capable of all ill! I pitied thee, took pains to make thee speak, taught thee each hour one thing or other: when thou didst not, savage, know thine own meaning, but wouldst gabble like a thing most brutish, I endow'd thy purposes with words that made them known. But thy vile race, though thou didst learn, had that in't which good natures could not abide to be with; therefore wast thou deservedly confined into this rock, who hadst deserved more than a prison.</p>
+
+    <span class="speaker">Caliban</span>
+    <p class="line">You taught me language; and my profit on't is, I know how to curse. The red plague rid you for learning me your language!</p>
+
+    <span class="speaker">Prospero</span>
+    <p class="line">Hag-seed, hence! Fetch us in fuel; and be quick, thou'rt best, to answer other business.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Formal signals (Stage 0.5)</h2>
+  <p>Before any word is simplified, the structural layer of the scene is recorded. Three domains are kept independent.</p>
+
+  <div class="signals">
+    <dl>
+      <dt>Event structure</dt>
+      <dd>Prospero is present for the entire scene; he initiates and closes it. Caliban enters on summons and exits on command — neither arrival nor departure is his own. Miranda is present but silent, invoked as justification yet given no voice to answer. One agent controls entry and exit of the other; the scene cannot end until the dominant agent ends it.</dd>
+
+      <dt>Formal structure</dt>
+      <dd>Both characters speak in blank verse throughout. Caliban speaking verse signals education — he was given the master's formal language. No rhyme in the scene; rhyme signals closure in Shakespeare, so its absence confirms the scene does not resolve, it is shut down. Prospero's speeches grow from two to six to thirteen lines — verbal escalation while position remains static.</dd>
+
+      <dt>Semantic content</dt>
+      <dd>This is the only domain that gets simplified. Simplification happens here and nowhere else. Holding this line is what keeps the formal signals from being destroyed in the act of trying to reveal them.</dd>
+    </dl>
+  </div>
+
+  <div class="finding">
+    <div class="finding-label">Observation before analysis</div>
+    <p>The formal signals run opposite to expected power display. Caliban becomes more compressed and precise as the scene ends. Prospero becomes more verbose and then abruptly stops arguing. Physical power and linguistic clarity are held by different agents.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The exchanges (Stage 2)</h2>
+  <p>Each exchange converted to schema. No poetry, no rhetoric — the interaction itself. Nine exchanges across two agents.</p>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 1 · Prospero opens</div>
+    <div class="exchange-title">Summons with insult</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Assert dominance; establish terms of interaction</dd>
+      <dt>Action</dt><dd>Combines command with degradation</dd>
+      <dt>Conflict</dt><dd>Requires the subordinate's presence and labor but frames the requirement as punishment rather than need.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 2 · Caliban responds</div>
+    <div class="exchange-title">Curse — symbolic refusal</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Refuse the terms of the summons; return degradation</dd>
+      <dt>Action</dt><dd>Uses the only weapon available — language</dd>
+      <dt>Conflict</dt><dd>Cannot refuse physically; refuses symbolically through his first words.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 3 · Prospero responds</div>
+    <div class="exchange-title">Threat of physical pain</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Suppress resistance; demonstrate consequence</dd>
+      <dt>Action</dt><dd>Promises bodily punishment for words alone</dd>
+      <dt>Conflict</dt><dd>Physical threat answers a symbolic act. The disproportionality is the signal.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 4 · Caliban shifts register</div>
+    <div class="exchange-title">Counter-claim about legitimacy</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Assert prior claim; reframe the entire relationship</dd>
+      <dt>Action</dt><dd>States grievance in full — ownership, betrayal, imprisonment</dd>
+      <dt>Conflict</dt><dd>Ignores the threat entirely. Makes a counter-claim about the structure of the situation itself. The scene's central structural move.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 5 · Prospero responds</div>
+    <div class="exchange-title">Redirect to the worst act</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Invalidate the grievance; reassert moral authority</dd>
+      <dt>Action</dt><dd>Counter-accusation — the rape attempt as the justifying event</dd>
+      <dt>Conflict</dt><dd>Does not address the ownership claim. The grievance goes unanswered.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 6 · Caliban responds</div>
+    <div class="exchange-title">Fortification</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Refuse shame; escalate defiance</dd>
+      <dt>Action</dt><dd>Confirms and celebrates the act — doubles down</dd>
+      <dt>Conflict</dt><dd>Confronted with his worst act, the subordinate does not concede. He hardens.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 7 · Prospero responds</div>
+    <div class="exchange-title">Justification under pressure</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Establish moral justification for the entire arrangement</dd>
+      <dt>Action</dt><dd>Extended argument — pity, education, language, confinement</dd>
+      <dt>Conflict</dt><dd>The longest speech in the scene. The length itself signals that the justification is under pressure, and contains an undemonstrated premise: that Caliban is inherently incapable of goodness.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 8 · Caliban's final statement</div>
+    <div class="exchange-title">The reversal</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>Collapse the justification with a single reversal</dd>
+      <dt>Action</dt><dd>Turns Prospero's own gift — language — against the act of giving it</dd>
+      <dt>Conflict</dt><dd>Does not argue against any of Prospero's claims. Makes the gift itself the grievance.</dd>
+    </dl>
+  </div>
+
+  <div class="exchange">
+    <div class="exchange-header">Exchange 9 · Prospero closes</div>
+    <div class="exchange-title">Exit by command</div>
+    <dl class="exchange-fields">
+      <dt>Intent</dt><dd>End the exchange; restore functional control</dd>
+      <dt>Action</dt><dd>Insult and command; no further argument</dd>
+      <dt>Conflict</dt><dd>Cannot answer the reversal within the logic of the scene. Exits the argument by issuing an order. The scene terminates; the legitimacy question remains unresolved.</dd>
+    </dl>
+  </div>
+
+  <div class="finding">
+    <div class="finding-label">Stage 3 finding</div>
+    <p>The scene contains exactly two arguments and one power move. Caliban wins the argument. He loses the exchange.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Minimal form (Stage 6)</h2>
+  <p>The scene compressed to nine moves. Predictive within the sequence. Recognizable across personal, institutional, colonial, and geopolitical scales without modification.</p>
+
+  <div class="moves">
+    <div class="moves-title">Legitimacy conflict under asymmetric power</div>
+    <ol>
+      <li><span class="move-name">Establish</span><span class="move-text">Asymmetric reciprocity is established.</span></li>
+      <li><span class="move-name">Invest</span><span class="move-text">The subordinate invests genuinely.</span></li>
+      <li><span class="move-name">Consolidate</span><span class="move-text">The dominant consolidates control.</span></li>
+      <li><span class="move-name">Claim</span><span class="move-text">The subordinate asserts a legitimacy claim.</span></li>
+      <li><span class="move-name">Redirect</span><span class="move-text">The dominant redirects to the subordinate's worst act.</span></li>
+      <li><span class="move-name">Fortify</span><span class="move-text">The subordinate fortifies (binary: requires audience).</span></li>
+      <li><span class="move-name">Justify</span><span class="move-text">The dominant inflates around an undemonstrated premise.</span></li>
+      <li><span class="move-name">Reverse</span><span class="move-text">The subordinate reframes the gift as grievance.</span></li>
+      <li><span class="move-name">Exit</span><span class="move-text">The dominant terminates by command.</span></li>
+    </ol>
+  </div>
+
+  <p>The pattern terminates. It does not resolve. The exchange ends but the situation persists, and the next iteration follows the same sequence. The predictive layer holds within the sequence, not across material outcomes: a personal subordinate may take decades to reach move 8; a state may take generations; an employee may reach it in a single meeting. What the structure predicts is the order of moves and the conditions under which each becomes available, not the timing or the consequence.</p>
+</section>
+
+<section>
+  <h2>Cross-context mapping (Stage 5)</h2>
+  <p>The pattern tested against four situations outside the text. Load-bearing differences carried into each mapping. The question is not whether the situations resemble Shakespeare, but whether the structure is present without forcing.</p>
+
+  <div class="mapping">
+    <div class="mapping-scale">Institutional · historical</div>
+    <div class="mapping-title">Colonial administration</div>
+    <p class="mapping-body">A colonial power establishes presence with apparent reciprocity — trade, education, religious instruction. The indigenous population invests genuinely. The colonial power consolidates control. When the prior claim is asserted, the administration redirects to subordinate behavior as justification — savagery, incapacity for self-governance — resting on an undemonstrated premise about inherent incapacity. The subordinate population uses the colonial language and legal frameworks given to them to argue for independence. The dominant power cannot defeat the argument on its own terms and reasserts control through force. Legitimacy remains unresolved; post-colonial conflict persists.</p>
+    <div class="mapping-match">Structural match: complete</div>
+  </div>
+
+  <div class="mapping">
+    <div class="mapping-scale">Individual · institutional</div>
+    <div class="mapping-title">The workplace betrayal</div>
+    <p class="mapping-body">A senior figure invests in a new employee's development, sharing institutional knowledge and access. The employee invests genuinely and reciprocates with loyalty. The senior figure consolidates extraction while keeping the employee subordinate. When the employee raises a grievance — unfair compensation, blocked promotion, credit taken — the senior figure redirects to a performance issue or behavioral incident. The employee either concedes or hardens. If they harden, the manager exits by asserting institutional authority. The grievance is unresolved; the employee leaves or complies under duress.</p>
+    <div class="mapping-match">Structural match: complete</div>
+  </div>
+
+  <div class="mapping">
+    <div class="mapping-scale">State · geopolitical</div>
+    <div class="mapping-title">The dominant power and the rising state</div>
+    <p class="mapping-body">A dominant state imposes conditions on a subordinate state. The subordinate state complies and invests strategically. When sovereignty is asserted, the dominant state redirects to the subordinate's worst behavior — human rights record, regional aggression, treaty violation — as substitute for engaging the claim. The subordinate state hardens. The dominant state builds extended justification resting on an undemonstrated premise about civilizational incapacity. The subordinate reframes the institutional tools given to it as evidence that the dominant state has violated its own stated principles. The dominant state exits by sanction or force. Legitimacy unresolved; next conflict cycle begins.</p>
+    <div class="mapping-match">Structural match: complete</div>
+  </div>
+
+  <div class="mapping">
+    <div class="mapping-scale">Personal · intimate</div>
+    <div class="mapping-title">The relationship of dependence</div>
+    <p class="mapping-body">Two people in a relationship of significant power differential — parent and adult child, or partners with asymmetric financial or social control. The dominant party provided genuine resources early; the subordinate invested genuinely. The dominant party begins citing early provisions as grounds for current compliance. When the subordinate raises a grievance about autonomy or reciprocity, the dominant party redirects to the subordinate's worst behavior. The subordinate hardens. The dominant party builds justification resting on the undemonstrated premise that provision creates permanent obligation. The subordinate reframes the gifts as instruments of control. The dominant party exits through emotional pressure, financial threat, or withdrawal.</p>
+    <div class="mapping-match">Structural match: complete</div>
+  </div>
+
+  <div class="finding">
+    <div class="finding-label">Theoretical finding</div>
+    <p>The colonial mapping feels like history. The workplace mapping feels like unfairness. The geopolitical mapping feels like international relations. The personal mapping feels like family. Strip the inflation and the same nine moves are present in the same sequence across all four. This is not a metaphor. This is a structural finding.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Methodological addition: dry and wet outputs</h2>
+  <p>Identified at the end of Session 1, after pipeline completion. The pipeline as built is a defensive instrument — every stage is designed to preserve structural integrity, and it produces convergence because it is engineered to. A theory only tested by methods designed to preserve it has not been fully tested.</p>
+
+  <p>The dry output (structural schema) also lacks recognition value. A person reading "subordinate fortifies under accusation when audience present" does not see themselves. The truth is accurate but sterile. Two parallel outputs are therefore proposed at each stage:</p>
+
+  <table class="parallel">
+    <thead>
+      <tr>
+        <th>Dry (structural)</th>
+        <th>Wet (recognizable)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Subordinate reframes gift as grievance.</td>
+        <td><em>"The teacher fears the student's first true sentence."</em></td>
+      </tr>
+      <tr>
+        <td>Dominant terminates by command when argument fails.</td>
+        <td><em>"When the argument is lost, the order is given."</em></td>
+      </tr>
+      <tr>
+        <td>Full nine-move pattern.</td>
+        <td><em>"What you give becomes what you are owed. What is owed becomes what is taken."</em></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Neither works alone. Dry without wet is sterile. Wet without dry is wisdom literature — carries truth but cannot be tested, compared, or built upon. Together they form a working pair: the dry version is the structural truth, the wet version is the recognition vehicle.</p>
+
+  <p>This also enables an independent validation set. If a finite alphabet of human exchange exists, every structural primitive should already have folk wisdom attached to it, because humans have been encoding these patterns in language for as long as they have had language. The dry pipeline produces a structural primitive; proverb and aphorism corpora across cultures can then be searched for wet versions that encode it. Convergence across unrelated cultures becomes evidence for the alphabet. Absence becomes a flag.</p>
+</section>
+
+<section>
+  <h2>Note on method</h2>
+  <p>This project depends on a human–AI working relationship that is documented rather than hidden. The theory is human in origin: the hypothesis about language and behavior, the choice of Shakespeare as controlled corpus, the mid-inquiry observation that formal signals (rhyme, meter) operate as an independent compression layer, and the direction of every stage.</p>
+
+  <p>The AI contribution is structural: transformation consistency across stages, cross-referencing against existing theory in cognitive linguistics and systems theory, schema generation, and the processing speed that makes multi-stage pipeline work feasible within a single session rather than across months. Neither side is doing the work alone.</p>
+
+  <p>What is original is not the recognition that language inflates problems — cognitive linguistics has established this in various forms — but the operational method for stripping inflation in stages while preserving structural information through three independent domains, and the addition of the dry/wet parallel with cross-cultural folk-wisdom validation.</p>
+</section>
+
+<footer>
+  <span>The Behavioral Grammar Project · <a href="../work/behavioral-grammar/" style="color:inherit">Lee Meredith</a></span>
+  <span>Session 1 · Version 10 · Pipeline complete</span>
+  <span>© 2026 Lee Meredith. All rights reserved.</span>
+</footer>
+
+</main>
+
+</body>
+</html>
