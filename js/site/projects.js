@@ -3,6 +3,31 @@
 
 var PROJECTS = [
 {
+	id: "arm-rgb-web",
+	title: "Augmented Reality Mirror RGB Web",
+	summary: "The Augmented Reality Mirror in a browser: an ordinary camera, mirror regions and saved setups, with nothing to install.",
+	category: "projects",
+	thumb: "thumbs/arm-rgb-web.jpg",
+	banner: "arm-rgb-web/banner.jpg",
+	year: 2026,
+	embed: { url: "https://leemeredith.github.io/AugmentedRealityMirror/web/", label: "Try the mirror" },
+	text: [
+		"Augmented Reality Mirror is a project exploring digital mirror images and visual feedback for people with limb loss and phantom limb pain. It began in 2012 as a Kinect and openFrameworks prototype and now also includes a browser-based RGB camera version.",
+		"The current work starts with an ordinary RGB camera, so the viewing controls and saved setups can be used without a depth camera. Each selected region of the screen reveals a normal or horizontally reflected full camera image; moving the dividers changes which image is visible without enlarging or shifting the underlying images. To show a mirrored limb, the side with the limb to copy is the source, and its reflection is shown in the receiving quadrant on the other side.",
+		"No download, installation or account is needed: open it, press Start camera, and allow camera access. The camera image is processed on the device; this version has no video recording, accounts, analytics or upload service. Setups save as a small file on your own computer.",
+		"A native openFrameworks RGB rebuild, with split-screen comparison and study-session controls, sits alongside it in the same repository.",
+		"ARM is an experimental visual-feedback tool. It does not establish pain relief or provide a treatment plan."
+	],
+	links: [
+		{ label: "Open the mirror in its own page", url: "https://leemeredith.github.io/AugmentedRealityMirror/web/" },
+		{ label: "Getting started guide", url: "https://leemeredith.github.io/AugmentedRealityMirror/web/guide.html" },
+		{ label: "Project background and history", url: "https://leemeredith.github.io/AugmentedRealityMirror/" },
+		{ label: "AugmentedRealityMirror on GitHub", url: "https://github.com/leeMeredith/AugmentedRealityMirror" },
+		{ label: "The original 2012 Kinect version", url: "work/augmented-reality-mirror-mirror-box-example/" }
+	],
+	tags: ["arm", "virtual prosthetics", "phantom limb", "openframeworks", "javascript", "camera", "mirror"]
+},
+{
 	id: "behavioral-grammar",
 	title: "Behavioral Grammar",
 	summary: "A seven-stage compression method for extracting structural pattern from language, tested on a single scene of The Tempest.",
@@ -1197,11 +1222,11 @@ var PROJECTS = [
 		"Virtual Prosthetics Kinect Pic",
 		"Augmented Reality Mirror Therapy For Phantom LimbPain Abstract",
 		"Kareemah Batts, Desmond Heeley, Joe Labrie, Michael Lichter, Jennifer Eftychiou PT DPT, Jeffrey Heckman DO",
-		"2026: ARM builds again with openFrameworks 0.12.1 on Apple silicon and runs with a live Kinect view; its records now use JSON. The source is on GitHub with a collaboration brief for clinicians and researchers interested in the work."
+		"The project continues in 2026 as Augmented Reality Mirror RGB Web, a browser version that works with an ordinary camera."
 	],
 	links: [
 		{
-			label: "ARM",
+			label: "AugmentedRealityMirror on GitHub",
 			url: "https://github.com/leeMeredith/AugmentedRealityMirror"
 		},
 		{
@@ -1225,8 +1250,8 @@ var PROJECTS = [
 			url: "assets/text/ARM/AugmentedRealityMirrorTherapyForPhantomLimbPain.pdf"
 		},
 		{
-			label: "AugmentedRealityMirror on GitHub",
-			url: "https://github.com/leeMeredith/AugmentedRealityMirror"
+			label: "Augmented Reality Mirror RGB Web (2026)",
+			url: "work/arm-rgb-web/"
 		}
 	],
 	tags: [

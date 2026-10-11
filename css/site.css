@@ -324,3 +324,10 @@ body.reading-large #myDIV_ConceptMedia { font-size: 24px; }
 /* Square thumbnails (home grid, right column): a picture of another shape is
    trimmed to the square, never squeezed into it. */
 .xMainNavPic_ img, .topic-thumb img { object-fit: cover; }
+
+/* A live piece inside a project page, loaded only on request. */
+.live-embed { margin: 12px 0; max-width: 900px; }
+.live-embed-start { font: 16px Geneva, sans-serif; border: 1px solid rgb(120,120,120); padding: 8px 16px; cursor: pointer; }
+.live-embed iframe { display: block; width: 100%; height: 80vh; min-height: 520px; border: 1px solid rgb(180,180,180); background: #fff; }
+.live-embed-note { font-size: var(--text-small); }
+[data-theme="dark"] .live-embed-start { background: rgb(40,40,40); color: rgb(220,220,220); border-color: rgb(110,110,110); }

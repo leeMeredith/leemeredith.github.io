@@ -780,6 +780,20 @@ function studioStrip() {
 	return box;
 }
 
+// A live piece (such as the camera mirror) shown inside the page, but only
+// once the visitor asks for it, so nothing starts on its own.
+function liveEmbed(e) {
+	var box = el("div", { class: "live-embed" });
+	var start = el("button", { type: "button", class: "button live-embed-start", text: e.label || "Open" });
+	start.addEventListener("click", function () {
+		box.textContent = "";
+		box.appendChild(el("iframe", { src: e.url, title: e.label || "Live", allow: "camera; fullscreen", allowfullscreen: "" }));
+		box.appendChild(el("p", { class: "live-embed-note" }, [el("a", { href: e.url, rel: "noopener", text: "Open in its own page \u2197" })]));
+	});
+	box.appendChild(start);
+	return box;
+}
+
 function renderProject(p) {
 	var main = document.getElementById("myDIV_ConceptMedia");
 	document.title = p.title + " — Lee Meredith";
@@ -789,6 +803,7 @@ function renderProject(p) {
 	main.appendChild(el("p", { class: p.placeholder.summary ? "summary placeholder" : "summary", text: p.summary + (p.year ? " (" + p.year + ")" : "") }));
 	if (p.placeholder.text) main.appendChild(el("img", { class: "placeholder-image", src: placeholderImage(p.title), alt: "" }));
 	if (p.video) main.appendChild(videoEmbed(p.video));
+	if (p.embed) main.appendChild(liveEmbed(p.embed));
 	if (p.script) {
 		var stage = el("div", { class: "stage" });
 		main.appendChild(stage);
